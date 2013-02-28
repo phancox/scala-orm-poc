@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<eclipse-userlibraries version="2">
+    <library name="Logging" systemlibrary="false">
+        <archive path="C:/Users/phancox/.ivy2/cache/org.clapper/grizzled-slf4j_2.10/jars/grizzled-slf4j_2.10-1.0.1.jar"/>
+        <archive path="C:/Users/phancox/.ivy2/cache/org.slf4j/slf4j-api/jars/slf4j-api-1.7.2.jar"/>
+        <archive path="C:/Users/phancox/.ivy2/cache/ch.qos.logback/logback-classic/jars/logback-classic-1.0.9.jar"/>
+        <archive path="C:/Users/phancox/.ivy2/cache/ch.qos.logback/logback-core/jars/logback-core-1.0.9.jar"/>
+        <archive path="C:/Users/phancox/.ivy2/cache/org.codehaus.janino/janino/jars/janino-2.6.1.jar"/>
+        <archive path="C:/Users/phancox/.ivy2/cache/org.codehaus.janino/commons-compiler/jars/commons-compiler-2.6.1.jar"/>
+        <archive path="C:/Users/phancox/.ivy2/cache/org.codehaus.groovy/groovy-all/jars/groovy-all-2.1.1.jar"/>
+    </library>
+</eclipse-userlibraries>
