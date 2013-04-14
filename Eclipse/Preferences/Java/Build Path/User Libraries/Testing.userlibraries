@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<eclipse-userlibraries version="2">
+    <library name="Testing" systemlibrary="false">
+        <archive path="C:/Users/phancox/.ivy2/cache/org.scalatest/scalatest_2.10.0-RC5/jars/scalatest_2.10.0-RC5-2.0.M5-B1.jar"/>
+    </library>
+</eclipse-userlibraries>
