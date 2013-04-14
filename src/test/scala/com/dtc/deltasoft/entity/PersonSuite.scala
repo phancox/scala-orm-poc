@@ -1,17 +1,32 @@
 package com.dtc.deltasoft.entity
 
-import javax.persistence._
+import java.util.Properties
+
+import javax.persistence.{ Entity, Persistence, Table }
+
+import org.hibernate.cfg.Configuration
+import org.hibernate.ejb.Ejb3Configuration
+import org.hibernate.tool.hbm2ddl.SchemaExport
 
 import org.junit.runner.RunWith
 import org.scalatest.FunSuite
 import org.scalatest.junit._
 
-object PersonSuite {
+import grizzled.slf4j.Logging
+
+object PersonSuite extends Logging {
 
   val emf = Persistence.createEntityManagerFactory("SportZman")
   val entityManager = emf.createEntityManager()
-  //  entityManager.close()
+  // entityManager.close()
 
+  val ejb3Configuration: Ejb3Configuration =
+    new Ejb3Configuration().configure("SportZman", new Properties())
+  val hbmcfg: Configuration = ejb3Configuration.getHibernateConfiguration()
+  val schemaExport: SchemaExport = new SchemaExport(hbmcfg)
+
+  schemaExport.setFormat(true)
+  // schemaExport.execute(true, false, false, false)
 }
 
 /**
