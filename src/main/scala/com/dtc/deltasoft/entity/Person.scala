@@ -3,6 +3,13 @@ package com.dtc.deltasoft.entity
 import javax.persistence._
 import scala.beans.BeanProperty
 
+object Person {
+
+  def apply(surname: String = null, firstName: String = null,
+            homeAddress: Address = null, workAddress: Address = null) =
+    new Person(surname, firstName, homeAddress, workAddress)
+}
+
 @Entity
 @Table(name = "PERSONX")
 class Person() {
@@ -36,6 +43,8 @@ class Person() {
     this()
     setSurname(surname)
     setFirstName(firstName)
+    setHomeAddress(homeAddress)
+    setWorkAddress(workAddress)
   }
 
   override def toString() = {

@@ -3,6 +3,13 @@ package com.dtc.deltasoft.entity
 import javax.persistence._
 import scala.beans.BeanProperty
 
+object Address {
+
+  def apply(street1: String = null, suburb: String = null, state: String = null, postcode: String = null,
+            country: String = null, street2: String = null) =
+    new Address(street1, suburb, state, postcode, country, street2)
+}
+
 @Entity
 @Table(name = "ADDRESSX")
 class Address() {
@@ -37,12 +44,15 @@ class Address() {
   @BeanProperty
   var country: String = null
 
-  def this(street1: String = null, street2: String = null,
-           suburb: String = null, state: String = null, postcode: String = null,
-           country: String = null) {
+  def this(street1: String = null, suburb: String = null, state: String = null, postcode: String = null,
+           country: String = null, street2: String = null) = {
     this()
     setStreet1(street1)
     setStreet2(street2)
+    setSuburb(suburb)
+    setState(state)
+    setPostcode(postcode)
+    setCountry(country)
   }
 
   override def toString() = {
