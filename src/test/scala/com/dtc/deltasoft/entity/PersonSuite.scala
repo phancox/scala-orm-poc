@@ -5,6 +5,7 @@ import java.util.Properties
 import javax.persistence.{ Entity, Persistence, Table }
 
 import org.hibernate.cfg.Configuration
+import org.hibernate.dialect.Dialect
 import org.hibernate.ejb.Ejb3Configuration
 import org.hibernate.tool.hbm2ddl.SchemaExport
 
@@ -23,10 +24,9 @@ object PersonSuite extends Logging {
   val ejb3Configuration: Ejb3Configuration =
     new Ejb3Configuration().configure("SportZman", new Properties())
   val hbmcfg: Configuration = ejb3Configuration.getHibernateConfiguration()
-  val schemaExport: SchemaExport = new SchemaExport(hbmcfg)
-
-  schemaExport.setFormat(true)
-  // schemaExport.execute(true, false, false, false)
+  val dialect = Dialect.getDialect(hbmcfg.getProperties())
+  val astrScript = hbmcfg.generateSchemaCreationScript(dialect)
+  info(astrScript mkString)
 }
 
 /**
