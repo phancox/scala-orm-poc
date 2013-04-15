@@ -10,7 +10,7 @@ import grizzled.slf4j.Logging
 
 object PersonSuite extends Logging {
 
-  val emf = Persistence.createEntityManagerFactory("SportZman")
+  val emf = Persistence.createEntityManagerFactory("DeltaSoft")
   val entityManager = emf.createEntityManager()
   // entityManager.close()
 }

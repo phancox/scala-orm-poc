@@ -11,7 +11,7 @@ object Person {
 }
 
 @Entity
-@Table(name = "PERSONX")
+@Table(name = "PERSON")
 class Person() {
 
   @Id

@@ -11,7 +11,7 @@ object Address {
 }
 
 @Entity
-@Table(name = "ADDRESSX")
+@Table(name = "ADDRESS")
 class Address() {
 
   @Id

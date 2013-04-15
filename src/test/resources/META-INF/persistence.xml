@@ -1,22 +1,22 @@
 <persistence xmlns="http://java.sun.com/xml/ns/persistence"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
-             version="2.0">
-   <persistence-unit name="SportZman">
-   	  <description>Persistence unit used by SportZman applications.</description>
-	  <provider>org.hibernate.ejb.HibernatePersistence</provider>
-      <class>com.dtc.deltasoft.entity.Person</class>
-      <class>com.dtc.deltasoft.entity.Address</class>
-      <properties>
-         <property name="hibernate.id.new_generator_mappings" value="true"/>
-         <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
-         <property name="hibernate.show_sql" value="true"/>
-         <property name="hibernate.format_sql" value="true"/>
-         <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
-         <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
-         <property name="hibernate.connection.url" value="jdbc:postgresql://phancox1/SportZman"/>
-         <property name="hibernate.connection.username" value="sportzman"/>
-         <property name="hibernate.connection.password" value="sportzman"/>
-      </properties>
-   </persistence-unit>
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+	version="2.0">
+	<persistence-unit name="DeltaSoft">
+		<description>Persistence unit used by DeltaSoft applications.</description>
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<class>com.dtc.deltasoft.entity.Person</class>
+		<class>com.dtc.deltasoft.entity.Address</class>
+		<properties>
+			<property name="hibernate.id.new_generator_mappings" value="true" />
+			<property name="hibernate.hbm2ddl.auto" value="create-drop" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+			<property name="hibernate.connection.driver_class" value="org.postgresql.Driver" />
+			<property name="hibernate.connection.url" value="jdbc:postgresql://phancox1/DeltaSoft" />
+			<property name="hibernate.connection.username" value="buildmgr" />
+			<property name="hibernate.connection.password" value="buildmgr" />
+		</properties>
+	</persistence-unit>
 </persistence>
