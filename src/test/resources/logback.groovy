@@ -148,10 +148,6 @@ if (bDeveloper) {
 }
 
 root(INFO, lstRootAppenders)
-logger("com.businessobjects", ERROR)
-logger("com.crystaldecisions", ERROR)
-logger("org.apache.cxf", WARN)
-
-logger("com.dtc.appsrvcs.asModelProperty", INFO)
+logger("com.dtc", TRACE)
 
 logger("JDBC", INFO, ["LOGFILE"], false)

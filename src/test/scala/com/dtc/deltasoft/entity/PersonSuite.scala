@@ -1,13 +1,6 @@
 package com.dtc.deltasoft.entity
 
-import java.util.Properties
-
-import javax.persistence.{ Entity, Persistence, Table }
-
-import org.hibernate.cfg.Configuration
-import org.hibernate.dialect.Dialect
-import org.hibernate.ejb.Ejb3Configuration
-import org.hibernate.tool.hbm2ddl.SchemaExport
+import javax.persistence.{Entity, Persistence, Table}
 
 import org.junit.runner.RunWith
 import org.scalatest.FunSuite
@@ -20,13 +13,6 @@ object PersonSuite extends Logging {
   val emf = Persistence.createEntityManagerFactory("SportZman")
   val entityManager = emf.createEntityManager()
   // entityManager.close()
-
-  val ejb3Configuration: Ejb3Configuration =
-    new Ejb3Configuration().configure("SportZman", new Properties())
-  val hbmcfg: Configuration = ejb3Configuration.getHibernateConfiguration()
-  val dialect = Dialect.getDialect(hbmcfg.getProperties())
-  val astrScript = hbmcfg.generateSchemaCreationScript(dialect)
-  info(astrScript mkString)
 }
 
 /**
