@@ -2,6 +2,8 @@ package com.dtc.deltasoft.entity
 
 import javax.persistence.{Entity, Persistence, Table}
 
+import scala.collection.JavaConversions._
+
 import org.junit.runner.RunWith
 import org.scalatest.FunSuite
 import org.scalatest.junit._
@@ -19,7 +21,7 @@ object PersonSuite extends Logging {
  *
  */
 @RunWith(classOf[JUnitRunner])
-class PersonSuite extends FunSuite {
+class PersonSuite extends FunSuite with Logging {
 
   /**
    *
@@ -73,6 +75,20 @@ class PersonSuite extends FunSuite {
       "Hancox", "Angelina",
       homeAddress = Address("1 Test Street", "Longueville", country = "Australia"))
     entityManager.persist(person)
+
+    entityManager.getTransaction().commit()
+  }
+
+  /**
+   *
+   */
+  test("Extract Person records from database.") {
+
+    val entityManager = PersonSuite.entityManager
+    entityManager.getTransaction().begin()
+
+    val lstEvent = entityManager.createQuery("from Person", classOf[Person]).getResultList()
+    lstEvent foreach {person => info(person.toString)}
 
     entityManager.getTransaction().commit()
   }

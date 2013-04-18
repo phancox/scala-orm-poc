@@ -20,25 +20,25 @@ class Address() {
   @BeanProperty
   var id: Int = _
 
-  @Column(name = "STREET1", length = 32)
+  @Column(name = "STREET_1", length = 32)
   @BeanProperty
   var street1: String = null
 
-  @Column(name = "STREET2", length = 32)
+  @Column(name = "STREET_2", length = 32)
   @BeanProperty
   var street2: String = null
 
-  @Column(name = "SUBURB", length = 32)
-  @BeanProperty
-  var suburb: String = null
-
-  @Column(name = "STATE", length = 32)
-  @BeanProperty
-  var state: String = null
-
-  @Column(name = "POSTCODE", length = 8)
-  @BeanProperty
-  var postcode: String = null
+//  @Column(name = "SUBURB", length = 32)
+//  @BeanProperty
+//  var suburb: String = null
+//
+//  @Column(name = "STATE", length = 32)
+//  @BeanProperty
+//  var state: String = null
+//
+//  @Column(name = "POSTCODE", length = 8)
+//  @BeanProperty
+//  var postcode: String = null
 
   @Column(name = "COUNTRY", length = 32)
   @BeanProperty
@@ -49,9 +49,9 @@ class Address() {
     this()
     setStreet1(street1)
     setStreet2(street2)
-    setSuburb(suburb)
-    setState(state)
-    setPostcode(postcode)
+//    setSuburb(suburb)
+//    setState(state)
+//    setPostcode(postcode)
     setCountry(country)
   }
 
@@ -59,9 +59,9 @@ class Address() {
     "[" + id + "] " +
       street1 + ", " +
       street2 + ", " +
-      suburb + ", " +
-      state + ", " +
-      postcode + ", " +
+//      suburb + ", " +
+//      state + ", " +
+//      postcode + ", " +
       country
   }
 }

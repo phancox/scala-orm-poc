@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<eclipse-userlibraries version="2">
+    <library name="Vaadin" systemlibrary="false">
+        <archive javadoc="jar:file:/C:/Users/phancox/.ivy2/cache/com.vaadin/vaadin-shared-deps/javadocs/vaadin-shared-deps-1.0.2-javadoc.jar!/" path="C:/Users/phancox/.ivy2/cache/com.vaadin/vaadin-shared-deps/jars/vaadin-shared-deps-1.0.2.jar" source="C:/Users/phancox/.ivy2/cache/com.vaadin/vaadin-shared-deps/sources/vaadin-shared-deps-1.0.2-sources.jar"/>
+        <archive javadoc="jar:file:/C:/Users/phancox/.ivy2/cache/com.vaadin/vaadin-shared/docs/vaadin-shared-7.0.4-javadoc.jar!/" path="C:/Users/phancox/.ivy2/cache/com.vaadin/vaadin-shared/jars/vaadin-shared-7.0.4.jar" source="C:/Users/phancox/.ivy2/cache/com.vaadin/vaadin-shared/srcs/vaadin-shared-7.0.4-sources.jar"/>
+        <archive javadoc="jar:file:/C:/Users/phancox/.ivy2/cache/com.vaadin/vaadin-server/docs/vaadin-server-7.0.4-javadoc.jar!/" path="C:/Users/phancox/.ivy2/cache/com.vaadin/vaadin-server/jars/vaadin-server-7.0.4.jar" source="C:/Users/phancox/.ivy2/cache/com.vaadin/vaadin-server/srcs/vaadin-server-7.0.4-sources.jar"/>
+        <archive path="C:/Users/phancox/.ivy2/cache/com.vaadin/vaadin-client-compiled/jars/vaadin-client-compiled-7.0.4.jar"/>
+        <archive path="C:/Users/phancox/.ivy2/cache/com.vaadin/vaadin-themes/jars/vaadin-themes-7.0.4.jar"/>
+        <archive javadoc="jar:file:/C:/Users/phancox/.ivy2/cache/com.vaadin/vaadin-theme-compiler/docs/vaadin-theme-compiler-7.0.4-javadoc.jar!/" path="C:/Users/phancox/.ivy2/cache/com.vaadin/vaadin-theme-compiler/jars/vaadin-theme-compiler-7.0.4.jar" source="C:/Users/phancox/.ivy2/cache/com.vaadin/vaadin-theme-compiler/srcs/vaadin-theme-compiler-7.0.4-sources.jar"/>
+        <archive javadoc="jar:file:/C:/Users/phancox/.ivy2/local/vaadin.scala/scaladin_2.10/3.0.0-SNAPSHOT/docs/scaladin_2.10-javadoc.jar!/" path="C:/Users/phancox/.ivy2/local/vaadin.scala/scaladin_2.10/3.0.0-SNAPSHOT/jars/scaladin_2.10.jar" source="C:/Users/phancox/.ivy2/local/vaadin.scala/scaladin_2.10/3.0.0-SNAPSHOT/srcs/scaladin_2.10-sources.jar"/>
+    </library>
+</eclipse-userlibraries>
