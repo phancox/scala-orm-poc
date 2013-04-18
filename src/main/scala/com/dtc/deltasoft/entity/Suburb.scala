@@ -37,9 +37,10 @@ class Suburb() {
   @BeanProperty
   var state: String = null
 
-  @Column(name = "COUNTRY", length = 32)
+  //  @Column(name = "COUNTRY", length = 32)
+  @Transient // For compatibility with existing version 1 databases
   @BeanProperty
-  var country: String = null
+  var country: String = "Australia"
 
   def this(name: String = null, postcode: String = null, state: String = null, country: String = null) = {
     this()
@@ -50,6 +51,8 @@ class Suburb() {
   }
 
   override def toString() = {
-    name + ", " + state + " " + postcode + ", " + country
+
+    val statePostcode = List(state, postcode) filter (_ != null) mkString (" ") trim()
+    List(name, statePostcode, country) filter (x => x != null && x.toString.length != 0) mkString(", ")
   }
 }
