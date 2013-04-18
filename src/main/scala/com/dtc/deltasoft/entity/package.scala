@@ -1,15 +1,15 @@
 package com.dtc.deltasoft
 
 import java.util.Properties
-
 import org.hibernate.cfg.Configuration
 import org.hibernate.dialect.Dialect
 import org.hibernate.ejb.Ejb3Configuration
-
 import grizzled.slf4j.Logging
 
+/**
+ *
+ */
 package object entity extends Logging {
-
   trace("Creating package object.")
 
   val ejb3Configuration: Ejb3Configuration =

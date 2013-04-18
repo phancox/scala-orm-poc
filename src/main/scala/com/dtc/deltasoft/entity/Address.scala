@@ -3,6 +3,9 @@ package com.dtc.deltasoft.entity
 import javax.persistence._
 import scala.beans.BeanProperty
 
+/**
+ *
+ */
 object Address {
 
   def apply(street1: String = null, suburb: String = null, state: String = null, postcode: String = null,
@@ -10,6 +13,9 @@ object Address {
     new Address(street1, suburb, state, postcode, country, street2)
 }
 
+/**
+ *
+ */
 @Entity
 @Table(name = "ADDRESS")
 class Address() {
