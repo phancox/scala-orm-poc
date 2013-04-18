@@ -54,9 +54,7 @@ class Person() {
   }
 
   override def toString() = {
-    "[" + id + "] " +
-      surname + ", " +
-      firstName
+    surname + ", " + firstName
   }
 }
 

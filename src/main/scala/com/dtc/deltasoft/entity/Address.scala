@@ -8,9 +8,8 @@ import scala.beans.BeanProperty
  */
 object Address {
 
-  def apply(street1: String = null, suburb: String = null, state: String = null, postcode: String = null,
-            country: String = null, street2: String = null) =
-    new Address(street1, suburb, state, postcode, country, street2)
+  def apply(street1: String = null, suburb: Suburb = null, street2: String = null) =
+    new Address(street1, suburb, street2)
 }
 
 /**
@@ -34,40 +33,19 @@ class Address() {
   @BeanProperty
   var street2: String = null
 
-//  @Column(name = "SUBURB", length = 32)
-//  @BeanProperty
-//  var suburb: String = null
-//
-//  @Column(name = "STATE", length = 32)
-//  @BeanProperty
-//  var state: String = null
-//
-//  @Column(name = "POSTCODE", length = 8)
-//  @BeanProperty
-//  var postcode: String = null
-
-  @Column(name = "COUNTRY", length = 32)
+  @OneToOne(cascade = Array(CascadeType.ALL))
+  @JoinColumn(name = "SUBURB__ID")
   @BeanProperty
-  var country: String = null
+  var suburb: Suburb = null
 
-  def this(street1: String = null, suburb: String = null, state: String = null, postcode: String = null,
-           country: String = null, street2: String = null) = {
+  def this(street1: String = null, suburb: Suburb = null, street2: String = null) = {
     this()
     setStreet1(street1)
     setStreet2(street2)
-//    setSuburb(suburb)
-//    setState(state)
-//    setPostcode(postcode)
-    setCountry(country)
+    setSuburb(suburb)
   }
 
   override def toString() = {
-    "[" + id + "] " +
-      street1 + ", " +
-      street2 + ", " +
-//      suburb + ", " +
-//      state + ", " +
-//      postcode + ", " +
-      country
+    List(street1, street2, suburb) filter (_ != null) mkString(", ")
   }
 }
