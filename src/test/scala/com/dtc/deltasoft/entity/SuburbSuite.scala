@@ -3,9 +3,9 @@ package com.dtc.deltasoft.entity
 import javax.persistence.{ Entity, Persistence, Table }
 import scala.collection.JavaConversions._
 import org.junit.runner.RunWith
-import org.scalatest.FunSpec
 import org.scalatest.junit._
-import grizzled.slf4j.Logging
+import org.scalatest.FunSpec
+import org.scalatest.matchers.ShouldMatchers
 
 object SuburbSpec {
 
@@ -19,7 +19,7 @@ object SuburbSpec {
  *
  */
 @RunWith(classOf[JUnitRunner])
-class SuburbSpec extends FunSpec {
+class SuburbSpec extends FunSpec with ShouldMatchers {
 
   val entityManager = SuburbSpec.entityManager
 
@@ -33,7 +33,12 @@ class SuburbSpec extends FunSpec {
         suburb.setPostcode("2066")
         suburb.setState("NSW")
         suburb.setCountry("Australia")
-        expect("Longueville, NSW 2066, Australia") { suburb.toString }
+        suburb.toString should equal("Longueville, NSW 2066, Australia")
+        suburb should have(
+          'name("Longueville"),
+          'postcode("2066"),
+          'state("NSW"),
+          'country("Australia"))
       }
       it("using a constructor with a named parameter list") {
         suburb = Suburb(
@@ -41,11 +46,11 @@ class SuburbSpec extends FunSpec {
           postcode = "2066",
           state = "NSW",
           country = "Australia")
-        expect("Longueville, NSW 2066, Australia") { suburb.toString }
+        suburb.toString should equal("Longueville, NSW 2066, Australia")
       }
       it("using a constructor with positional parameters") {
         suburb = Suburb("Longueville", "2066", "NSW", "Australia")
-        expect("Longueville, NSW 2066, Australia") { suburb.toString }
+        suburb.toString should equal("Longueville, NSW 2066, Australia")
       }
     }
     it("should support database persistence") {
@@ -57,7 +62,7 @@ class SuburbSpec extends FunSpec {
       entityManager.getTransaction().begin()
       val suburb1 = entityManager.find(classOf[Suburb], 1)
       entityManager.getTransaction().commit()
-      expect("Longueville, NSW 2066, Australia") { suburb1.toString }
+      suburb1.toString should equal("Longueville, NSW 2066, Australia")
     }
   }
 }

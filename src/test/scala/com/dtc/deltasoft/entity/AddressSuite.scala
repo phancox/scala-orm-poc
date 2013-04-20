@@ -3,9 +3,9 @@ package com.dtc.deltasoft.entity
 import javax.persistence.{ Entity, Persistence, Table }
 import scala.collection.JavaConversions._
 import org.junit.runner.RunWith
-import org.scalatest.FunSpec
 import org.scalatest.junit._
-import grizzled.slf4j.Logging
+import org.scalatest.FunSpec
+import org.scalatest.matchers.ShouldMatchers
 
 object AddressSpec {
 
@@ -19,7 +19,7 @@ object AddressSpec {
  *
  */
 @RunWith(classOf[JUnitRunner])
-class AddressSpec extends FunSpec {
+class AddressSpec extends FunSpec with ShouldMatchers {
 
   val entityManager = AddressSpec.entityManager
 
@@ -32,19 +32,23 @@ class AddressSpec extends FunSpec {
         address.setStreet1("Hancox Residence")
         address.setSuburb(Suburb("Longueville", "2066", "NSW", "Australia"))
         address.setStreet2("46 Dettmann Avenue")
-        expect("Hancox Residence, 46 Dettmann Avenue, Longueville, NSW 2066, Australia") { address.toString }
+        address.toString should equal("Hancox Residence, 46 Dettmann Avenue, Longueville, NSW 2066, Australia")
+        address should have(
+          'street1("Hancox Residence"),
+          'suburb(Suburb("Longueville", "2066", "NSW", "Australia")),
+          'street2("46 Dettmann Avenue"))
       }
       it("using a constructor with a named parameter list") {
         address = Address(
           street1 = "Hancox Residence",
           suburb = Suburb("Longueville", "2066", "NSW", "Australia"),
           street2 = "46 Dettmann Avenue")
-        expect("Hancox Residence, 46 Dettmann Avenue, Longueville, NSW 2066, Australia") { address.toString }
+        address.toString should equal("Hancox Residence, 46 Dettmann Avenue, Longueville, NSW 2066, Australia")
       }
       it("using a constructor with positional parameters") {
         address = Address("Hancox Residence", Suburb("Longueville", "2066", "NSW", "Australia"),
           "46 Dettmann Avenue")
-        expect("Hancox Residence, 46 Dettmann Avenue, Longueville, NSW 2066, Australia") { address.toString }
+        address.toString should equal("Hancox Residence, 46 Dettmann Avenue, Longueville, NSW 2066, Australia")
       }
     }
     it("should support database persistence") {
@@ -56,7 +60,7 @@ class AddressSpec extends FunSpec {
       entityManager.getTransaction().begin()
       val address1 = entityManager.find(classOf[Address], 1)
       entityManager.getTransaction().commit()
-      expect("Hancox Residence, 46 Dettmann Avenue, Longueville, NSW 2066, Australia") { address1.toString }
+      address1.toString should equal("Hancox Residence, 46 Dettmann Avenue, Longueville, NSW 2066, Australia")
     }
   }
 }
