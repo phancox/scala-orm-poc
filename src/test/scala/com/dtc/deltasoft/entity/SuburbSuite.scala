@@ -3,11 +3,11 @@ package com.dtc.deltasoft.entity
 import javax.persistence.{ Entity, Persistence, Table }
 import scala.collection.JavaConversions._
 import org.junit.runner.RunWith
-import org.scalatest.FunSuite
+import org.scalatest.FunSpec
 import org.scalatest.junit._
 import grizzled.slf4j.Logging
 
-object SuburbSuite extends Logging {
+object SuburbSpec {
 
   val emf = Persistence.createEntityManagerFactory("DeltaSoft")
   val entityManager = emf.createEntityManager()
@@ -15,48 +15,49 @@ object SuburbSuite extends Logging {
 }
 
 /**
+ * Unit test suite for the Suburb entity.
  *
  */
 @RunWith(classOf[JUnitRunner])
-class SuburbSuite extends FunSuite with Logging {
+class SuburbSpec extends FunSpec {
 
-  val entityManager = SuburbSuite.entityManager
+  val entityManager = SuburbSpec.entityManager
 
   var suburb: Suburb = _
 
-  /**
-   * Create an instance of Suburb using the primary constructor and set its properties using
-   * JavaBean modifiers as required for Hibernate usage.
-   */
-  test("Create a Suburb using JavaBean properties.") {
-
-    suburb = Suburb()
-    suburb.setName("Longueville")
-    suburb.setPostcode("2066")
-    suburb.setState("NSW")
-    suburb.setCountry("Australia")
-    expect("Longueville, NSW 2066, Australia") { suburb.toString }
-  }
-
-  /**
-   * Persist the Suburb using the Hibernate entity manager.
-   */
-  test("Persist Suburb using Hibernate entity manager.") {
-
-    entityManager.getTransaction().begin()
-    entityManager.persist(suburb)
-    entityManager.getTransaction().commit()
-  }
-
-  /**
-   * Retrieve the Suburb using the Hibernate entity manager and compare it with the original
-   * Suburb instance.
-   */
-  test("Retrieve Suburb using Hibernate entity manager.") {
-
-    entityManager.getTransaction().begin()
-    val suburb1 = entityManager.find(classOf[Suburb], 1)
-    entityManager.getTransaction().commit()
-    expect("Longueville, NSW 2066, Australia") { suburb1.toString }
+  describe("A Suburb entity") {
+    describe("should support being created") {
+      it("using an empty constructor with properties set using JavaBean modifiers") {
+        suburb = Suburb()
+        suburb.setName("Longueville")
+        suburb.setPostcode("2066")
+        suburb.setState("NSW")
+        suburb.setCountry("Australia")
+        expect("Longueville, NSW 2066, Australia") { suburb.toString }
+      }
+      it("using a constructor with a named parameter list") {
+        suburb = Suburb(
+          name = "Longueville",
+          postcode = "2066",
+          state = "NSW",
+          country = "Australia")
+        expect("Longueville, NSW 2066, Australia") { suburb.toString }
+      }
+      it("using a constructor with positional parameters") {
+        suburb = Suburb("Longueville", "2066", "NSW", "Australia")
+        expect("Longueville, NSW 2066, Australia") { suburb.toString }
+      }
+    }
+    it("should support database persistence") {
+      entityManager.getTransaction().begin()
+      entityManager.persist(suburb)
+      entityManager.getTransaction().commit()
+    }
+    it("should support database retrieval") {
+      entityManager.getTransaction().begin()
+      val suburb1 = entityManager.find(classOf[Suburb], 1)
+      entityManager.getTransaction().commit()
+      expect("Longueville, NSW 2066, Australia") { suburb1.toString }
+    }
   }
 }
