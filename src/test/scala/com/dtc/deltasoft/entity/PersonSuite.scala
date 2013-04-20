@@ -55,6 +55,12 @@ class PersonSpec extends FunSpec with ShouldMatchers {
         person.toString should equal("Hancox, Peter")
       }
     }
+    it("should support equality checks") {
+      val person1 = Person()
+      person1.setSurname("Hancox")
+      person1.setFirstName("Peter")
+      person1 should equal(person)
+    }
     it("should support database persistence") {
       entityManager.getTransaction().begin()
       entityManager.persist(person)

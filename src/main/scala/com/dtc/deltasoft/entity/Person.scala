@@ -53,8 +53,20 @@ class Person() {
     setWorkAddress(workAddress)
   }
 
+  /*
+   * Implementation of hashCode and equals based on discussion in Chapter 30 of "Programming in Scala".
+   */
+  override def hashCode = super.hashCode
+
+  override def equals(other: Any) = other match {
+    case that: Person => (that canEqual this) &&
+      (this.surname == that.surname) &&
+      (this.firstName == that.firstName)
+    case _ => false
+  }
+  def canEqual(other: Any) = other.isInstanceOf[Person]
+
   override def toString() = {
     surname + ", " + firstName
   }
 }
-

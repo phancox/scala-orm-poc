@@ -13,7 +13,7 @@ object Suburb {
 }
 
 /**
- *
+ * The Suburb entity represents a location forming part of an [[Address]].
  */
 @Entity
 @Table(name = "SUBURB")
@@ -50,9 +50,23 @@ class Suburb() {
     setCountry(country)
   }
 
-  override def toString() = {
+  /*
+   * Implementation of hashCode and equals based on discussion in Chapter 30 of "Programming in Scala".
+   */
+  override def hashCode = super.hashCode
 
-    val statePostcode = List(state, postcode) filter (_ != null) mkString (" ") trim()
-    List(name, statePostcode, country) filter (x => x != null && x.toString.length != 0) mkString(", ")
+  override def equals(other: Any) = other match {
+    case that: Suburb => (that canEqual this) &&
+      (this.name == that.name) &&
+      (this.postcode == that.postcode) &&
+      (this.state == that.state) &&
+      (this.country == that.country)
+    case _ => false
+  }
+  def canEqual(other: Any) = other.isInstanceOf[Suburb]
+
+  override def toString() = {
+    val statePostcode = List(state, postcode) filter (_ != null) mkString (" ") trim ()
+    List(name, statePostcode, country) filter (x => x != null && x.toString.length != 0) mkString (", ")
   }
 }

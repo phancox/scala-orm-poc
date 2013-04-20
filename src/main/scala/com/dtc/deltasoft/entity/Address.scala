@@ -45,6 +45,20 @@ class Address() {
     setSuburb(suburb)
   }
 
+  /*
+   * Implementation of hashCode and equals based on discussion in Chapter 30 of "Programming in Scala".
+   */
+  override def hashCode = super.hashCode
+
+  override def equals(other: Any) = other match {
+    case that: Address => (that canEqual this) &&
+      (this.street1 == that.street1) &&
+      (this.suburb == that.suburb) &&
+      (this.street2 == that.street2)
+    case _ => false
+  }
+  def canEqual(other: Any) = other.isInstanceOf[Address]
+
   override def toString() = {
     List(street1, street2, suburb) filter (_ != null) mkString(", ")
   }

@@ -51,6 +51,13 @@ class AddressSpec extends FunSpec with ShouldMatchers {
         address.toString should equal("Hancox Residence, 46 Dettmann Avenue, Longueville, NSW 2066, Australia")
       }
     }
+    it("should support equality checks") {
+      val address1 = Address()
+      address1.setStreet1("Hancox Residence")
+      address1.setSuburb(Suburb("Longueville", "2066", "NSW", "Australia"))
+      address1.setStreet2("46 Dettmann Avenue")
+      address1 should equal(address)
+    }
     it("should support database persistence") {
       entityManager.getTransaction().begin()
       entityManager.persist(address)

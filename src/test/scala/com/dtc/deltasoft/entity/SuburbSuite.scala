@@ -53,6 +53,14 @@ class SuburbSpec extends FunSpec with ShouldMatchers {
         suburb.toString should equal("Longueville, NSW 2066, Australia")
       }
     }
+    it("should support equality checks") {
+      val suburb1 = Suburb()
+      suburb1.setName("Longueville")
+      suburb1.setPostcode("2066")
+      suburb1.setState("NSW")
+      suburb1.setCountry("Australia")
+      suburb1 should equal (suburb)
+    }
     it("should support database persistence") {
       entityManager.getTransaction().begin()
       entityManager.persist(suburb)
