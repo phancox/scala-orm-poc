@@ -15,7 +15,7 @@ object AddressSpec {
 }
 
 /**
- * Unit test suite for the Address entity.
+ * Unit test suite for the [[Address]] entity.
  *
  */
 @RunWith(classOf[JUnitRunner])

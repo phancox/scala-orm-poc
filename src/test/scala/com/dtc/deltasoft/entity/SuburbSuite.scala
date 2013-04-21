@@ -15,7 +15,7 @@ object SuburbSpec {
 }
 
 /**
- * Unit test suite for the Suburb entity.
+ * Unit test suite for the [[Suburb]] entity.
  *
  */
 @RunWith(classOf[JUnitRunner])

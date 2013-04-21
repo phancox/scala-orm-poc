@@ -15,7 +15,7 @@ object PersonSpec {
 }
 
 /**
- * Unit test suite for the Person entity.
+ * Unit test suite for the [[Person]] entity.
  *
  */
 @RunWith(classOf[JUnitRunner])
