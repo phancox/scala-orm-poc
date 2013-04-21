@@ -25,14 +25,23 @@ class Address() {
   @BeanProperty
   var id: Int = _
 
+  /**
+   * Line 1 of the street portion of the address.
+   */
   @Column(name = "STREET_1", length = 32)
   @BeanProperty
   var street1: String = null
 
+  /**
+   * Line 2 of the street portion of the address.
+   */
   @Column(name = "STREET_2", length = 32)
   @BeanProperty
   var street2: String = null
 
+  /**
+   * The address' [[Suburb]].
+   */
   @OneToOne(cascade = Array(CascadeType.ALL))
   @JoinColumn(name = "SUBURB__ID")
   @BeanProperty
@@ -46,20 +55,28 @@ class Address() {
   }
 
   /*
-   * Implementation of hashCode and equals based on discussion in Chapter 30 of "Programming in Scala".
+   * Implementation of equals and hashCode based on Chapter 30 of "Programming in Scala".
    */
-  override def hashCode = super.hashCode
 
+  def canEqual(other: Any) = other.isInstanceOf[Address]
   override def equals(other: Any) = other match {
-    case that: Address => (that canEqual this) &&
-      (this.street1 == that.street1) &&
-      (this.suburb == that.suburb) &&
-      (this.street2 == that.street2)
+    case that: Address => that.canEqual(this) &&
+      this.street1 == that.street1 &&
+      this.street2 == that.street2 &&
+      this.suburb == that.suburb
     case _ => false
   }
-  def canEqual(other: Any) = other.isInstanceOf[Address]
+
+  override def hashCode() = {
+    val prime = 41
+    prime * (
+      prime * (
+        prime + street1.hashCode
+      ) + street2.hashCode
+    ) + suburb.hashCode
+  }
 
   override def toString() = {
-    List(street1, street2, suburb) filter (_ != null) mkString(", ")
+    List(street1, street2, suburb) filter (_ != null) mkString (", ")
   }
 }

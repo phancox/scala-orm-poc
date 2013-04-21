@@ -13,7 +13,10 @@ object Suburb {
 }
 
 /**
- * The Suburb entity represents a location forming part of an [[Address]].
+ * The Suburb entity represents a location forming part of an [[Address]]. The following fields are
+ * transient for compatibility with version 1 databases:
+ *  - Country
+ *
  */
 @Entity
 @Table(name = "SUBURB")
@@ -25,20 +28,32 @@ class Suburb() {
   @BeanProperty
   var id: Int = _
 
+  /**
+   * The suburb's name.
+   */
   @Column(name = "NAME", length = 40)
   @BeanProperty
   var name: String = null
 
+  /**
+   * The suburb's postcode.
+   */
   @Column(name = "POSTCODE", length = 10)
   @BeanProperty
   var postcode: String = null
 
+  /**
+   * The suburb's state.
+   */
   @Column(name = "STATE", length = 10)
   @BeanProperty
   var state: String = null
 
-  //  @Column(name = "COUNTRY", length = 32)
-  @Transient // For compatibility with existing version 1 databases
+  /**
+   * The suburb's country. This field is transient for compatibility with version 1 databases.
+   */
+  @Transient
+  @Column(name = "COUNTRY", length = 32)
   @BeanProperty
   var country: String = "Australia"
 
@@ -51,19 +66,29 @@ class Suburb() {
   }
 
   /*
-   * Implementation of hashCode and equals based on discussion in Chapter 30 of "Programming in Scala".
+   * Implementation of equals and hashCode based on Chapter 30 of "Programming in Scala".
    */
-  override def hashCode = super.hashCode
 
+  def canEqual(other: Any) = other.isInstanceOf[Suburb]
   override def equals(other: Any) = other match {
-    case that: Suburb => (that canEqual this) &&
-      (this.name == that.name) &&
-      (this.postcode == that.postcode) &&
-      (this.state == that.state) &&
-      (this.country == that.country)
+    case that: Suburb => that.canEqual(this) &&
+      this.name == that.name &&
+      this.postcode == that.postcode &&
+      this.state == that.state &&
+      this.country == that.country
     case _ => false
   }
-  def canEqual(other: Any) = other.isInstanceOf[Suburb]
+
+  override def hashCode() = {
+    val prime = 41
+    prime * (
+      prime * (
+        prime * (
+          prime + name.hashCode
+        ) + postcode.hashCode
+      ) + state.hashCode
+    ) + country.hashCode
+  }
 
   override def toString() = {
     val statePostcode = List(state, postcode) filter (_ != null) mkString (" ") trim ()
