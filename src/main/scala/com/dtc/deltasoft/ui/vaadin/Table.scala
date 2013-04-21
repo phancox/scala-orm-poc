@@ -7,7 +7,7 @@ import grizzled.slf4j.Logging
  * Specialisation of [[https://github.com/henrikerola/scaladin Scaladin]] Table class.
  */
 class Table extends vaadin.scala.Table with Logging {
-  trace("Table Primary Constructor Commence")
+  trace("Primary Constructor Commence")
 
   def lock() = {
     p.getUI().getSession().lock()
@@ -25,5 +25,5 @@ class Table extends vaadin.scala.Table with Logging {
     p.removeAllItems()
   }
 
-  trace("Table Primary Constructor Complete")
+  trace("Primary Constructor Complete")
 }
