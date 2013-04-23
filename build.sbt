@@ -15,11 +15,6 @@ javacOptions ++= Seq("-source", "1.6", "-target", "1.6")
 resolvers += "Vaadin add-ons repository" at "http://maven.vaadin.com/vaadin-addons"
 
 libraryDependencies ++= Seq(
-  "org.scalatest" % "scalatest_2.10" % "2.0.M5b" % "test",
-  "junit" % "junit" % "4.10" % "test"
-)
-
-libraryDependencies ++= Seq(
   "org.clapper" % "grizzled-slf4j_2.10" % "1.0.1",
   "ch.qos.logback" % "logback-classic" % "1.0.9",
   "org.codehaus.janino" % "janino" % "2.6.1",
@@ -30,4 +25,9 @@ libraryDependencies ++= Seq(
   "org.hibernate.javax.persistence" % "hibernate-jpa-2.0-api" % "1.0.1.Final",
   "org.hibernate" % "hibernate-entitymanager" % "4.1.9.Final",
   "postgresql" % "postgresql" % "9.1-901.jdbc4"
+)
+
+libraryDependencies ++= Seq(
+  "org.scalatest" % "scalatest_2.10" % "2.0.M5b" % "test",
+  "junit" % "junit" % "4.10" % "test"
 )
