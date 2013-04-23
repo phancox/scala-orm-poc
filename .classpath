@@ -12,7 +12,7 @@
 	<classpathentry kind="lib" path="C:/Users/phancox/.ivy2/cache/net.sourceforge.cssparser/cssparser/jars/cssparser-0.9.5.jar"/>
 	<classpathentry kind="lib" path="C:/Users/phancox/.ivy2/cache/commons-cli/commons-cli/jars/commons-cli-1.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/phancox/.ivy2/cache/org.jsoup/jsoup/jars/jsoup-1.6.3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/phancox/.ivy2/cache/javax.servlet/javax.servlet-api/jars/javax.servlet-api-3.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/phancox/.ivy2/cache/javax.servlet/servlet-api/jars/servlet-api-2.5.jar"/>
 	<classpathentry kind="lib" path="C:/Users/phancox/.ivy2/cache/org.hibernate/hibernate-entitymanager/jars/hibernate-entitymanager-4.1.9.Final.jar"/>
 	<classpathentry kind="lib" path="C:/Users/phancox/.ivy2/cache/org.jboss.logging/jboss-logging/jars/jboss-logging-3.1.0.GA.jar"/>
 	<classpathentry kind="lib" path="C:/Users/phancox/.ivy2/cache/org.javassist/javassist/bundles/javassist-3.17.1-GA.jar"/>
