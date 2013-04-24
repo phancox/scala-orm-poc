@@ -1,18 +1,9 @@
 package com.dtc.deltasoft.entity
 
-import javax.persistence.{ Entity, Persistence, Table }
-import scala.collection.JavaConversions._
 import org.junit.runner.RunWith
 import org.scalatest.junit._
 import org.scalatest.FunSpec
 import org.scalatest.matchers.ShouldMatchers
-
-object SuburbSpec {
-
-  val emf = Persistence.createEntityManagerFactory("DeltaSoft")
-  val entityManager = emf.createEntityManager()
-  // entityManager.close()
-}
 
 /**
  * Unit test suite for the [[Suburb]] entity.
@@ -20,8 +11,6 @@ object SuburbSpec {
  */
 @RunWith(classOf[JUnitRunner])
 class SuburbSpec extends FunSpec with ShouldMatchers {
-
-  val entityManager = SuburbSpec.entityManager
 
   var suburb: Suburb = _
 

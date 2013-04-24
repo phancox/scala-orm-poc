@@ -1,18 +1,9 @@
 package com.dtc.deltasoft.entity
 
-import javax.persistence.{ Entity, Persistence, Table }
-import scala.collection.JavaConversions._
 import org.junit.runner.RunWith
 import org.scalatest.junit._
 import org.scalatest.FunSpec
 import org.scalatest.matchers.ShouldMatchers
-
-object AddressSpec {
-
-  val emf = Persistence.createEntityManagerFactory("DeltaSoft")
-  val entityManager = emf.createEntityManager()
-  // entityManager.close()
-}
 
 /**
  * Unit test suite for the [[Address]] entity.
@@ -20,8 +11,6 @@ object AddressSpec {
  */
 @RunWith(classOf[JUnitRunner])
 class AddressSpec extends FunSpec with ShouldMatchers {
-
-  val entityManager = AddressSpec.entityManager
 
   var address: Address = _
 

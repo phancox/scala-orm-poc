@@ -1,6 +1,7 @@
 package com.dtc.deltasoft
 
 import java.util.Properties
+import javax.persistence.{ Entity, Persistence, Table }
 import org.hibernate.cfg.Configuration
 import org.hibernate.dialect.Dialect
 import org.hibernate.ejb.Ejb3Configuration
@@ -13,6 +14,9 @@ import grizzled.slf4j.Logging
 package object entity extends Logging {
   trace("Creating package object.")
 
+  lazy val emf = Persistence.createEntityManagerFactory("DeltaSoft")
+  lazy val entityManager = emf.createEntityManager()
+
   def getSchemaCreationScript = {
     val ejb3Configuration: Ejb3Configuration =
       new Ejb3Configuration().configure("DeltaSoft", new Properties())
@@ -24,6 +28,7 @@ package object entity extends Logging {
   }
 
   def getSearchWhereClause(columnCriteriaList: List[(String, String)]): String = {
+    trace("getSearchWhereClause(columnCriteriaList=" + columnCriteriaList + ")")
     def transform(columnValue: (String, String)): String = {
       s"lower(${columnValue._1}) like lower('${columnValue._2}%')"
     }
