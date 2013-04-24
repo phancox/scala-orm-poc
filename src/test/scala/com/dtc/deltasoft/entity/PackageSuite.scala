@@ -25,6 +25,28 @@ class PackageSpec extends FunSpec with ShouldMatchers {
         getSearchWhereClause(List(("column1", "value1"),("column2", "value2"))) should
           equal("where lower(column1) like lower('value1%') and lower(column2) like lower('value2%')")
       }
+      it("should handle a null value parameter") {
+        getSearchWhereClause(List(("column1", null))) should equal("")
+      }
+      it("should handle an empty value parameter") {
+        getSearchWhereClause(List(("column1", ""))) should equal("")
+      }
+      it("should handle a Some[String]") {
+        getSearchWhereClause(List(("column1", Some("value1")))) should
+          equal("where lower(column1) like lower('value1%')")
+      }
+      it("should handle two pairs where the first value is empty") {
+        getSearchWhereClause(List(("column1", ""),("column2", "value2"))) should
+          equal("where lower(column2) like lower('value2%')")
+      }
+      it("should handle two pairs where the second value is empty") {
+        getSearchWhereClause(List(("column1", "value1"),("column2", ""))) should
+          equal("where lower(column1) like lower('value1%')")
+      }
+      it("should handle three pairs where the second value is empty") {
+        getSearchWhereClause(List(("column1", "value1"),("column2", ""),("column3", "value3"))) should
+          equal("where lower(column1) like lower('value1%') and lower(column3) like lower('value3%')")
+      }
     }
   }
 }

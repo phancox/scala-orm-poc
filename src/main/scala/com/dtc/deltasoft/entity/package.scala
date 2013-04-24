@@ -27,18 +27,40 @@ package object entity extends Logging {
     schemaCreationScript
   }
 
-  def getSearchWhereClause(columnCriteriaList: List[(String, String)]): String = {
+  implicit def wrapOptionalValue[T](value: T): Option[T] = Some(value)
+
+  def getSearchWhereClause(columnCriteriaList: List[(String, Option[Any])]): String = {
     trace("getSearchWhereClause(columnCriteriaList=" + columnCriteriaList + ")")
-    def transform(columnValue: (String, String)): String = {
-      s"lower(${columnValue._1}) like lower('${columnValue._2}%')"
+    def transform(columnValue: (String, Option[Any])): String = {
+      columnValue match {
+        case (_, null) => ""
+        case (_, None) => ""
+        case (_, Some("")) => ""
+        case _ => s"lower(${columnValue._1}) like lower('${columnValue._2.get}%')"
+      }
     }
-    def iterate(columnCriteriaList: List[(String, String)]): String = columnCriteriaList match {
+    def iterate(columnCriteriaList: List[(String, Option[Any])]): String = columnCriteriaList match {
       case x :: Nil => transform(x._1, x._2)
-      case x :: xs => transform(x._1, x._2) + " and " + iterate(xs)
+      case x :: xs => {
+        val condition = transform(x._1, x._2)
+        val remainder = iterate(xs)
+        if (condition.length > 0 && remainder.length > 0)
+          condition + " and " + remainder
+        else if (remainder.length > 0)
+          remainder
+        else if (condition.length > 0)
+          condition
+        else
+          ""
+      }
     }
     columnCriteriaList match {
       case List() => ""
-      case _ => "where " + iterate(columnCriteriaList)
+      case _ => {
+        val searchWhereClause = iterate(columnCriteriaList)
+        if (searchWhereClause.length == 0) ""
+        else "where " + searchWhereClause
+      }
     }
   }
 }
