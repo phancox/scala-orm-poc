@@ -39,28 +39,10 @@ package object entity extends Logging {
         case _ => s"lower(${columnValue._1}) like lower('${columnValue._2.get}%')"
       }
     }
-    def iterate(columnCriteriaList: List[(String, Option[Any])]): String = columnCriteriaList match {
-      case x :: Nil => transform(x._1, x._2)
-      case x :: xs => {
-        val condition = transform(x._1, x._2)
-        val remainder = iterate(xs)
-        if (condition.length > 0 && remainder.length > 0)
-          condition + " and " + remainder
-        else if (remainder.length > 0)
-          remainder
-        else if (condition.length > 0)
-          condition
-        else
-          ""
-      }
-    }
-    columnCriteriaList match {
+    val searchCriteriaList = columnCriteriaList map (transform _) filter (_.length > 0)
+    searchCriteriaList match {
       case List() => ""
-      case _ => {
-        val searchWhereClause = iterate(columnCriteriaList)
-        if (searchWhereClause.length == 0) ""
-        else "where " + searchWhereClause
-      }
+      case _ => searchCriteriaList mkString("where ", " and ", "")
     }
   }
 }
