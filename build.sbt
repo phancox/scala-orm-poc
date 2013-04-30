@@ -12,6 +12,8 @@ scalaVersion := "2.10.1"
 
 javacOptions ++= Seq("-source", "1.6", "-target", "1.6")
 
+resolvers += "SpringSource repository" at "http://repo.springsource.org/libs-milestone"
+
 resolvers += "Vaadin add-ons repository" at "http://maven.vaadin.com/vaadin-addons"
 
 libraryDependencies ++= Seq(
@@ -19,6 +21,7 @@ libraryDependencies ++= Seq(
   "ch.qos.logback" % "logback-classic" % "1.0.9",
   "org.codehaus.janino" % "janino" % "2.6.1",
   "org.codehaus.groovy" % "groovy-all" % "2.1.1",
+  "org.springframework.scala" % "spring-scala" % "1.0.0.M2",
   "vaadin.scala" % "scaladin_2.10" % "3.0.0-SNAPSHOT",
   "com.vaadin" % "vaadin-themes" % "7.0.5",
   "com.vaadin" % "vaadin-client-compiled" % "7.0.5",

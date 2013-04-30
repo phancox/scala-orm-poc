@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<eclipse-userlibraries version="2">
+    <library name="Spring" systemlibrary="false">
+        <archive path="C:/Users/phancox/.ivy2/cache/org.springframework.scala/spring-scala/jars/spring-scala-1.0.0.M2.jar" source="D:/GIT/spring-scala/src/main/scala"/>
+        <archive javadoc="jar:file:/C:/Users/phancox/.ivy2/cache/org.springframework/spring-core/docs/spring-core-3.2.2.RELEASE-javadoc.jar!/" path="C:/Users/phancox/.ivy2/cache/org.springframework/spring-core/jars/spring-core-3.2.2.RELEASE.jar" source="C:/Users/phancox/.ivy2/cache/org.springframework/spring-core/srcs/spring-core-3.2.2.RELEASE-sources.jar"/>
+        <archive javadoc="jar:file:/C:/Users/phancox/.ivy2/cache/org.springframework/spring-expression/docs/spring-expression-3.2.2.RELEASE-javadoc.jar!/" path="C:/Users/phancox/.ivy2/cache/org.springframework/spring-expression/jars/spring-expression-3.2.2.RELEASE.jar" source="C:/Users/phancox/.ivy2/cache/org.springframework/spring-expression/srcs/spring-expression-3.2.2.RELEASE-sources.jar"/>
+        <archive javadoc="jar:file:/C:/Users/phancox/.ivy2/cache/org.springframework/spring-context/docs/spring-context-3.2.2.RELEASE-javadoc.jar!/" path="C:/Users/phancox/.ivy2/cache/org.springframework/spring-context/jars/spring-context-3.2.2.RELEASE.jar" source="C:/Users/phancox/.ivy2/cache/org.springframework/spring-context/srcs/spring-context-3.2.2.RELEASE-sources.jar"/>
+        <archive javadoc="jar:file:/C:/Users/phancox/.ivy2/cache/org.springframework/spring-beans/docs/spring-beans-3.2.2.RELEASE-javadoc.jar!/" path="C:/Users/phancox/.ivy2/cache/org.springframework/spring-beans/jars/spring-beans-3.2.2.RELEASE.jar" source="C:/Users/phancox/.ivy2/cache/org.springframework/spring-beans/srcs/spring-beans-3.2.2.RELEASE-sources.jar"/>
+        <archive javadoc="jar:file:/C:/Users/phancox/.ivy2/cache/org.springframework/spring-aop/docs/spring-aop-3.2.2.RELEASE-javadoc.jar!/" path="C:/Users/phancox/.ivy2/cache/org.springframework/spring-aop/jars/spring-aop-3.2.2.RELEASE.jar" source="C:/Users/phancox/.ivy2/cache/org.springframework/spring-aop/srcs/spring-aop-3.2.2.RELEASE-sources.jar"/>
+    </library>
+</eclipse-userlibraries>
