@@ -29,6 +29,17 @@ package object entity extends Logging {
 
   implicit def wrapOptionalValue[T](value: T): Option[T] = Some(value)
 
+  /**
+   * Returns a SQL "where" clause constructed from the supplied list of pairs where each pair is a 
+   * column name and a value to be matched.
+   *
+   * @param columnCriteriaList
+   * A list of pairs where each pair is a column name and a value to be matched.
+   *
+   * @return
+   * A SQL "where" clause constructed from the supplied list of pairs.
+   *
+   */
   def getSearchWhereClause(columnCriteriaList: List[(String, Option[Any])]): String = {
     trace("getSearchWhereClause(columnCriteriaList=" + columnCriteriaList + ")")
     def transform(columnValue: (String, Option[Any])): String = {
@@ -42,7 +53,7 @@ package object entity extends Logging {
     val searchCriteriaList = columnCriteriaList map (transform _) filter (_.length > 0)
     searchCriteriaList match {
       case List() => ""
-      case _ => searchCriteriaList mkString("where ", " and ", "")
+      case _ => searchCriteriaList mkString ("where ", " and ", "")
     }
   }
 }
