@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="suburbLongueville" class="com.dtc.deltasoft.entity.Suburb">
+		<property name="name" value="Longueville" />
+		<property name="postcode" value="2066" />
+		<property name="state" value="NSW" />
+	</bean>
+
+</beans>
