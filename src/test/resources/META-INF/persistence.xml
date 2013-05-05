@@ -10,6 +10,15 @@
 		<class>com.dtc.deltasoft.entity.Person</class>
 		<properties>
 			<property name="hibernate.id.new_generator_mappings" value="true" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="false" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
+			<property name="hibernate.connection.driver_class" value="net.sf.log4jdbc.DriverSpy" />
+			<property name="hibernate.connection.url" value="jdbc:log4jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1" />
+		</properties>
+		<!--  properties>
+			<property name="hibernate.id.new_generator_mappings" value="true" />
 			<property name="hibernate.hbm2ddl.auto" value="create-drop" />
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="false" />
@@ -18,6 +27,6 @@
 			<property name="hibernate.connection.url" value="jdbc:postgresql://phancox1/DeltaSoft" />
 			<property name="hibernate.connection.username" value="buildmgr" />
 			<property name="hibernate.connection.password" value="buildmgr" />
-		</properties>
+		</properties -->
 	</persistence-unit>
 </persistence>
