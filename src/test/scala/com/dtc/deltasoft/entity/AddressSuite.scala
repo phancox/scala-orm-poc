@@ -19,23 +19,23 @@ class AddressSpec extends FunSpec with ShouldMatchers {
       it("using an empty constructor with properties set using JavaBean modifiers") {
         address = Address()
         address.setStreet1("Hancox Residence")
-        address.setSuburb(Suburb("Longueville", "2066", "NSW", "Australia"))
+        address.setSuburb(Suburb(-1, "Longueville", "2066", "NSW", "Australia"))
         address.setStreet2("46 Dettmann Avenue")
         address.toString should equal("Hancox Residence, 46 Dettmann Avenue, Longueville, NSW 2066, Australia")
         address should have(
           'street1("Hancox Residence"),
-          'suburb(Suburb("Longueville", "2066", "NSW", "Australia")),
+          'suburb(Suburb(-1, "Longueville", "2066", "NSW", "Australia")),
           'street2("46 Dettmann Avenue"))
       }
       it("using a constructor with a named parameter list") {
         address = Address(
           street1 = "Hancox Residence",
-          suburb = Suburb("Longueville", "2066", "NSW", "Australia"),
+          suburb = Suburb(-1, "Longueville", "2066", "NSW", "Australia"),
           street2 = "46 Dettmann Avenue")
         address.toString should equal("Hancox Residence, 46 Dettmann Avenue, Longueville, NSW 2066, Australia")
       }
       it("using a constructor with positional parameters") {
-        address = Address("Hancox Residence", Suburb("Longueville", "2066", "NSW", "Australia"),
+        address = Address("Hancox Residence", Suburb(-1, "Longueville", "2066", "NSW", "Australia"),
           "46 Dettmann Avenue")
         address.toString should equal("Hancox Residence, 46 Dettmann Avenue, Longueville, NSW 2066, Australia")
       }
@@ -43,7 +43,7 @@ class AddressSpec extends FunSpec with ShouldMatchers {
     it("should support equality checks") {
       val address1 = Address()
       address1.setStreet1("Hancox Residence")
-      address1.setSuburb(Suburb("Longueville", "2066", "NSW", "Australia"))
+      address1.setSuburb(Suburb(-1, "Longueville", "2066", "NSW", "Australia"))
       address1.setStreet2("46 Dettmann Avenue")
       address1 should equal(address)
     }

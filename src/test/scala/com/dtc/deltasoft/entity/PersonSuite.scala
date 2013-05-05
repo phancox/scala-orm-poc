@@ -20,27 +20,27 @@ class PersonSpec extends FunSpec with ShouldMatchers {
         person = Person()
         person.setSurname("Hancox")
         person.setFirstName("Peter")
-        person.setHomeAddress(Address("46 Dettmann Avenue", Suburb("Longueville", "2066", "NSW", "Australia")))
-        person.setWorkAddress(Address("PO Box 1383", Suburb("Lane Cove", "1595", "NSW", "Australia")))
+        person.setHomeAddress(Address("46 Dettmann Avenue", Suburb(-1, "Longueville", "2066", "NSW", "Australia")))
+        person.setWorkAddress(Address("PO Box 1383", Suburb(-1 , "Lane Cove", "1595", "NSW", "Australia")))
         person.toString should equal("Hancox, Peter")
         person should have(
           'surname("Hancox"),
           'firstName("Peter"),
-          'homeAddress(Address("46 Dettmann Avenue", Suburb("Longueville", "2066", "NSW", "Australia"))),
-          'workAddress(Address("PO Box 1383", Suburb("Lane Cove", "1595", "NSW", "Australia"))))
+          'homeAddress(Address("46 Dettmann Avenue", Suburb(-1, "Longueville", "2066", "NSW", "Australia"))),
+          'workAddress(Address("PO Box 1383", Suburb(-1, "Lane Cove", "1595", "NSW", "Australia"))))
       }
       it("using a constructor with a named parameter list") {
         person = Person(
           surname = "Hancox",
           firstName = "Peter",
-          homeAddress = Address("46 Dettmann Avenue", Suburb("Longueville", "2066", "NSW", "Australia")),
-          workAddress = Address("PO Box 1383", Suburb("Lane Cove", "1595", "NSW", "Australia")))
+          homeAddress = Address("46 Dettmann Avenue", Suburb(-1, "Longueville", "2066", "NSW", "Australia")),
+          workAddress = Address("PO Box 1383", Suburb(-1, "Lane Cove", "1595", "NSW", "Australia")))
         person.toString should equal("Hancox, Peter")
       }
       it("using a constructor with positional parameters") {
         person = Person("Hancox", "Peter",
-          Address("46 Dettmann Avenue", Suburb("Longueville", "2066", "NSW", "Australia")),
-          Address("PO Box 1383", Suburb("Lane Cove", "1595", "NSW", "Australia")))
+          Address("46 Dettmann Avenue", Suburb(-1, "Longueville", "2066", "NSW", "Australia")),
+          Address("PO Box 1383", Suburb(-1, "Lane Cove", "1595", "NSW", "Australia")))
         person.toString should equal("Hancox, Peter")
       }
     }

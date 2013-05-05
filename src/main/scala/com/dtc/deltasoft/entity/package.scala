@@ -6,6 +6,7 @@ import org.hibernate.cfg.Configuration
 import org.hibernate.dialect.Dialect
 import org.hibernate.ejb.Ejb3Configuration
 import grizzled.slf4j.Logging
+import scala.slick.driver.ExtendedProfile
 
 /**
  * DeltaSoft technical architecture framework support for JPA and a collection of core standard
@@ -13,6 +14,10 @@ import grizzled.slf4j.Logging
  */
 package object entity extends Logging {
   trace("Creating package object.")
+
+  trait Profile {
+    val profile: ExtendedProfile
+  }
 
   lazy val emf = Persistence.createEntityManagerFactory("DeltaSoft")
   lazy val entityManager = emf.createEntityManager()
@@ -30,7 +35,7 @@ package object entity extends Logging {
   implicit def wrapOptionalValue[T](value: T): Option[T] = Some(value)
 
   /**
-   * Returns a SQL "where" clause constructed from the supplied list of pairs where each pair is a 
+   * Returns a SQL "where" clause constructed from the supplied list of pairs where each pair is a
    * column name and a value to be matched.
    *
    * @param columnCriteriaList

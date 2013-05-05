@@ -1,15 +1,24 @@
 package com.dtc.deltasoft.entity
 
 import javax.persistence._
+import scala.annotation.target.field
 import scala.beans.BeanProperty
 
-/**
- *
- */
-object Suburb {
+trait SuburbEntity { self: Profile =>
+  import profile.simple._
 
-  def apply(name: String = null, postcode: String = null, state: String = null, country: String = null) =
-    new Suburb(name, postcode, state, country)
+  object Suburbs extends Table[Suburb]("SUBURB") {
+
+    def id = column[Int]("ID", O.PrimaryKey, O.AutoInc)
+
+    def name = column[String]("NAME", O.NotNull)
+    def postcode = column[String]("POSTCODE", O.NotNull)
+    def state = column[String]("STATE", O.NotNull)
+    def country = column[String]("COUNTRY", O.NotNull)
+
+    def * = id ~ name ~ postcode ~ state ~ country <> (Suburb, Suburb.unapply _)
+    def byId = createFinderBy(_.id)
+  }
 }
 
 /**
@@ -17,78 +26,31 @@ object Suburb {
  * transient for compatibility with version 1 databases:
  *  - Country
  *
+ * @param id
+ * The suburb's id (primary key).
+ *
+ * @param name
+ * The suburb's name.
+ *
+ * @param postcode
+ * The suburb's postcode.
+ *
+ * @param state
+ * The suburb's state.
+ *
+ * @param country
+ * The suburb's country (Defaults to "Australia"). To support Deltasoft framework version 1, this
+ * field is tagged as transient so it won't be persisted in the database.
+ *
  */
 @Entity
 @Table(name = "SUBURB")
-class Suburb() {
-
-  @Id
-  @GeneratedValue
-  @Column(name = "ID")
-  @BeanProperty
-  var id: Int = _
-
-  /**
-   * The suburb's name.
-   */
-  @Column(name = "NAME", length = 40)
-  @BeanProperty
-  var name: String = null
-
-  /**
-   * The suburb's postcode.
-   */
-  @Column(name = "POSTCODE", length = 10)
-  @BeanProperty
-  var postcode: String = null
-
-  /**
-   * The suburb's state.
-   */
-  @Column(name = "STATE", length = 10)
-  @BeanProperty
-  var state: String = null
-
-  /**
-   * The suburb's country. This field is transient for compatibility with version 1 databases.
-   */
-  @Transient
-  @Column(name = "COUNTRY", length = 32)
-  @BeanProperty
-  var country: String = "Australia"
-
-  def this(name: String = null, postcode: String = null, state: String = null, country: String = null) = {
-    this()
-    setName(name)
-    setPostcode(postcode)
-    setState(state)
-    setCountry(country)
-  }
-
-  /*
-   * Implementation of equals and hashCode based on Chapter 30 of "Programming in Scala".
-   */
-
-  def canEqual(other: Any) = other.isInstanceOf[Suburb]
-  override def equals(other: Any) = other match {
-    case that: Suburb => that.canEqual(this) &&
-      this.name == that.name &&
-      this.postcode == that.postcode &&
-      this.state == that.state &&
-      this.country == that.country
-    case _ => false
-  }
-
-  override def hashCode() = {
-    val prime = 41
-    prime * (
-      prime * (
-        prime * (
-          prime + name.hashCode
-        ) + postcode.hashCode
-      ) + state.hashCode
-    ) + country.hashCode
-  }
+case class Suburb(
+    @(Id @field)@(GeneratedValue @field)@(Column @field)(name = "ID")@BeanProperty var id: Int = -1,
+    @(Column @field)(name = "NAME")@BeanProperty var name: String = null,
+    @(Column @field)(name = "POSTCODE")@BeanProperty var postcode: String = null,
+    @(Column @field)(name = "STATE")@BeanProperty var state: String = null,
+    @(Transient @field)@(Column @field)(name = "COUNTRY")@BeanProperty var country: String = "Australia") {
 
   override def toString() = {
     val statePostcode = List(state, postcode) filter (_ != null) mkString (" ") trim ()
