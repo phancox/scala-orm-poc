@@ -8,5 +8,6 @@
         <archive javadoc="jar:file:/C:/Users/phancox/.ivy2/cache/org.codehaus.janino/janino/docs/janino-2.6.1-javadoc.jar!/" path="C:/Users/phancox/.ivy2/cache/org.codehaus.janino/janino/jars/janino-2.6.1.jar" source="C:/Users/phancox/.ivy2/cache/org.codehaus.janino/janino/srcs/janino-2.6.1-sources.jar"/>
         <archive javadoc="jar:file:/C:/Users/phancox/.ivy2/cache/org.codehaus.janino/commons-compiler/docs/commons-compiler-2.6.1-javadoc.jar!/" path="C:/Users/phancox/.ivy2/cache/org.codehaus.janino/commons-compiler/jars/commons-compiler-2.6.1.jar" source="C:/Users/phancox/.ivy2/cache/org.codehaus.janino/commons-compiler/srcs/commons-compiler-2.6.1-sources.jar"/>
         <archive javadoc="jar:file:/C:/Users/phancox/.ivy2/cache/org.codehaus.groovy/groovy-all/docs/groovy-all-2.1.1-javadoc.jar!/" path="C:/Users/phancox/.ivy2/cache/org.codehaus.groovy/groovy-all/jars/groovy-all-2.1.1.jar" source="C:/Users/phancox/.ivy2/cache/org.codehaus.groovy/groovy-all/srcs/groovy-all-2.1.1-sources.jar"/>
+        <archive path="/deltasoft/lib/log4jdbc4-1.2.jar"/>
     </library>
 </eclipse-userlibraries>

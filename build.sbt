@@ -22,6 +22,7 @@ libraryDependencies ++= Seq(
   "org.codehaus.janino" % "janino" % "2.6.1",
   "org.codehaus.groovy" % "groovy-all" % "2.1.1",
   "org.springframework.scala" % "spring-scala" % "1.0.0.M2",
+  "com.typesafe.slick" %% "slick" % "1.0.0",
   "vaadin.scala" % "scaladin_2.10" % "3.0.0-SNAPSHOT",
   "com.vaadin" % "vaadin-themes" % "7.0.5",
   "com.vaadin" % "vaadin-client-compiled" % "7.0.5",
@@ -32,5 +33,6 @@ libraryDependencies ++= Seq(
 
 libraryDependencies ++= Seq(
   "org.scalatest" % "scalatest_2.10" % "2.0.M5b" % "test",
-  "junit" % "junit" % "4.10" % "test"
+  "junit" % "junit" % "4.10" % "test",
+  "com.h2database" % "h2" % "1.3.170" % "test"
 )

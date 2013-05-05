@@ -149,5 +149,6 @@ if (bDeveloper) {
 
 root(INFO, lstRootAppenders)
 logger("com.dtc", TRACE)
-
-logger("JDBC", INFO, ["LOGFILE"], false)
+logger("scala.slick.session", DEBUG)
+logger("jdbc", ERROR)
+logger("jdbc.sqltiming", DEBUG)
