@@ -150,5 +150,6 @@ if (bDeveloper) {
 root(INFO, lstRootAppenders)
 logger("com.dtc", TRACE)
 logger("scala.slick.session", DEBUG)
+logger("com.googlecode.mapperdao", DEBUG)
 logger("jdbc", ERROR)
 logger("jdbc.sqltiming", DEBUG)

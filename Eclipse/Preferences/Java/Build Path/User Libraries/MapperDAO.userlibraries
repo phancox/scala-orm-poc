@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<eclipse-userlibraries version="2">
+    <library name="MapperDAO" systemlibrary="false">
+        <archive path="C:/Users/phancox/.ivy2/cache/com.googlecode.mapperdao/mapperdao/jars/mapperdao-1.0.0.rc21-2.10.1.jar" source="C:/Users/phancox/.ivy2/cache/com.googlecode.mapperdao/mapperdao/srcs/mapperdao-1.0.0.rc21-2.10.1-sources.jar"/>
+        <archive javadoc="jar:file:/C:/Users/phancox/.ivy2/cache/org.objenesis/objenesis/docs/objenesis-1.2-javadoc.jar!/" path="C:/Users/phancox/.ivy2/cache/org.objenesis/objenesis/jars/objenesis-1.2.jar" source="C:/Users/phancox/.ivy2/cache/org.objenesis/objenesis/srcs/objenesis-1.2-sources.jar"/>
+    </library>
+</eclipse-userlibraries>

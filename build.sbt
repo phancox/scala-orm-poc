@@ -12,17 +12,20 @@ scalaVersion := "2.10.1"
 
 javacOptions ++= Seq("-source", "1.6", "-target", "1.6")
 
-resolvers += "SpringSource repository" at "http://repo.springsource.org/libs-milestone"
-
 resolvers += "Vaadin add-ons repository" at "http://maven.vaadin.com/vaadin-addons"
+
+resolvers += "Sonatype repository" at "http://oss.sonatype.org/content/repositories/releases/"
 
 libraryDependencies ++= Seq(
   "org.clapper" % "grizzled-slf4j_2.10" % "1.0.1",
   "ch.qos.logback" % "logback-classic" % "1.0.9",
   "org.codehaus.janino" % "janino" % "2.6.1",
   "org.codehaus.groovy" % "groovy-all" % "2.1.1",
+  "joda-time" % "joda-time" % "1.6.2",
+  "org.springframework" % "spring-jdbc" % "3.2.2.RELEASE",
   "org.springframework.scala" % "spring-scala" % "1.0.0.M2",
   "com.typesafe.slick" %% "slick" % "1.0.0",
+  "com.googlecode.mapperdao" % "mapperdao" % "1.0.0.rc21-2.10.1",
   "vaadin.scala" % "scaladin_2.10" % "3.0.0-SNAPSHOT",
   "com.vaadin" % "vaadin-themes" % "7.0.5",
   "com.vaadin" % "vaadin-client-compiled" % "7.0.5",
