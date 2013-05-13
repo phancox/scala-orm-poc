@@ -1,12 +1,18 @@
 package com.dtc.deltasoft
 
 import java.util.Properties
-import javax.persistence.{ Entity, Persistence, Table }
+import javax.persistence.{ Entity => _, _ }
+import java.util.Properties
+import scala.slick.driver.{ PostgresDriver => _, _ }
+import com.googlecode.mapperdao._
+import com.googlecode.mapperdao.jdbc._
+import com.googlecode.mapperdao.utils.Setup
+import org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory
 import org.hibernate.cfg.Configuration
 import org.hibernate.dialect.Dialect
 import org.hibernate.ejb.Ejb3Configuration
+import org.springframework.transaction.PlatformTransactionManager
 import grizzled.slf4j.Logging
-import scala.slick.driver.ExtendedProfile
 
 /**
  * DeltaSoft technical architecture framework support for JPA and a collection of core standard
@@ -17,6 +23,48 @@ package object entity extends Logging {
 
   trait Profile {
     val profile: ExtendedProfile
+  }
+
+  /**
+   * Extends the Slick PostgreSQL driver to force identifier names to lowercase by overriding the
+   * ''quoteIdentifier'' function.
+   *
+   */
+  object PostgresDriver extends scala.slick.driver.PostgresDriver {
+    override def quoteIdentifier(identifier: String) = super.quoteIdentifier(identifier.toLowerCase)
+  }
+
+  case class OrmConnections(
+    slickDriver: scala.slick.driver.ExtendedDriver, slickDb: scala.slick.session.Database,
+    jdbc: Jdbc, mapperDao: MapperDao, queryDao: QueryDao, txManager: PlatformTransactionManager)
+
+  /**
+   * Returns a tuple of connection objects for interacting with the ORM persistence layer.
+   *
+   * @param dbms
+   * A [[String]] representing the DBMS. Possible values include:
+   *  - h2
+   *  - postgresql
+   *
+   *  @return
+   *
+   */
+  def getOrmConnections(entities: List[Entity[_, _, _]], dbms: String = "h2"): OrmConnections = {
+    val slickDriver = dbms match {
+      case "h2" => H2Driver
+      case "postgresql" => PostgresDriver
+      case _ => H2Driver
+    }
+
+    val properties = new Properties
+    properties.load(getClass.getResourceAsStream(s"/jdbc_${dbms}.properties"))
+    lazy val dataSource = BasicDataSourceFactory.createDataSource(properties)
+    lazy val slickDb = scala.slick.session.Database.forDataSource(dataSource)
+
+    lazy val (jdbc, mapperDao, queryDao, txManager) =
+      Setup(com.googlecode.mapperdao.utils.Database.byName(dbms), dataSource, entities)
+
+    OrmConnections(slickDriver, slickDb, jdbc, mapperDao, queryDao, txManager)
   }
 
   lazy val emf = Persistence.createEntityManagerFactory("DeltaSoft")

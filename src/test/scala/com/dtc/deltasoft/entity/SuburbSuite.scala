@@ -1,13 +1,16 @@
 package com.dtc.deltasoft.entity
 
+import java.util.Properties
 import org.junit.runner.RunWith
 import org.scalatest.junit._
 import org.scalatest.FunSpec
 import org.scalatest.matchers.ShouldMatchers
+import org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory
+
 import scala.slick.driver.ExtendedProfile
 import scala.slick.session.{ Database, Session }
-import java.util.Properties
-import org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory
+import scala.slick.driver.{ PostgresDriver => _, _ }
+
 import com.googlecode.mapperdao.utils.Setup
 
 /**
@@ -17,19 +20,13 @@ import com.googlecode.mapperdao.utils.Setup
 @RunWith(classOf[JUnitRunner])
 class SuburbSpec extends FunSpec with ShouldMatchers {
 
-  val connPropsH2 = new Properties
-  connPropsH2.load(getClass.getResourceAsStream(s"/jdbc_h2.properties"))
-  lazy val dsH2 = BasicDataSourceFactory.createDataSource(connPropsH2)
-  lazy val dbH2 = Database.forDataSource(dsH2)
-
-  val connPropsPostgresql = new Properties
-  connPropsPostgresql.load(getClass.getResourceAsStream(s"/jdbc_postgresql.properties"))
-  lazy val dsPostgresql = BasicDataSourceFactory.createDataSource(connPropsPostgresql)
-  lazy val dbPostgresql = Database.forDataSource(dsPostgresql)
-
-  private val entities = List(SuburbEntity)
-  private val (jdbc, mapperDao, queryDao, txManager) =
-    Setup(com.googlecode.mapperdao.utils.Database.byName("postgresql"), dsPostgresql, entities, None)
+  class DAL(override val profile: ExtendedProfile) extends SuburbProfile with Profile {}
+  val entities = List(SuburbEntity)
+  val ormConnections = getOrmConnections(entities, "postgresql")
+  val slickDb = ormConnections.slickDb
+  val dal = new DAL(ormConnections.slickDriver)
+  import dal.profile.simple._
+  val mapperDao = ormConnections.mapperDao
 
   var suburb: Suburb = _
 
@@ -69,30 +66,14 @@ class SuburbSpec extends FunSpec with ShouldMatchers {
       suburb1.setCountry("Australia")
       suburb1 should equal(suburb)
     }
-    describe("should support H2 database via Slick including") {
-      import scala.slick.driver.H2Driver
-      class DAL(override val profile: ExtendedProfile) extends SuburbProfile with Profile {}
-      val dal = new DAL(H2Driver)
-      import dal.profile.simple._
-      it("schema creation") {
-        dbH2.withSession { implicit session: Session =>
+    describe("should support database schema updates via Slick including") {
+      it("table creation") {
+        slickDb.withSession { implicit session: Session =>
           dal.Suburbs.ddl.create
         }
       }
     }
-    describe("should support PostgreSQL database via Slick including") {
-      import scala.slick.driver.PostgresDriver
-      class DAL(override val profile: ExtendedProfile) extends SuburbProfile with Profile {}
-      val dal = new DAL(PostgresDriver)
-      import dal.profile.simple._
-      it("schema creation") {
-        dbPostgresql.withSession { implicit session: Session =>
-          dal.Suburbs.ddl.drop
-          dal.Suburbs.ddl.create
-        }
-      }
-    }
-    describe("should support persistance via mapperdao including") {
+    describe("should support persistance via MapperDao including") {
       it("database persistence") {
         mapperDao.insert(SuburbEntity, suburb)
       }
