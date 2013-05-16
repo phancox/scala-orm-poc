@@ -5,13 +5,9 @@ import org.junit.runner.RunWith
 import org.scalatest.junit._
 import org.scalatest.FunSpec
 import org.scalatest.matchers.ShouldMatchers
-import org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory
-
 import scala.slick.driver.ExtendedProfile
 import scala.slick.session.{ Database, Session }
 import scala.slick.driver.{ PostgresDriver => _, _ }
-
-import com.googlecode.mapperdao.utils.Setup
 
 /**
  * Unit test suite for the [[Suburb]] entity.
@@ -21,8 +17,11 @@ import com.googlecode.mapperdao.utils.Setup
 class SuburbSpec extends FunSpec with ShouldMatchers {
 
   class DAL(override val profile: ExtendedProfile) extends SuburbProfile with Profile {}
-  val entities = List(SuburbEntity)
-  val ormConnections = getOrmConnections(entities, "postgresql")
+  val dbmsName = "H2" // H2, PostgreSQL
+  implicit val dbms = dbmsName toLowerCase ()
+  val suburbEntity = new SuburbEntity
+  val entities = List(suburbEntity)
+  val ormConnections = getOrmConnections(entities, dbms)
   val slickDb = ormConnections.slickDb
   val dal = new DAL(ormConnections.slickDriver)
   import dal.profile.simple._
@@ -66,23 +65,28 @@ class SuburbSpec extends FunSpec with ShouldMatchers {
       suburb1.setCountry("Australia")
       suburb1 should equal(suburb)
     }
-    describe("should support database schema updates via Slick including") {
+    describe(s"should support ${dbmsName} schema updates via Slick including") {
       it("table creation") {
         slickDb.withSession { implicit session: Session =>
+          try {
+            dal.Suburbs.ddl.drop
+          } catch {
+            case _: Throwable =>
+          }
           dal.Suburbs.ddl.create
         }
       }
     }
-    describe("should support persistance via MapperDao including") {
+    describe(s"should support ${dbmsName} persistance via MapperDao including") {
       it("database persistence") {
-        mapperDao.insert(SuburbEntity, suburb)
+        mapperDao.insert(suburbEntity, suburb)
       }
       it("database retrieval") {
-        val suburb1 = mapperDao.select(SuburbEntity, 1).get
+        val suburb1 = mapperDao.select(suburbEntity, 1).get
         suburb1.toString should equal("Longueville, NSW 2066, Australia")
       }
     }
-    ignore("should support persistance via Hibernate including") {
+    ignore(s"should support ${dbmsName} persistance via Hibernate including") {
       it("database persistence") {
         entityManager.getTransaction().begin()
         entityManager.persist(suburb)

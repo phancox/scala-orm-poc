@@ -13,6 +13,21 @@ import org.scalatest.matchers.ShouldMatchers
 class PackageSpec extends FunSpec with ShouldMatchers {
 
   describe("The entity package") {
+    describe("dbid string interpolation") {
+      it("should convert H2 identifiers to upper case") {
+        "nAmE" asDbId("H2") should equal("NAME") 
+      }
+      it("should convert PostgreSQL identifiers to lower case") {
+        "nAmE" asDbId("postgresql") should equal("name") 
+      }
+      it("should convert unkown identifiers to lower case") {
+        "nAmE" asDbId("xyz") should equal("NAME") 
+      }
+      it("should support implicit specification of database") {
+        implicit val dbms = "postgresql"
+        "nAmE".asDbId should equal("name")  
+      }
+    }
     describe("getSearchWhereClause") {
       it("should handle an empty Column/Criteria list") {
         getSearchWhereClause(List()) should equal("")
