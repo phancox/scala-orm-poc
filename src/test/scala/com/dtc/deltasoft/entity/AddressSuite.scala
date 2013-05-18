@@ -16,7 +16,8 @@ import scala.slick.driver.{ PostgresDriver => _, _ }
 @RunWith(classOf[JUnitRunner])
 class AddressSpec extends FunSpec with ShouldMatchers {
 
-  class DAL(override val profile: ExtendedProfile) extends AddressProfile with SuburbProfile with Profile {}
+  class DAL(override val profile: ExtendedProfile) extends AddressProfile
+    with SuburbProfile with Profile {}
   val dbmsName = "H2" // H2, PostgreSQL
   implicit val dbms = dbmsName toLowerCase ()
   val suburbEntity = new SuburbEntity

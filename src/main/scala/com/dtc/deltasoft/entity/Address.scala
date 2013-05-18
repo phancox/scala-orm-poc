@@ -19,7 +19,7 @@ trait AddressProfile { self: SuburbProfile with Profile =>
     def id = column[Int]("ID".asDbId, O.PrimaryKey, O.AutoInc)
 
     def street1 = column[String]("STREET_1".asDbId, O.NotNull)
-    def street2 = column[String]("STREET_2".asDbId)
+    def street2 = column[String]("STREET_2".asDbId, O.Nullable)
     def suburbId = column[Int]("SUBURB__ID".asDbId, O.NotNull)
     
     def suburb = foreignKey("SUBURB_FK", suburbId, Suburbs)(_.id)
@@ -30,7 +30,7 @@ trait AddressProfile { self: SuburbProfile with Profile =>
 
     def * = id ~ street1 ~ street2 ~ suburbId <> (
       { (id, street1, street2, suburbId) => new AddressWithId() },
-      { s: Address => Some((0, "", "", 0)) })
+      { address: Address => Some((0, "", "", 0)) })
 
     def byId = createFinderBy(_.id)
   }
