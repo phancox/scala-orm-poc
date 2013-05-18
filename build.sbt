@@ -25,6 +25,7 @@ libraryDependencies ++= Seq(
   "org.joda" % "joda-convert" % "1.3.1",
   "org.springframework" % "spring-jdbc" % "3.2.2.RELEASE",
   "org.springframework.scala" % "spring-scala" % "1.0.0.M2",
+  "org.apache.tomcat" % "tomcat-dbcp" % "7.0.39",
   "com.typesafe.slick" %% "slick" % "1.0.0",
   "com.googlecode.mapperdao" % "mapperdao" % "1.0.0.rc21-2.10.1",
   "vaadin.scala" % "scaladin_2.10" % "3.0.0-SNAPSHOT",
