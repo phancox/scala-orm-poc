@@ -24,12 +24,8 @@ trait AddressProfile { self: SuburbProfile with Profile =>
 
     def suburb = foreignKey("SUBURB_FK", suburbId, Suburbs)(_.id)
 
-    class AddressWithId extends Address with SurrogateIntId {
-      val id: Int = 0
-    }
-
     def * = id ~ street1 ~ street2 ~ suburbId <> (
-      { (id, street1, street2, suburbId) => new AddressWithId() },
+      { rs => new Address(rs._2, rs._3, null) with SurrogateIntId { val id: Int = rs._1 } },
       { address: Address => Some((0, "", "", 0)) })
 
     def byId = createFinderBy(_.id)
@@ -81,11 +77,8 @@ case class Address(
     @(Column @field)(name = "STREET_2")@BeanProperty var street2: String = null,
     @(OneToOne @field)(cascade = Array(CascadeType.ALL))@(JoinColumn @field)(name = "SUBURB__ID")@BeanProperty var suburb: Suburb = null) {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "ID")
-  @BeanProperty
-  var id1: Int = _
+  @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "ID") @BeanProperty
+  var hibernateId: Int = _
 
   def this() = this(street1 = null)
 

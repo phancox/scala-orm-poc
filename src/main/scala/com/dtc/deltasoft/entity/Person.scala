@@ -26,12 +26,8 @@ trait PersonProfile { self: AddressProfile with Profile =>
     def homeAddress = foreignKey("HOME_ADDRESS_FK", homeAddressId, Addresses)(_.id)
     def workAddress = foreignKey("WORK_ADDRESS_FK", workAddressId, Addresses)(_.id)
 
-    class PersonWithId extends Person with SurrogateIntId {
-      val id: Int = 0
-    }
-
     def * = id ~ surname ~ firstName ~ homeAddressId ~ workAddressId <> (
-      { (id, surname, firstName, homeAddressId, workAddressId) => new PersonWithId() },
+      { rs => new Person(rs._2, rs._3, null, null) with SurrogateIntId { val id: Int = rs._1 } },
       { person: Person => Some((0, "", "", 0, 0)) })
 
     def byId = createFinderBy(_.id)
@@ -81,11 +77,8 @@ case class Person(
     @(OneToOne @field)(cascade = Array(CascadeType.ALL))@(JoinColumn @field)(name = "HOME_ADDRESS__ID")@BeanProperty var homeAddress: Address = null,
     @(OneToOne @field)(cascade = Array(CascadeType.ALL))@(JoinColumn @field)(name = "WORK_ADDRESS__ID")@BeanProperty var workAddress: Address = null) {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "ID")
-  @BeanProperty
-  var id1: Int = _
+  @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "ID") @BeanProperty
+  var hibernateId: Int = _
 
   def this() = this(surname = null)
 

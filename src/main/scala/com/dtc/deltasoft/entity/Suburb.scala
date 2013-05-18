@@ -23,13 +23,9 @@ trait SuburbProfile { self: Profile =>
     def state = column[String]("STATE".asDbId, O.NotNull)
     def country = column[String]("COUNTRY".asDbId, O.NotNull)
 
-    class SuburbWithId extends Suburb with SurrogateIntId {
-      val id: Int = 0
-    }
-
     def * = id ~ name ~ postcode ~ state ~ country <> (
-      { (id, name, postcode, state, country) => new SuburbWithId() },
-      { s: Suburb => Some((0, "", "", "", "")) })
+      { rs => new Suburb(rs._2, rs._3, rs._4, rs._5) with SurrogateIntId { val id: Int = rs._1 } },
+      { suburb: Suburb => Some((0, "", "", "", "")) })
 
     def byId = createFinderBy(_.id)
   }
@@ -83,11 +79,8 @@ case class Suburb(
     @(Column @field)(name = "STATE")@BeanProperty var state: String = null,
     @(Column @field)(name = "COUNTRY")@BeanProperty var country: String = "Australia") {
 
-  @Id
-  @GeneratedValue(strategy=GenerationType.IDENTITY)
-  @Column(name = "ID")
-  @BeanProperty
-  var id1: Int = _
+  @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "ID") @BeanProperty
+  var hibernateId: Int = _
 
   def this() = this(name = null)
 
