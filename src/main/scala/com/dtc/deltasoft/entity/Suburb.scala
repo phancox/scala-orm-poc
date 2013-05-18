@@ -69,8 +69,10 @@ class SuburbEntity(implicit dbms: String) extends Entity[Int, SurrogateIntId, Su
  * The suburb's state.
  *
  * @param country
- * The suburb's country (Defaults to "Australia"). To support DeltaSoft framework version 1, this
- * field is tagged as transient so it won't be persisted in the database.
+ * The suburb's country (Defaults to "Australia").
+ *
+ * To support DeltaSoft framework version 1, this field would need to be tagged as transient so it
+ * won't be persisted in the database.  e.g., @(Transient @field)
  *
  */
 @javax.persistence.Entity
@@ -79,7 +81,13 @@ case class Suburb(
     @(Column @field)(name = "NAME")@BeanProperty var name: String = null,
     @(Column @field)(name = "POSTCODE")@BeanProperty var postcode: String = null,
     @(Column @field)(name = "STATE")@BeanProperty var state: String = null,
-    @(Transient @field)@(Column @field)(name = "COUNTRY")@BeanProperty var country: String = "Australia") {
+    @(Column @field)(name = "COUNTRY")@BeanProperty var country: String = "Australia") {
+
+  @Id
+  @GeneratedValue(strategy=GenerationType.IDENTITY)
+  @Column(name = "ID")
+  @BeanProperty
+  var id1: Int = _
 
   def this() = this(name = null)
 

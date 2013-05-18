@@ -86,9 +86,6 @@ package object entity extends Logging {
     OrmConnections(slickDriver, slickDb, jdbc, mapperDao, queryDao, txManager)
   }
 
-  lazy val emf = Persistence.createEntityManagerFactory("DeltaSoft")
-  lazy val entityManager = emf.createEntityManager()
-
   def getSchemaCreationScript = {
     val ejb3Configuration: Ejb3Configuration =
       new Ejb3Configuration().configure("DeltaSoft", new Properties())

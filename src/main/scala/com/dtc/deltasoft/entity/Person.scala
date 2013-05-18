@@ -74,22 +74,18 @@ class PersonEntity(implicit dbms: String) extends Entity[Int, SurrogateIntId, Pe
  *
  */
 @javax.persistence.Entity
-@Table(name = "ADDRESS")
+@Table(name = "PERSON")
 case class Person(
     @(Column @field)(name = "SURNAME")@BeanProperty var surname: String = null,
     @(Column @field)(name = "FIRST_NAME")@BeanProperty var firstName: String = null,
-    @(Column @field)(name = "HOME_ADDRESS__ID")@BeanProperty var homeAddress: Address = null,
-    @(Column @field)(name = "WORK_ADDRESS__ID")@BeanProperty var workAddress: Address = null) {
+    @(OneToOne @field)(cascade = Array(CascadeType.ALL))@(JoinColumn @field)(name = "HOME_ADDRESS__ID")@BeanProperty var homeAddress: Address = null,
+    @(OneToOne @field)(cascade = Array(CascadeType.ALL))@(JoinColumn @field)(name = "WORK_ADDRESS__ID")@BeanProperty var workAddress: Address = null) {
 
-  //  @OneToOne(cascade = Array(CascadeType.ALL))
-  //  @JoinColumn(name = "HOME_ADDRESS__ID")
-  //  @BeanProperty
-  //  var homeAddress: Address = null
-
-  //  @OneToOne(cascade = Array(CascadeType.ALL))
-  //  @JoinColumn(name = "WORK_ADDRESS__ID")
-  //  @BeanProperty
-  //  var workAddress: Address = null
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "ID")
+  @BeanProperty
+  var id1: Int = _
 
   def this() = this(surname = null)
 

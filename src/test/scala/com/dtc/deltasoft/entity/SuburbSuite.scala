@@ -1,6 +1,7 @@
 package com.dtc.deltasoft.entity
 
 import java.util.Properties
+import javax.persistence._
 import org.junit.runner.RunWith
 import org.scalatest.junit._
 import org.scalatest.FunSpec
@@ -26,6 +27,8 @@ class SuburbSpec extends FunSpec with ShouldMatchers {
   val dal = new DAL(ormConnections.slickDriver)
   import dal.profile.simple._
   val mapperDao = ormConnections.mapperDao
+  lazy val emf = Persistence.createEntityManagerFactory(dbms)
+  lazy val entityManager = emf.createEntityManager()
 
   var suburb: Suburb = _
 
@@ -86,7 +89,7 @@ class SuburbSpec extends FunSpec with ShouldMatchers {
         suburb1.toString should equal("Longueville, NSW 2066, Australia")
       }
     }
-    ignore(s"should support ${dbmsName} persistance via Hibernate including") {
+    describe(s"should support ${dbmsName} persistance via Hibernate including") {
       it("database persistence") {
         entityManager.getTransaction().begin()
         entityManager.persist(suburb)
@@ -94,7 +97,7 @@ class SuburbSpec extends FunSpec with ShouldMatchers {
       }
       it("database retrieval") {
         entityManager.getTransaction().begin()
-        val suburb1 = entityManager.find(classOf[Suburb], -1)
+        val suburb1 = entityManager.find(classOf[Suburb], 1)
         entityManager.getTransaction().commit()
         suburb1.toString should equal("Longueville, NSW 2066, Australia")
       }

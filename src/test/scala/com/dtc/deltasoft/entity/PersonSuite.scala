@@ -1,6 +1,7 @@
 package com.dtc.deltasoft.entity
 
 import java.util.Properties
+import javax.persistence._
 import org.junit.runner.RunWith
 import org.scalatest.junit._
 import org.scalatest.FunSpec
@@ -29,6 +30,8 @@ class PersonSpec extends FunSpec with ShouldMatchers {
   val dal = new DAL(ormConnections.slickDriver)
   import dal.profile.simple._
   val mapperDao = ormConnections.mapperDao
+  lazy val emf = Persistence.createEntityManagerFactory(dbms)
+  lazy val entityManager = emf.createEntityManager()
 
   var person: Person = _
 
@@ -97,7 +100,7 @@ class PersonSpec extends FunSpec with ShouldMatchers {
         person1.workAddress.toString should equal("PO Box 1383, Lane Cove, NSW 1595, Australia")
       }
     }
-    ignore(s"should support ${dbmsName} persistance via Hibernate including") {
+    describe(s"should support ${dbmsName} persistance via Hibernate including") {
       it("should support database persistence") {
         entityManager.getTransaction().begin()
         entityManager.persist(person)
