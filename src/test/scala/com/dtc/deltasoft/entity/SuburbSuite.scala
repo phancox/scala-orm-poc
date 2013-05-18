@@ -27,6 +27,8 @@ class SuburbSpec extends FunSpec with ShouldMatchers {
   val dal = new DAL(ormConnections.slickDriver)
   import dal.profile.simple._
   val mapperDao = ormConnections.mapperDao
+  val suburbsDao = new SuburbsDao(ormConnections)
+
   lazy val emf = Persistence.createEntityManagerFactory(dbms)
   lazy val entityManager = emf.createEntityManager()
 
@@ -81,12 +83,17 @@ class SuburbSpec extends FunSpec with ShouldMatchers {
       }
     }
     describe(s"should support ${dbmsName} persistance via MapperDao including") {
-      it("database persistence") {
+      it("database persistence via mapperDao") {
         mapperDao.insert(suburbEntity, suburb)
       }
-      it("database retrieval") {
+      it("database retrieval via mapperDao") {
         val suburb1 = mapperDao.select(suburbEntity, 1).get
         suburb1.toString should equal("Longueville, NSW 2066, Australia")
+      }
+      it("database persistence via CRUD DAO layer") {
+        val inserted = suburbsDao.create(suburb)
+        val selected = suburbsDao.retrieve(inserted.id).get
+        selected should equal(inserted)
       }
     }
     describe(s"should support ${dbmsName} persistance via Hibernate including") {

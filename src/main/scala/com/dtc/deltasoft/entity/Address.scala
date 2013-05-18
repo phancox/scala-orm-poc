@@ -5,6 +5,7 @@ import scala.annotation.target.field
 import scala.beans.BeanProperty
 import com.googlecode.mapperdao._
 import com.googlecode.mapperdao.{ Entity }
+import com.googlecode.mapperdao.utils._
 import scala.slick.driver._
 import grizzled.slf4j.Logging
 
@@ -33,7 +34,19 @@ trait AddressProfile { self: SuburbProfile with Profile =>
 }
 
 /**
- * Entity object for MapperDao.
+ * MapperDao '''CRUD''' class for the [[Address]] entity.
+ */
+class AddressesDao(ormConnections: OrmConnections)(implicit dbms: String)
+    extends TransactionalSurrogateIntIdCRUD[Address]
+    with SurrogateIntIdAll[Address] {
+  val mapperDao = ormConnections.mapperDao
+  val queryDao = ormConnections.queryDao
+  val txManager = ormConnections.txManager
+  val entity = new AddressEntity
+}
+
+/**
+ * MapperDao '''Entity''' class for the [[Address]] entity.
  */
 class AddressEntity(implicit dbms: String) extends Entity[Int, SurrogateIntId, Address] with Logging {
   trace("Creating AddressEntity")
