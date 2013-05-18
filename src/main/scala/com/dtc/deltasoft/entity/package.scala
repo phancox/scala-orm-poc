@@ -61,7 +61,7 @@ package object entity extends Logging {
    * Returns a tuple of connection objects for interacting with the ORM persistence layer.
    *
    * @param dbms
-   * A [[String]] representing the DBMS. Possible values include:
+   * A '''String''' representing the DBMS. Possible values include:
    *  - h2
    *  - postgresql
    *
