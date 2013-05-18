@@ -37,6 +37,11 @@ package object entity extends Logging {
 
   trait Profile {
     val profile: ExtendedProfile
+
+  implicit val dbms = profile.asInstanceOf[BasicDriver] match {
+    case H2Driver => "h2"
+    case PostgresDriver => "postgresql"
+  }
   }
 
   /**

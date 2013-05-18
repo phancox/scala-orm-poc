@@ -6,7 +6,6 @@ import scala.beans.BeanProperty
 import com.googlecode.mapperdao._
 import com.googlecode.mapperdao.{ Entity }
 import scala.slick.driver._
-import com.googlecode.mapperdao.utils.Setup
 import grizzled.slf4j.Logging
 
 /**
@@ -14,11 +13,6 @@ import grizzled.slf4j.Logging
  */
 trait SuburbProfile { self: Profile =>
   import profile.simple._
-
-  implicit val dbms = profile.asInstanceOf[BasicDriver] match {
-    case H2Driver => "h2"
-    case PostgresDriver => "postgresql"
-  }
 
   object Suburbs extends Table[Suburb]("SUBURB".asDbId) {
 
@@ -34,7 +28,7 @@ trait SuburbProfile { self: Profile =>
     }
 
     def * = id ~ name ~ postcode ~ state ~ country <> (
-      { (i, n, p, s, c) => new SuburbWithId() },
+      { (id, name, postcode, state, country) => new SuburbWithId() },
       { s: Suburb => Some((0, "", "", "", "")) })
 
     def byId = createFinderBy(_.id)
