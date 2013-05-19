@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<eclipse-userlibraries version="2">
+    <library name="Hibernate" systemlibrary="false">
+        <archive path="C:/Users/phancox/.ivy2/cache/org.hibernate/hibernate-core/jars/hibernate-core-4.1.9.Final.jar" source="C:/Users/phancox/.ivy2/cache/org.hibernate/hibernate-core/srcs/hibernate-core-4.1.9.Final-sources.jar"/>
+        <archive path="C:/Users/phancox/.ivy2/cache/org.hibernate/hibernate-entitymanager/jars/hibernate-entitymanager-4.1.9.Final.jar" source="C:/Users/phancox/.m2/repository/org/hibernate/hibernate-entitymanager/4.1.9.Final/hibernate-entitymanager-4.1.9.Final-sources.jar"/>
+        <archive path="C:/Users/phancox/.ivy2/cache/org.hibernate/hibernate-validator/jars/hibernate-validator-4.3.0.Final.jar"/>
+        <archive javadoc="jar:file:/C:/Users/phancox/.ivy2/cache/org.hibernate.common/hibernate-commons-annotations/docs/hibernate-commons-annotations-4.0.1.Final-javadoc.jar!/" path="C:/Users/phancox/.ivy2/cache/org.hibernate.common/hibernate-commons-annotations/jars/hibernate-commons-annotations-4.0.1.Final.jar" source="C:/Users/phancox/.ivy2/cache/org.hibernate.common/hibernate-commons-annotations/srcs/hibernate-commons-annotations-4.0.1.Final-sources.jar"/>
+        <archive path="C:/Users/phancox/.ivy2/cache/org.hibernate.javax.persistence/hibernate-jpa-2.0-api/jars/hibernate-jpa-2.0-api-1.0.1.Final.jar" source="C:/Users/phancox/.ivy2/cache/org.hibernate.javax.persistence/hibernate-jpa-2.0-api/srcs/hibernate-jpa-2.0-api-1.0.1.Final-sources.jar"/>
+    </library>
+</eclipse-userlibraries>
