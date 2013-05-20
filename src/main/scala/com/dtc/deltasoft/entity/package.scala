@@ -21,14 +21,16 @@ import grizzled.slf4j.Logging
 package object entity extends Logging {
   trace("Creating package object.")
 
+  case class DbConfig(dbms: String, dataModelVer: Int)
+
   /**
    * Helper class to automatically convert database identifier names to the appropriate case based
    * on the target database.
    */
   implicit class DbIdHelper(val s: String) extends AnyVal {
-    def asDbId(implicit dbms: String) = {
-      //debug(s"dbms = ${dbms}")
-      dbms match {
+    def asDbId(implicit dbConfig: DbConfig) = {
+      //debug(s"dbms = ${dbConfig.dbms}")
+      dbConfig.dbms match {
         case "postgresql" => s.toLowerCase()
         case _ => s.toUpperCase()
       }
@@ -38,10 +40,12 @@ package object entity extends Logging {
   trait Profile {
     val profile: ExtendedProfile
 
-  implicit val dbms = profile.asInstanceOf[BasicDriver] match {
-    case H2Driver => "h2"
-    case PostgresDriver => "postgresql"
-  }
+    val dbms = profile.asInstanceOf[BasicDriver] match {
+      case H2Driver => "h2"
+      case PostgresDriver => "postgresql"
+    }
+
+    implicit val dbConfig = DbConfig(dbms, 2)
   }
 
   /**

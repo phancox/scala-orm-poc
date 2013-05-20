@@ -20,7 +20,8 @@ class PersonSpec extends FunSpec with ShouldMatchers {
   class DAL(override val profile: ExtendedProfile) extends PersonProfile
     with AddressProfile with SuburbProfile with Profile {}
   val dbmsName = "H2" // H2, PostgreSQL
-  implicit val dbms = dbmsName toLowerCase ()
+  val dbms = dbmsName toLowerCase ()
+  implicit val dbConfig = DbConfig(dbms, 2)
   implicit val dataModelVersion = 2
   val suburbEntity = new SuburbEntity
   val addressEntity = new AddressEntity

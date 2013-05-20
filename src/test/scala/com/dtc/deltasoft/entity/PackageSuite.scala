@@ -15,16 +15,16 @@ class PackageSpec extends FunSpec with ShouldMatchers {
   describe("The entity package") {
     describe("dbid string interpolation") {
       it("should convert H2 identifiers to upper case") {
-        "nAmE" asDbId("H2") should equal("NAME") 
+        "nAmE" asDbId(DbConfig("h2",2)) should equal("NAME") 
       }
       it("should convert PostgreSQL identifiers to lower case") {
-        "nAmE" asDbId("postgresql") should equal("name") 
+        "nAmE" asDbId(DbConfig("postgresql",2)) should equal("name") 
       }
       it("should convert unkown identifiers to lower case") {
-        "nAmE" asDbId("xyz") should equal("NAME") 
+        "nAmE" asDbId(DbConfig("xyz",2)) should equal("NAME") 
       }
       it("should support implicit specification of database") {
-        implicit val dbms = "postgresql"
+        implicit val dbConfig = DbConfig("postgresql",2)
         "nAmE".asDbId should equal("name")  
       }
     }
