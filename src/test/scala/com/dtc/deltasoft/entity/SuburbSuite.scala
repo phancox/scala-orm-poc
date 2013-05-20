@@ -20,6 +20,7 @@ class SuburbSpec extends FunSpec with ShouldMatchers {
   class DAL(override val profile: ExtendedProfile) extends SuburbProfile with Profile {}
   val dbmsName = "H2" // H2, PostgreSQL
   implicit val dbms = dbmsName toLowerCase ()
+  implicit val dataModelVersion = 2
   val suburbEntity = new SuburbEntity
   val entities = List(suburbEntity)
   val ormConnections = getOrmConnections(entities, dbms)

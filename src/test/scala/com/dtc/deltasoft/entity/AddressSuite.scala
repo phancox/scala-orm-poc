@@ -21,6 +21,7 @@ class AddressSpec extends FunSpec with ShouldMatchers {
     with SuburbProfile with Profile {}
   val dbmsName = "H2" // H2, PostgreSQL
   implicit val dbms = dbmsName toLowerCase ()
+  implicit val dataModelVersion = 2
   val suburbEntity = new SuburbEntity
   val addressEntity = new AddressEntity
   val entities = List(suburbEntity, addressEntity)
