@@ -22,11 +22,10 @@ class AddressSpec extends FunSpec with ShouldMatchers {
   val dbmsName = "H2" // H2, PostgreSQL
   val dbms = dbmsName toLowerCase ()
   implicit val dbConfig = DbConfig(dbms, 2)
-  implicit val dataModelVersion = 2
   val suburbEntity = new SuburbEntity
   val addressEntity = new AddressEntity
   val entities = List(suburbEntity, addressEntity)
-  val ormConnections = getOrmConnections(entities, dbms)
+  val ormConnections = getOrmConnections(s"jdbc_${dbms}", entities)
   val slickDb = ormConnections.slickDb
   val dal = new DAL(ormConnections.slickDriver)
   import dal.profile.simple._

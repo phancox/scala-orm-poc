@@ -64,6 +64,10 @@ package object entity extends Logging {
   /**
    * Returns a tuple of connection objects for interacting with the ORM persistence layer.
    *
+   * @param dbPropFile
+   * Name of the properties file specifying the database properties.  e.g, if dbPropFile == "db" 
+   * then the file "/db.properties" will be used.
+   *
    * @param dbms
    * A '''String''' representing the DBMS. Possible values include:
    *  - h2
@@ -72,7 +76,10 @@ package object entity extends Logging {
    *  @return
    *
    */
-  def getOrmConnections(entities: List[Entity[_, _, _]], dbms: String = "h2"): OrmConnections = {
+  def getOrmConnections(dbPropFile: String, entities: List[Entity[_, _, _]])(implicit dbConfig: DbConfig): OrmConnections = {
+    
+    val dbms = dbConfig.dbms
+    
     val slickDriver = dbms match {
       case "h2" => H2Driver
       case "postgresql" => PostgresDriver
@@ -80,7 +87,7 @@ package object entity extends Logging {
     }
 
     val properties = new Properties
-    properties.load(getClass.getResourceAsStream(s"/jdbc_${dbms}.properties"))
+    properties.load(getClass.getResourceAsStream(s"/${dbPropFile}.properties"))
     lazy val dataSource = BasicDataSourceFactory.createDataSource(properties)
     lazy val slickDb = scala.slick.session.Database.forDataSource(dataSource)
 

@@ -23,7 +23,7 @@ class SuburbSpec extends FunSpec with ShouldMatchers {
   implicit val dbConfig = DbConfig(dbms, 2)
   val suburbEntity = new SuburbEntity
   val entities = List(suburbEntity)
-  val ormConnections = getOrmConnections(entities, dbms)
+  val ormConnections = getOrmConnections(s"jdbc_${dbms}", entities)
   val slickDb = ormConnections.slickDb
   val dal = new DAL(ormConnections.slickDriver)
   import dal.profile.simple._
