@@ -1,10 +1,12 @@
 package com.dtc.deltasoft.ui.vaadin
 
-import grizzled.slf4j.Logging
+import com.dtc.deltasoft.Logging
+
 import vaadin.scala._
 
 /**
  * Specialisation of [[https://github.com/henrikerola/scaladin Scaladin]] Window class.
+ * 
  */
 class ProgressWindow extends vaadin.scala.Window with Logging {
   trace("Primary Constructor Commence")

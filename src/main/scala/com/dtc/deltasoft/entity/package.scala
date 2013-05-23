@@ -1,9 +1,9 @@
 package com.dtc.deltasoft
 
-import java.util.Properties
+import scala.slick.driver.{ PostgresDriver => _, _ }
 import javax.persistence.{ Entity => _, _ }
 import java.util.Properties
-import scala.slick.driver.{ PostgresDriver => _, _ }
+
 import com.googlecode.mapperdao._
 import com.googlecode.mapperdao.jdbc._
 import com.googlecode.mapperdao.utils.Setup
@@ -12,7 +12,6 @@ import org.hibernate.cfg.Configuration
 import org.hibernate.dialect.Dialect
 import org.hibernate.ejb.Ejb3Configuration
 import org.springframework.transaction.PlatformTransactionManager
-import grizzled.slf4j.Logging
 
 /**
  * DeltaSoft technical architecture framework support for JPA and a collection of core standard

@@ -1,8 +1,8 @@
 package com.dtc.deltasoft.entity
 
 import org.junit.runner.RunWith
-import org.scalatest.junit._
 import org.scalatest.FunSpec
+import org.scalatest.junit._
 import org.scalatest.matchers.ShouldMatchers
 
 /**

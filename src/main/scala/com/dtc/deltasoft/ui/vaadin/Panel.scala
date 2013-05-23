@@ -1,6 +1,7 @@
 package com.dtc.deltasoft.ui.vaadin
 
-import grizzled.slf4j.Logging
+import com.dtc.deltasoft.Logging
+
 import vaadin.scala._
 
 /**

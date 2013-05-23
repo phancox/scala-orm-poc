@@ -1,13 +1,14 @@
 package com.dtc.deltasoft.entity
 
-import javax.persistence._
 import scala.annotation.target.field
 import scala.beans.BeanProperty
+import scala.slick.driver._
+import javax.persistence._
+
+import com.dtc.deltasoft.Logging
 import com.googlecode.mapperdao._
 import com.googlecode.mapperdao.{ Entity }
 import com.googlecode.mapperdao.utils._
-import scala.slick.driver._
-import grizzled.slf4j.Logging
 
 /**
  * Persistence profile for Slick. Used for generating DDL.

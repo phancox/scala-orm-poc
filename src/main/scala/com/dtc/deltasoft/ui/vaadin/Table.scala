@@ -1,10 +1,12 @@
 package com.dtc.deltasoft.ui.vaadin
 
+import com.dtc.deltasoft.Logging
+
 import vaadin.scala._
-import grizzled.slf4j.Logging
 
 /**
  * Specialisation of [[https://github.com/henrikerola/scaladin Scaladin]] Table class.
+ * 
  */
 class Table extends vaadin.scala.Table with Logging {
   trace("Primary Constructor Commence")

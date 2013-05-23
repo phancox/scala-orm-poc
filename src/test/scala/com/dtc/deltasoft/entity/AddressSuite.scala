@@ -1,14 +1,15 @@
 package com.dtc.deltasoft.entity
 
-import java.util.Properties
-import javax.persistence._
-import org.junit.runner.RunWith
-import org.scalatest.junit._
-import org.scalatest.FunSpec
-import org.scalatest.matchers.ShouldMatchers
 import scala.slick.driver.ExtendedProfile
-import scala.slick.session.{ Database, Session }
 import scala.slick.driver.{ PostgresDriver => _, _ }
+import scala.slick.session.{ Database, Session }
+import javax.persistence._
+import java.util.Properties
+
+import org.junit.runner.RunWith
+import org.scalatest.FunSpec
+import org.scalatest.junit._
+import org.scalatest.matchers.ShouldMatchers
 
 /**
  * Unit test suite for the [[Address]] entity.
