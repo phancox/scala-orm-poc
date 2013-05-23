@@ -55,11 +55,12 @@ class SuburbEntity(implicit dbConfig: DbConfig)
   val postcode = column("POSTCODE".asDbId) to (_.postcode)
   val state = column("STATE".asDbId) to (_.state)
 
-  if (dbConfig.dataModelVer == 2) { val country = column("COUNTRY".asDbId) to (_.country) }
+  val country = if (dbConfig.dataModelVer == 2) column("COUNTRY".asDbId) to (_.country) else null
 
   def constructor(implicit m: ValuesMap) =
-    new Suburb(name, postcode, state) with SurrogateIntId {
+    new Suburb(name, postcode, state, country) with SurrogateIntId {
       val id: Int = SuburbEntity.this.id
+      if (country == null) country = "Australia"
     }
 }
 
