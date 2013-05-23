@@ -25,6 +25,7 @@ libraryDependencies ++= Seq(
   "org.codehaus.groovy" % "groovy-all" % "2.1.1",
   "joda-time" % "joda-time" % "2.2",
   "org.joda" % "joda-convert" % "1.3.1",
+  "org.springframework" % "spring-context" % "3.2.2.RELEASE",
   "org.springframework" % "spring-jdbc" % "3.2.2.RELEASE",
   "org.springframework.scala" % "spring-scala" % "1.0.0.M2",
   "org.apache.tomcat" % "tomcat-dbcp" % "7.0.39",
