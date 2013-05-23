@@ -9,13 +9,14 @@ import org.scalatest.matchers.ShouldMatchers
 import scala.slick.driver.ExtendedProfile
 import scala.slick.session.{ Database, Session }
 import scala.slick.driver.{ PostgresDriver => _, _ }
+import grizzled.slf4j.Logging
 
 /**
  * Unit test suite for the [[Address]] entity.
- * 
+ *
  */
 @RunWith(classOf[JUnitRunner])
-class AddressSpec extends FunSpec with ShouldMatchers {
+class AddressSpec extends FunSpec with ShouldMatchers with Logging {
 
   class DAL(override val profile: ExtendedProfile) extends AddressProfile
     with SuburbProfile with Profile {}
@@ -36,39 +37,40 @@ class AddressSpec extends FunSpec with ShouldMatchers {
   lazy val emf = Persistence.createEntityManagerFactory(dbms)
   lazy val entityManager = emf.createEntityManager()
 
-  var address: Address = _
+  var address1: Address = _
 
   describe("An Address entity") {
     describe("should support being created") {
       it("using an empty constructor with properties set using JavaBean modifiers") {
-        address = Address()
+        val address = Address()
         address.setStreet1("Hancox Residence")
         address.setSuburb(Suburb("Longueville", "2066", "NSW", "Australia"))
         address.setStreet2("46 Dettmann Avenue")
-        address.toString should equal("Hancox Residence, 46 Dettmann Avenue, Longueville, NSW 2066, Australia")
         address should have(
           'street1("Hancox Residence"),
           'suburb(Suburb("Longueville", "2066", "NSW", "Australia")),
           'street2("46 Dettmann Avenue"))
+        address.toString should equal("Hancox Residence, 46 Dettmann Avenue, Longueville, NSW 2066, Australia")
+        address1 = address
       }
       it("using a constructor with a named parameter list") {
-        address = Address(
+        val address = Address(
           street1 = "Hancox Residence",
           street2 = "46 Dettmann Avenue",
           suburb = Suburb("Longueville", "2066", "NSW", "Australia"))
         address.toString should equal("Hancox Residence, 46 Dettmann Avenue, Longueville, NSW 2066, Australia")
       }
       it("using a constructor with positional parameters") {
-        address = Address("Hancox Residence", "46 Dettmann Avenue", Suburb("Longueville", "2066", "NSW", "Australia"))
+        val address = Address("Hancox Residence", "46 Dettmann Avenue", Suburb("Longueville", "2066", "NSW", "Australia"))
         address.toString should equal("Hancox Residence, 46 Dettmann Avenue, Longueville, NSW 2066, Australia")
       }
     }
     it("should support equality checks") {
-      val address1 = Address()
-      address1.setStreet1("Hancox Residence")
-      address1.setSuburb(Suburb("Longueville", "2066", "NSW", "Australia"))
-      address1.setStreet2("46 Dettmann Avenue")
-      address1 should equal(address)
+      val address = Address()
+      address.setStreet1("Hancox Residence")
+      address.setSuburb(Suburb("Longueville", "2066", "NSW", "Australia"))
+      address.setStreet2("46 Dettmann Avenue")
+      address should equal(address1)
     }
     describe(s"should support ${dbmsName} schema updates via Slick including") {
       it("table creation") {
@@ -86,29 +88,40 @@ class AddressSpec extends FunSpec with ShouldMatchers {
     }
     describe(s"should support ${dbmsName} persistance via MapperDao including") {
       it("database persistence via mapperDao") {
-        mapperDao.insert(addressEntity, address)
+        mapperDao.insert(addressEntity, address1)
       }
       it("database retrieval via mapperDao") {
-        val address1 = mapperDao.select(addressEntity, 1).get
-        address1.toString should equal("Hancox Residence, 46 Dettmann Avenue, Longueville, NSW 2066, Australia")
+        val address = mapperDao.select(addressEntity, 1).get
+        address should equal(address1)
+        address.toString should equal("Hancox Residence, 46 Dettmann Avenue, Longueville, NSW 2066, Australia")
       }
-    }
-    it("database persistence via CRUD DAO layer") {
-      val inserted = addressesDao.create(address)
-      val selected = addressesDao.retrieve(inserted.id).get
-      selected should equal(inserted)
+      it("database persistence via CRUD DAO layer") {
+        val inserted = addressesDao.create(address1)
+        val selected = addressesDao.retrieve(inserted.id).get
+        selected should equal(inserted)
+        selected.toString should equal("Hancox Residence, 46 Dettmann Avenue, Longueville, NSW 2066, Australia")
+      }
+      it("database updates via CRUD DAO layer") {
+        val selected = addressesDao.retrieve(1).get
+        selected.street2 = "42 New Street"
+        val updated = addressesDao.update(selected)
+        val checkUpdated = addressesDao.retrieve(selected.id).get
+        checkUpdated should equal(selected)
+        checkUpdated.toString should equal("Hancox Residence, 42 New Street, Longueville, NSW 2066, Australia")
+      }
     }
     describe(s"should support ${dbmsName} persistance via Hibernate including") {
       it("should support database persistence") {
         entityManager.getTransaction().begin()
-        entityManager.persist(address)
+        entityManager.persist(address1)
         entityManager.getTransaction().commit()
       }
       it("should support database retrieval") {
         entityManager.getTransaction().begin()
-        val address1 = entityManager.find(classOf[Address], 1)
+        val address = entityManager.find(classOf[Address], 2)
         entityManager.getTransaction().commit()
-        address1.toString should equal("Hancox Residence, 46 Dettmann Avenue, Longueville, NSW 2066, Australia")
+        address should equal(address1)
+        address.toString should equal("Hancox Residence, 46 Dettmann Avenue, Longueville, NSW 2066, Australia")
       }
     }
   }

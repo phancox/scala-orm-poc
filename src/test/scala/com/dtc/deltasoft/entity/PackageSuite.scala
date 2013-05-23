@@ -4,13 +4,14 @@ import org.junit.runner.RunWith
 import org.scalatest.junit._
 import org.scalatest.FunSpec
 import org.scalatest.matchers.ShouldMatchers
+import grizzled.slf4j.Logging
 
 /**
  * Unit test suite for the com.dtc.deltasoft.entity package.
  *
  */
 @RunWith(classOf[JUnitRunner])
-class PackageSpec extends FunSpec with ShouldMatchers {
+class PackageSpec extends FunSpec with ShouldMatchers with Logging {
 
   describe("The entity package") {
     describe("dbid string interpolation") {

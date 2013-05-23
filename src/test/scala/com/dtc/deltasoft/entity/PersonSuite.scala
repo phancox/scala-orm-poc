@@ -9,13 +9,15 @@ import org.scalatest.matchers.ShouldMatchers
 import scala.slick.driver.ExtendedProfile
 import scala.slick.session.{ Database, Session }
 import scala.slick.driver.{ PostgresDriver => _, _ }
+import grizzled.slf4j.Logging
+
 
 /**
  * Unit test suite for the [[Person]] entity.
  *
  */
 @RunWith(classOf[JUnitRunner])
-class PersonSpec extends FunSpec with ShouldMatchers {
+class PersonSpec extends FunSpec with ShouldMatchers with Logging {
 
   class DAL(override val profile: ExtendedProfile) extends PersonProfile
     with AddressProfile with SuburbProfile with Profile {}
@@ -38,25 +40,26 @@ class PersonSpec extends FunSpec with ShouldMatchers {
   lazy val emf = Persistence.createEntityManagerFactory(dbms)
   lazy val entityManager = emf.createEntityManager()
 
-  var person: Person = _
+  var person1: Person = _
 
   describe("A Person entity") {
     describe("should support being created") {
       it("using an empty constructor with properties set using JavaBean modifiers") {
-        person = Person()
+        val person = Person()
         person.setSurname("Hancox")
         person.setFirstName("Peter")
         person.setHomeAddress(Address("46 Dettmann Avenue", null, Suburb("Longueville", "2066", "NSW", "Australia")))
         person.setWorkAddress(Address("PO Box 1383", null, Suburb("Lane Cove", "1595", "NSW", "Australia")))
-        person.toString should equal("Hancox, Peter")
         person should have(
           'surname("Hancox"),
           'firstName("Peter"),
           'homeAddress(Address("46 Dettmann Avenue", null, Suburb("Longueville", "2066", "NSW", "Australia"))),
           'workAddress(Address("PO Box 1383", null, Suburb("Lane Cove", "1595", "NSW", "Australia"))))
+        person.toString should equal("Hancox, Peter")
+        person1 = person
       }
       it("using a constructor with a named parameter list") {
-        person = Person(
+        val person = Person(
           surname = "Hancox",
           firstName = "Peter",
           homeAddress = Address("46 Dettmann Avenue", null, Suburb("Longueville", "2066", "NSW", "Australia")),
@@ -64,19 +67,19 @@ class PersonSpec extends FunSpec with ShouldMatchers {
         person.toString should equal("Hancox, Peter")
       }
       it("using a constructor with positional parameters") {
-        person = Person("Hancox", "Peter",
+        val person = Person("Hancox", "Peter",
           Address("46 Dettmann Avenue", null, Suburb("Longueville", "2066", "NSW", "Australia")),
           Address("PO Box 1383", null, Suburb("Lane Cove", "1595", "NSW", "Australia")))
         person.toString should equal("Hancox, Peter")
       }
     }
     it("should support equality checks") {
-      val person1 = Person()
-      person1.setSurname("Hancox")
-      person1.setFirstName("Peter")
-      person1.setHomeAddress(Address("46 Dettmann Avenue", null, Suburb("Longueville", "2066", "NSW", "Australia")))
-      person1.setWorkAddress(Address("PO Box 1383", null, Suburb("Lane Cove", "1595", "NSW", "Australia")))
-      person1 should equal(person)
+      val person = Person()
+      person.setSurname("Hancox")
+      person.setFirstName("Peter")
+      person.setHomeAddress(Address("46 Dettmann Avenue", null, Suburb("Longueville", "2066", "NSW", "Australia")))
+      person.setWorkAddress(Address("PO Box 1383", null, Suburb("Lane Cove", "1595", "NSW", "Australia")))
+      person should equal(person1)
     }
     describe(s"should support ${dbmsName} schema updates via Slick including") {
       it("table creation") {
@@ -96,33 +99,46 @@ class PersonSpec extends FunSpec with ShouldMatchers {
     }
     describe(s"should support ${dbmsName} persistance via MapperDao including") {
       it("database persistence via mapperDao") {
-        mapperDao.insert(personEntity, person)
+        mapperDao.insert(personEntity, person1)
       }
       it("database retrieval via mapperDao") {
-        val person1 = mapperDao.select(personEntity, 1).get
-        person1.toString should equal("Hancox, Peter")
-        person1.homeAddress.toString should equal("46 Dettmann Avenue, Longueville, NSW 2066, Australia")
-        person1.workAddress.toString should equal("PO Box 1383, Lane Cove, NSW 1595, Australia")
+        val person = mapperDao.select(personEntity, 1).get
+        person should equal(person1)
+        person.toString should equal("Hancox, Peter")
+        person.homeAddress.toString should equal("46 Dettmann Avenue, Longueville, NSW 2066, Australia")
+        person.workAddress.toString should equal("PO Box 1383, Lane Cove, NSW 1595, Australia")
       }
       it("database persistence via CRUD DAO layer") {
-        val inserted = personsDao.create(person)
+        val inserted = personsDao.create(person1)
         val selected = personsDao.retrieve(inserted.id).get
         selected should equal(inserted)
+        selected.toString should equal("Hancox, Peter")
+        selected.homeAddress.toString should equal("46 Dettmann Avenue, Longueville, NSW 2066, Australia")
+        selected.workAddress.toString should equal("PO Box 1383, Lane Cove, NSW 1595, Australia")
+      }
+      it("database updates via CRUD DAO layer") {
+        val selected = personsDao.retrieve(1).get
+        selected.firstName = "Pedro"
+        val updated = personsDao.update(selected)
+        val checkUpdated = personsDao.retrieve(selected.id).get
+        checkUpdated should equal(selected)
+        checkUpdated.toString should equal("Hancox, Pedro")
       }
     }
     describe(s"should support ${dbmsName} persistance via Hibernate including") {
       it("should support database persistence") {
         entityManager.getTransaction().begin()
-        entityManager.persist(person)
+        entityManager.persist(person1)
         entityManager.getTransaction().commit()
       }
       it("should support database retrieval") {
         entityManager.getTransaction().begin()
-        val person1 = entityManager.find(classOf[Person], 1)
+        val person = entityManager.find(classOf[Person], 2)
         entityManager.getTransaction().commit()
-        person1.toString should equal("Hancox, Peter")
-        person1.homeAddress.toString should equal("46 Dettmann Avenue, Longueville, NSW 2066, Australia")
-        person1.workAddress.toString should equal("PO Box 1383, Lane Cove, NSW 1595, Australia")
+        person should equal(person1)
+        person.toString should equal("Hancox, Peter")
+        person.homeAddress.toString should equal("46 Dettmann Avenue, Longueville, NSW 2066, Australia")
+        person.workAddress.toString should equal("PO Box 1383, Lane Cove, NSW 1595, Australia")
       }
     }
   }
