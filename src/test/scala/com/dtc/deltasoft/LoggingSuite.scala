@@ -14,9 +14,16 @@ import org.springframework.context.support.ClassPathXmlApplicationContext
 @RunWith(classOf[JUnitRunner])
 class LoggingSpec extends FunSpec with ShouldMatchers with Logging {
 
-  describe("The logging framework should") {
-    it("log error level messages") {
+  describe("The logging framework") {
+    it("should log error level messages") {
       error("Error level message")
+    }
+    it("should log exception messages") {
+      try {
+        throw new Exception("Exception message")
+      } catch {
+        case e: Throwable => error(e.withStackTrace)
+      }
     }
   }
 }
