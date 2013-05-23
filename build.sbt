@@ -16,6 +16,8 @@ resolvers += "Vaadin add-ons repository" at "http://maven.vaadin.com/vaadin-addo
 
 resolvers += "Sonatype repository" at "http://oss.sonatype.org/content/repositories/releases/"
 
+resolvers += "SpringSource repository" at "http://repo.springsource.org/libs-milestone"
+
 libraryDependencies ++= Seq(
   "org.clapper" % "grizzled-slf4j_2.10" % "1.0.1",
   "ch.qos.logback" % "logback-classic" % "1.0.9",
