@@ -6,15 +6,13 @@ import org.scalatest.FunSpec
 import org.scalatest.matchers.ShouldMatchers
 import org.springframework.context.ApplicationContext
 import org.springframework.context.support.ClassPathXmlApplicationContext
-import grizzled.slf4j.Logging
-
 
 /**
  * Unit test suite for Spring framework integration.
  *
  */
 @RunWith(classOf[JUnitRunner])
-class SpringSpec extends FunSpec with ShouldMatchers with Logging {
+class SpringSpec extends FunSpec with ShouldMatchers {
 
   describe("The Spring framework") {
     describe("should support loading the application context") {

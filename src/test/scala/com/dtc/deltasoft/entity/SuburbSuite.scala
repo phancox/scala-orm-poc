@@ -9,14 +9,13 @@ import org.scalatest.matchers.ShouldMatchers
 import scala.slick.driver.ExtendedProfile
 import scala.slick.session.{ Database, Session }
 import scala.slick.driver.{ PostgresDriver => _, _ }
-import grizzled.slf4j.Logging
 
 /**
  * Unit test suite for the [[Suburb]] entity.
  *
  */
 @RunWith(classOf[JUnitRunner])
-class SuburbSpec extends FunSpec with ShouldMatchers with Logging {
+class SuburbSpec extends FunSpec with ShouldMatchers {
 
   class DAL(override val profile: ExtendedProfile) extends SuburbProfile with Profile {}
   val dbmsName = "H2" // H2, PostgreSQL
