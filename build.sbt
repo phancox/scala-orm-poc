@@ -12,9 +12,11 @@ scalaVersion := "2.10.1"
 
 javacOptions ++= Seq("-source", "1.6", "-target", "1.6")
 
-resolvers += "Vaadin add-ons repository" at "http://maven.vaadin.com/vaadin-addons"
+resolvers += "sonatype.releases" at "http://oss.sonatype.org/content/repositories/releases/"
 
-resolvers += "Sonatype repository" at "http://oss.sonatype.org/content/repositories/releases/"
+resolvers += "sonatype.snapshots" at "http://oss.sonatype.org/content/repositories/snapshots/"
+
+resolvers += "Vaadin add-ons repository" at "http://maven.vaadin.com/vaadin-addons"
 
 resolvers += "SpringSource repository" at "http://repo.springsource.org/libs-milestone"
 
@@ -30,7 +32,7 @@ libraryDependencies ++= Seq(
   "org.springframework.scala" % "spring-scala" % "1.0.0.M2",
   "org.apache.tomcat" % "tomcat-dbcp" % "7.0.39",
   "com.typesafe.slick" %% "slick" % "1.0.0",
-  "com.googlecode.mapperdao" % "mapperdao" % "1.0.0.rc21-2.10.1",
+  "com.googlecode.mapperdao" % "mapperdao" % "1.0.0.rc23-2.10.1-SNAPSHOT",
   "vaadin.scala" % "scaladin_2.10" % "3.0.0-SNAPSHOT",
   "com.vaadin" % "vaadin-themes" % "7.0.5",
   "com.vaadin" % "vaadin-client-compiled" % "7.0.5",
@@ -44,3 +46,5 @@ libraryDependencies ++= Seq(
   "junit" % "junit" % "4.10" % "test",
   "com.h2database" % "h2" % "1.3.170" % "test"
 )
+
+scalacOptions ++= Seq("-deprecation", "-feature", "-language:implicitConversions", "-language:postfixOps")
