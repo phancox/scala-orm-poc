@@ -7,6 +7,7 @@ import javax.persistence._
 import java.util.Properties
 import com.googlecode.mapperdao.Query._
 import com.googlecode.mapperdao.sqlfunction.SqlFunction
+import com.googlecode.mapperdao.sqlfunction.StdSqlFunctions._
 
 import org.junit.runner.RunWith
 import org.scalatest.FunSpec
@@ -64,7 +65,6 @@ class PackageSpec extends FunSpec with ShouldMatchers {
     }
     describe("mapperdao SqlFunction") {
       it("should implement \"lower\" ") {
-        val lower = SqlFunction.with1Arg[String, String]("lower")
         val suburb = Suburb("Longueville", "2066", "NSW", "Australia")
         mapperDao.insert(suburbEntity, suburb)
         val s = suburbEntity
