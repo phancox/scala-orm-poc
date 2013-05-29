@@ -5,7 +5,7 @@
         <chain name="default-chain">
 		    <filesystem name="local">
 		      <ivy pattern="${ivy.default.ivy.user.dir}/local/[organisation]/[module]/[revision]/[type]s/[artifact].[ext]" />
-		      <artifact pattern="${ivy.default.ivy.user.dir}/local/[organisation]/[module]/[revision]/[type]s/[artifact].[ext]" />
+		      <artifact pattern="${ivy.default.ivy.user.dir}/local/[organisation]/[module]/[revision]/[type]s/[artifact](-[classifier]).[ext]" />
 		    </filesystem>
             <ibiblio name="ibiblio" m2compatible="true"/> 
 			<url name="maven.vaadin.com/vaadin-addons" m2compatible="true">
