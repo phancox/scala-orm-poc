@@ -33,7 +33,7 @@ class ProgressWindow extends vaadin.scala.Window with Logging {
   verticalLayout.margin = true
   verticalLayout.spacing = true
   verticalLayout.components += progressIndicator
-  verticalLayout.alignment(progressIndicator, Alignment.MiddleCenter);
+  verticalLayout.setAlignment(progressIndicator, Alignment.MiddleCenter);
 
   trace("Primary Constructor Commence")
 }
