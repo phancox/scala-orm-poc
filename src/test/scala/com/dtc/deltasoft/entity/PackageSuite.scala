@@ -76,6 +76,8 @@ class PackageSpec extends FunSpec with ShouldMatchers {
         suburbs3 should equal(List())
         val suburbs4 = queryDao.query(select from s where (lower(s.name) like "long%"))
         suburbs4 should equal(List(suburb))
+        val suburbs5 = queryDao.query(select from s where (lower(s.name) like lower("LONG%")))
+        suburbs5 should equal(List(suburb))
       }
     }
     describe("getSearchWhereClause") {
