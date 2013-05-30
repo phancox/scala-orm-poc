@@ -1,7 +1,9 @@
 package com.dtc.deltasoft
 
-import scala.slick.driver.{ PostgresDriver => _, _ }
-import javax.persistence.{ Entity => _, _ }
+import scala.annotation.target.field
+import scala.beans.BeanProperty
+import scala.slick.driver._
+import javax.persistence._
 import java.util.Properties
 
 import com.googlecode.mapperdao._
@@ -12,6 +14,10 @@ import org.hibernate.cfg.Configuration
 import org.hibernate.dialect.Dialect
 import org.hibernate.ejb.Ejb3Configuration
 import org.springframework.transaction.PlatformTransactionManager
+import com.googlecode.mapperdao.Query._
+import com.googlecode.mapperdao.sqlfunction.StdSqlFunctions._
+import com.googlecode.mapperdao.schema.ColumnInfo
+import com.googlecode.mapperdao.Entity
 
 /**
  * DeltaSoft technical architecture framework support for JPA and a collection of core standard
@@ -64,7 +70,7 @@ package object entity extends Logging {
    * Returns a tuple of connection objects for interacting with the ORM persistence layer.
    *
    * @param dbPropFile
-   * Name of the properties file specifying the database properties.  e.g, if dbPropFile == "db" 
+   * Name of the properties file specifying the database properties.  e.g, if dbPropFile == "db"
    * then the file "/db.properties" will be used.
    *
    * @param dbms
@@ -76,9 +82,9 @@ package object entity extends Logging {
    *
    */
   def getOrmConnections(dbPropFile: String, entities: List[Entity[_, _, _]])(implicit dbConfig: DbConfig): OrmConnections = {
-    
+
     val dbms = dbConfig.dbms
-    
+
     val slickDriver = dbms match {
       case "h2" => H2Driver
       case "postgresql" => PostgresDriver
@@ -106,7 +112,20 @@ package object entity extends Logging {
     schemaCreationScript
   }
 
-  implicit def wrapOptionalValue[T](value: T): Option[T] = Some(value)
+  implicit def convertToOption[T](value: T): Option[T] = Some(value)
+
+  def getSearchQuery[ID, T](entity: Entity[ID, Persisted, T], criteriaList: List[(ColumnInfo[T, String], String)]) = {
+
+    val filteredCriteria = criteriaList filter (_._2.length > 0)
+    val selectClause = select from entity
+    val test = filteredCriteria.length match {
+      case 0 => new Where(selectClause)
+      case 1 => selectClause where (lower(filteredCriteria(0)._1) like s"${filteredCriteria(0)._2.toLowerCase}%")
+      case _ => selectClause where (lower(filteredCriteria(0)._1) like s"${filteredCriteria(0)._2.toLowerCase}%")
+    }
+
+    test
+  }
 
   /**
    * Returns a SQL "where" clause constructed from the supplied list of pairs where each pair is a
