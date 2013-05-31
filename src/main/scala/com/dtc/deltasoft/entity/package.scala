@@ -119,7 +119,7 @@ package object entity extends Logging {
     val selectClause = select from entity
     val filteredCriteria = criteriaList filter (e => e._2 != null && e._2.length > 0)
     if (filteredCriteria.length > 0) {
-      def criteriaExpression(e: CriteriaListElement[T]) = { (lower(e._1) like s"${e._2.toLowerCase}%") }
+      def criteriaExpression(e: CriteriaListElement[T]) = { (lower(e._1) like s"${e._2.trim.toLowerCase}%") }
       val whereClause = selectClause where criteriaExpression(filteredCriteria(0))
       filteredCriteria drop (1) foreach (criteria => { whereClause and criteriaExpression(criteria) })
     }
