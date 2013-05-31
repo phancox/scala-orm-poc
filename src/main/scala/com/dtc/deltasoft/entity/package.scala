@@ -114,17 +114,16 @@ package object entity extends Logging {
 
   implicit def convertToOption[T](value: T): Option[T] = Some(value)
 
-  def getSearchQuery[ID, T](entity: Entity[ID, Persisted, T], criteriaList: List[(ColumnInfo[T, String], String)]) = {
-
-    val filteredCriteria = criteriaList filter (_._2.length > 0)
+  type CriteriaListElement[T] = (ColumnInfo[T, String], String)
+  def getSearchQuery[ID, T](entity: Entity[ID, Persisted, T], criteriaList: List[CriteriaListElement[T]]) = {
     val selectClause = select from entity
-    val test = filteredCriteria.length match {
-      case 0 => new Where(selectClause)
-      case 1 => selectClause where (lower(filteredCriteria(0)._1) like s"${filteredCriteria(0)._2.toLowerCase}%")
-      case _ => selectClause where (lower(filteredCriteria(0)._1) like s"${filteredCriteria(0)._2.toLowerCase}%")
+    val filteredCriteria = criteriaList filter (e => e._2 != null && e._2.length > 0)
+    if (filteredCriteria.length > 0) {
+      def criteriaExpression(e: CriteriaListElement[T]) = { (lower(e._1) like s"${e._2.toLowerCase}%") }
+      val whereClause = selectClause where criteriaExpression(filteredCriteria(0))
+      filteredCriteria drop (1) foreach (criteria => { whereClause and criteriaExpression(criteria) })
     }
-
-    test
+    selectClause
   }
 
   /**

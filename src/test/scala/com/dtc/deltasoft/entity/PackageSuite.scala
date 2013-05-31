@@ -69,7 +69,7 @@ class PackageSpec extends FunSpec with ShouldMatchers {
         mapperDao.insert(s, Suburb("Longueville", "2066", "NSW", "Australia"))
         mapperDao.insert(s, Suburb("AAAburb", "2001", "NSW"))
         mapperDao.insert(s, Suburb("AABburb", "2002", "NSW"))
-        mapperDao.insert(s, Suburb("AACburb", "2003", "NSW"))
+        mapperDao.insert(s, Suburb("ABCburb", "2003", "NSW"))
       }
     }
     describe("mapperdao SqlFunction") {
@@ -98,34 +98,37 @@ class PackageSpec extends FunSpec with ShouldMatchers {
       it("should handle a Column/Criteria list with one pair") {
         val query = getSearchQuery(s, List((s.name, "Aa")))
         val results = queryDao.query(query)
-        results.length should equal(3)
+        results.length should equal(2)
       }
       it("should handle a Column/Criteria list with two pairs") {
-        val query = getSearchQuery(s, List((s.name, "Aa"),(s.postcode, "2002")))
+        val query = getSearchQuery(s, List((s.name, "Aab"),(s.postcode, "200")))
         val results = queryDao.query(query)
         results.length should equal(1)
       }
-      ignore("should handle a null value parameter") {
-        getSearchWhereClause(List(("column1", null))) should equal("")
+      it("should handle a null value parameter") {
+        val query = getSearchQuery(s, List((s.name, null)))
+        val results = queryDao.query(query)
+        results.length should equal(4)
       }
-      ignore("should handle an empty value parameter") {
-        getSearchWhereClause(List(("column1", ""))) should equal("")
+      it("should handle an empty value parameter") {
+        val query = getSearchQuery(s, List((s.name, "")))
+        val results = queryDao.query(query)
+        results.length should equal(4)
       }
-      ignore("should handle a Some[String]") {
-        getSearchWhereClause(List(("column1", Some("value1")))) should
-          equal("where lower(column1) like lower('value1%')")
+      it("should handle two pairs where the first value is empty") {
+        val query = getSearchQuery(s, List((s.name, ""),(s.postcode, "200")))
+        val results = queryDao.query(query)
+        results.length should equal(3)
       }
-      ignore("should handle two pairs where the first value is empty") {
-        getSearchWhereClause(List(("column1", ""), ("column2", "value2"))) should
-          equal("where lower(column2) like lower('value2%')")
+      it("should handle two pairs where the second value is empty") {
+        val query = getSearchQuery(s, List((s.name, "Aab"),(s.postcode, "")))
+        val results = queryDao.query(query)
+        results.length should equal(1)
       }
-      ignore("should handle two pairs where the second value is empty") {
-        getSearchWhereClause(List(("column1", "value1"), ("column2", ""))) should
-          equal("where lower(column1) like lower('value1%')")
-      }
-      ignore("should handle three pairs where the second value is empty") {
-        getSearchWhereClause(List(("column1", "value1"), ("column2", ""), ("column3", "value3"))) should
-          equal("where lower(column1) like lower('value1%') and lower(column3) like lower('value3%')")
+      it("should handle three pairs where the second value is empty") {
+        val query = getSearchQuery(s, List((s.name, "Aab"),(s.postcode, ""),(s.state, "VIC")))
+        val results = queryDao.query(query)
+        results.length should equal(0)
       }
     }
     describe("getSearchWhereClause") {
