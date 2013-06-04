@@ -4,8 +4,6 @@ import org.junit.runner.RunWith
 import org.scalatest.junit._
 import org.scalatest.FunSpec
 import org.scalatest.matchers.ShouldMatchers
-import org.springframework.context.ApplicationContext
-import org.springframework.context.support.ClassPathXmlApplicationContext
 
 /**
  * Unit test suite for logging framework.
