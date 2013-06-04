@@ -25,6 +25,8 @@ libraryDependencies ++= Seq(
   "ch.qos.logback" % "logback-classic" % "1.0.9",
   "org.codehaus.janino" % "janino" % "2.6.1",
   "org.codehaus.groovy" % "groovy-all" % "2.1.1",
+  "commons-configuration" % "commons-configuration" % "1.9",
+  "commons-beanutils" % "commons-beanutils" % "1.8.3",
   "joda-time" % "joda-time" % "2.2",
   "org.joda" % "joda-convert" % "1.3.1",
   "org.springframework" % "spring-context" % "3.2.2.RELEASE",

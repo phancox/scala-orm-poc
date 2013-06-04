@@ -4,3 +4,7 @@ Scala
 Scaladin
 SportZman
 postcode
+hibernate
+mapperdao
+servlet
+apache

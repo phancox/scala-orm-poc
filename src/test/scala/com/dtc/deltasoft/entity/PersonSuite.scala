@@ -6,6 +6,9 @@ import scala.slick.session.{ Database, Session }
 import javax.persistence._
 import java.util.Properties
 
+import com.dtc.deltasoft.Config._
+import org.apache.commons.configuration.PropertiesConfiguration
+
 import org.junit.runner.RunWith
 import org.scalatest.FunSpec
 import org.scalatest.junit._
@@ -22,12 +25,13 @@ class PersonSpec extends FunSpec with ShouldMatchers {
     with AddressProfile with SuburbProfile with Profile {}
   val dbmsName = "H2" // H2, PostgreSQL
   val dbms = dbmsName toLowerCase ()
+  config.addConfiguration(new PropertiesConfiguration(s"jdbc_${dbms}.properties"), "jdbc", "jdbc")
   implicit val dbConfig = DbConfig(dbms, 2)
   val suburbEntity = new SuburbEntity
   val addressEntity = new AddressEntity
   val personEntity = new PersonEntity
   val entities = List(suburbEntity, addressEntity, personEntity)
-  val ormConnections = getOrmConnections(s"jdbc_${dbms}", entities)
+  val ormConnections = getOrmConnections(entities)
   val slickDb = ormConnections.slickDb
   val dal = new DAL(ormConnections.slickDriver)
   import dal.profile.simple._

@@ -6,6 +6,8 @@ import scala.slick.driver._
 import javax.persistence._
 import java.util.Properties
 
+import com.dtc.deltasoft.Config._
+import org.apache.commons.configuration.ConfigurationConverter
 import com.googlecode.mapperdao._
 import com.googlecode.mapperdao.jdbc._
 import com.googlecode.mapperdao.utils.Setup
@@ -54,7 +56,7 @@ package object entity extends Logging {
   }
 
   /**
-   * Extends the Slick PostgreSQL driver to force identifier names to lowercase by overriding the
+   * Extends the Slick PostgreSQL driver to force identifier names to lower case by overriding the
    * ''quoteIdentifier'' function.
    *
    */
@@ -69,19 +71,17 @@ package object entity extends Logging {
   /**
    * Returns a tuple of connection objects for interacting with the ORM persistence layer.
    *
-   * @param dbPropFile
-   * Name of the properties file specifying the database properties.  e.g, if dbPropFile == "db"
-   * then the file "/db.properties" will be used.
+   * @param entities
+   * A list of entities to be managed by mapperdao.
+   * 
+   * @param dbConfig
+   * A tuple specifying the dbms to be used and the data model version, passed as implicit parameters.
    *
-   * @param dbms
-   * A '''String''' representing the DBMS. Possible values include:
-   *  - h2
-   *  - postgresql
-   *
-   *  @return
+   * @return
+   * A tuple of connection objects for interacting with the ORM persistence layer.
    *
    */
-  def getOrmConnections(dbPropFile: String, entities: List[Entity[_, _, _]])(implicit dbConfig: DbConfig): OrmConnections = {
+  def getOrmConnections(entities: List[Entity[_, _, _]])(implicit dbConfig: DbConfig): OrmConnections = {
 
     val dbms = dbConfig.dbms
 
@@ -91,8 +91,7 @@ package object entity extends Logging {
       case _ => H2Driver
     }
 
-    val properties = new Properties
-    properties.load(getClass.getResourceAsStream(s"/${dbPropFile}.properties"))
+    val properties = ConfigurationConverter.getProperties(config.getConfiguration("jdbc"))
     lazy val dataSource = BasicDataSourceFactory.createDataSource(properties)
     lazy val slickDb = scala.slick.session.Database.forDataSource(dataSource)
 

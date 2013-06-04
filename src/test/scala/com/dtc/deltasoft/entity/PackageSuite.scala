@@ -5,6 +5,10 @@ import scala.slick.driver.{ PostgresDriver => _, _ }
 import scala.slick.session.{ Database, Session }
 import javax.persistence._
 import java.util.Properties
+
+import com.dtc.deltasoft.Config._
+import org.apache.commons.configuration.PropertiesConfiguration
+
 import com.googlecode.mapperdao.Query._
 import com.googlecode.mapperdao.sqlfunction.SqlFunction
 import com.googlecode.mapperdao.sqlfunction.StdSqlFunctions._
@@ -24,10 +28,11 @@ class PackageSpec extends FunSpec with ShouldMatchers {
   class DAL(override val profile: ExtendedProfile) extends SuburbProfile with Profile {}
   val dbmsName = "H2" // H2, PostgreSQL
   val dbms = dbmsName toLowerCase ()
+  config.addConfiguration(new PropertiesConfiguration(s"jdbc_${dbms}.properties"), "jdbc", "jdbc")
   implicit val dbConfig = DbConfig(dbms, 2)
   val suburbEntity = new SuburbEntity
   val entities = List(suburbEntity)
-  val ormConnections = getOrmConnections(s"jdbc_${dbms}", entities)
+  val ormConnections = getOrmConnections(entities)
   val slickDb = ormConnections.slickDb
   val dal = new DAL(ormConnections.slickDriver)
   import dal.profile.simple._
@@ -101,7 +106,7 @@ class PackageSpec extends FunSpec with ShouldMatchers {
         results.length should equal(2)
       }
       it("should handle a Column/Criteria list with two pairs") {
-        val query = getSearchQuery(s, List((s.name, "Aab"),(s.postcode, "200")))
+        val query = getSearchQuery(s, List((s.name, "Aab"), (s.postcode, "200")))
         val results = queryDao.query(query)
         results.length should equal(1)
       }
@@ -116,17 +121,17 @@ class PackageSpec extends FunSpec with ShouldMatchers {
         results.length should equal(4)
       }
       it("should handle two pairs where the first value is empty") {
-        val query = getSearchQuery(s, List((s.name, ""),(s.postcode, "200")))
+        val query = getSearchQuery(s, List((s.name, ""), (s.postcode, "200")))
         val results = queryDao.query(query)
         results.length should equal(3)
       }
       it("should handle two pairs where the second value is empty") {
-        val query = getSearchQuery(s, List((s.name, "Aab"),(s.postcode, "")))
+        val query = getSearchQuery(s, List((s.name, "Aab"), (s.postcode, "")))
         val results = queryDao.query(query)
         results.length should equal(1)
       }
       it("should handle three pairs where the second value is empty") {
-        val query = getSearchQuery(s, List((s.name, "Aab"),(s.postcode, ""),(s.state, "VIC")))
+        val query = getSearchQuery(s, List((s.name, "Aab"), (s.postcode, ""), (s.state, "VIC")))
         val results = queryDao.query(query)
         results.length should equal(0)
       }

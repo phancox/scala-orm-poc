@@ -1,0 +1,5 @@
+<configuration>
+  <env/>
+  <system/>
+  <properties fileName="jdbc.properties" config-at="jdbc" config-optional="true"/>
+</configuration>
