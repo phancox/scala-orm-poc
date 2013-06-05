@@ -28,17 +28,24 @@ import com.googlecode.mapperdao.Entity
 package object entity extends Logging {
   trace("Creating package object.")
 
-  case class DbConfig(dbms: String, dataModelVer: Int)
+  def jdbcDbManager = {
+    config.getString("jdbc.url", "") match {
+      case e if e.contains(":h2:") => "H2"
+      case e if e.contains(":postgresql:") => "PostgreSQL"
+      case _ => null
+    }
+  }
+
+  case class DbConfig(dataModelVer: Int)
 
   /**
    * Helper class to automatically convert database identifier names to the appropriate case based
    * on the target database.
    */
   implicit class DbIdHelper(val s: String) extends AnyVal {
-    def asDbId(implicit dbConfig: DbConfig) = {
-      //debug(s"dbms = ${dbConfig.dbms}")
-      dbConfig.dbms match {
-        case "postgresql" => s.toLowerCase()
+    def asDbId = {
+      jdbcDbManager match {
+        case "PostgreSQL" => s.toLowerCase()
         case _ => s.toUpperCase()
       }
     }
@@ -47,12 +54,7 @@ package object entity extends Logging {
   trait Profile {
     val profile: ExtendedProfile
 
-    val dbms = profile.asInstanceOf[BasicDriver] match {
-      case H2Driver => "h2"
-      case PostgresDriver => "postgresql"
-    }
-
-    implicit val dbConfig = DbConfig(dbms, 2)
+    implicit val dbConfig = DbConfig(2)
   }
 
   /**
@@ -73,7 +75,7 @@ package object entity extends Logging {
    *
    * @param entities
    * A list of entities to be managed by mapperdao.
-   * 
+   *
    * @param dbConfig
    * A tuple specifying the dbms to be used and the data model version, passed as implicit parameters.
    *
@@ -81,22 +83,24 @@ package object entity extends Logging {
    * A tuple of connection objects for interacting with the ORM persistence layer.
    *
    */
-  def getOrmConnections(entities: List[Entity[_, _, _]])(implicit dbConfig: DbConfig): OrmConnections = {
+  def getOrmConnections(entities: List[Entity[_, _, _]]): OrmConnections = {
 
-    val dbms = dbConfig.dbms
-
-    val slickDriver = dbms match {
-      case "h2" => H2Driver
-      case "postgresql" => PostgresDriver
+    val slickDriver = jdbcDbManager match {
+      case "H2" => H2Driver
+      case "PostgreSQL" => PostgresDriver
       case _ => H2Driver
     }
 
-    val properties = ConfigurationConverter.getProperties(config.getConfiguration("jdbc"))
-    lazy val dataSource = BasicDataSourceFactory.createDataSource(properties)
+    lazy val jdbcConfig = config.configurationAt("jdbc")
+    lazy val jdbcProperties = ConfigurationConverter.getProperties(jdbcConfig)
+    def jdbcPropCopy = { val p = new Properties(); p.putAll(jdbcProperties); p.remove("password"); p }
+    info("jdbcProperties=" + jdbcPropCopy)
+
+    lazy val dataSource = BasicDataSourceFactory.createDataSource(jdbcProperties)
     lazy val slickDb = scala.slick.session.Database.forDataSource(dataSource)
 
     lazy val (jdbc, mapperDao, queryDao, txManager) =
-      Setup(com.googlecode.mapperdao.utils.Database.byName(dbms), dataSource, entities)
+      Setup(com.googlecode.mapperdao.utils.Database.byName(jdbcDbManager toLowerCase), dataSource, entities)
 
     OrmConnections(slickDriver, slickDb, jdbc, mapperDao, queryDao, txManager)
   }

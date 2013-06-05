@@ -2,7 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
 	version="2.0">
-	<persistence-unit name="h2">
+	<persistence-unit name="H2">
 		<description>Persistence unit used by DeltaSoft applications.</description>
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<class>com.dtc.deltasoft.entity.Suburb</class>
@@ -18,7 +18,7 @@
 			<property name="hibernate.connection.url" value="jdbc:log4jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1" />
 		</properties>
 	</persistence-unit>
-	<persistence-unit name="postgresql">
+	<persistence-unit name="PostgreSQL">
 		<description>Persistence unit used by DeltaSoft applications.</description>
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<class>com.dtc.deltasoft.entity.Suburb</class>

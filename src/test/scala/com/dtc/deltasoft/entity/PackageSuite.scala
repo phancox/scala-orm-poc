@@ -26,10 +26,8 @@ import org.scalatest.matchers.ShouldMatchers
 class PackageSpec extends FunSpec with ShouldMatchers {
 
   class DAL(override val profile: ExtendedProfile) extends SuburbProfile with Profile {}
-  val dbmsName = "H2" // H2, PostgreSQL
-  val dbms = dbmsName toLowerCase ()
-  config.addConfiguration(new PropertiesConfiguration(s"jdbc_${dbms}.properties"), "jdbc", "jdbc")
-  implicit val dbConfig = DbConfig(dbms, 2)
+  val jdbcDbManager = com.dtc.deltasoft.entity.jdbcDbManager
+  implicit val dbConfig = DbConfig(2)
   val suburbEntity = new SuburbEntity
   val entities = List(suburbEntity)
   val ormConnections = getOrmConnections(entities)
@@ -42,21 +40,21 @@ class PackageSpec extends FunSpec with ShouldMatchers {
 
   describe("The entity package") {
     describe("dbid string interpolation") {
-      it("should convert H2 identifiers to upper case") {
-        "nAmE" asDbId (DbConfig("h2", 2)) should equal("NAME")
-      }
-      it("should convert PostgreSQL identifiers to lower case") {
-        "nAmE" asDbId (DbConfig("postgresql", 2)) should equal("name")
-      }
-      it("should convert unkown identifiers to lower case") {
-        "nAmE" asDbId (DbConfig("xyz", 2)) should equal("NAME")
-      }
-      it("should support implicit specification of database") {
-        implicit val dbConfig = DbConfig("postgresql", 2)
-        "nAmE".asDbId should equal("name")
+      if (jdbcDbManager == "H2") {
+        it("should convert H2 identifiers to upper case") {
+          "nAmE".asDbId should equal ("NAME")
+        }
+      } else if (jdbcDbManager == "PostgreSQL") {
+        it("should convert PostgreSQL identifiers to lower case") {
+          "nAmE".asDbId should equal ("name")
+        }
+      } else {
+        it("should convert identifiers for unknown databases to upper case") {
+          "nAmE".asDbId should equal("NAME")
+        }
       }
     }
-    describe(s"should support ${dbmsName} schema updates via Slick including") {
+    describe(s"should support ${jdbcDbManager} schema updates via Slick including") {
       it("table creation") {
         slickDb.withSession { implicit session: Session =>
           try {

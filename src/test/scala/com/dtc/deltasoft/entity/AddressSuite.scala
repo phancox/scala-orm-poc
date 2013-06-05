@@ -23,10 +23,8 @@ class AddressSpec extends FunSpec with ShouldMatchers {
 
   class DAL(override val profile: ExtendedProfile) extends AddressProfile
     with SuburbProfile with Profile {}
-  val dbmsName = "H2" // H2, PostgreSQL
-  val dbms = dbmsName toLowerCase ()
-  config.addConfiguration(new PropertiesConfiguration(s"jdbc_${dbms}.properties"), "jdbc", "jdbc")
-  implicit val dbConfig = DbConfig(dbms, 2)
+  val jdbcDbManager = com.dtc.deltasoft.entity.jdbcDbManager
+  implicit val dbConfig = DbConfig(2)
   val suburbEntity = new SuburbEntity
   val addressEntity = new AddressEntity
   val entities = List(suburbEntity, addressEntity)
@@ -38,7 +36,7 @@ class AddressSpec extends FunSpec with ShouldMatchers {
   val suburbsDao = new SuburbsDao(ormConnections)
   val addressesDao = new AddressesDao(ormConnections)
 
-  lazy val emf = Persistence.createEntityManagerFactory(dbms)
+  lazy val emf = Persistence.createEntityManagerFactory(jdbcDbManager)
   lazy val entityManager = emf.createEntityManager()
 
   var address1: Address = _
@@ -76,7 +74,7 @@ class AddressSpec extends FunSpec with ShouldMatchers {
       address.setStreet2("46 Dettmann Avenue")
       address should equal(address1)
     }
-    describe(s"should support ${dbmsName} schema updates via Slick including") {
+    describe(s"should support ${jdbcDbManager} schema updates via Slick including") {
       it("table creation") {
         slickDb.withSession { implicit session: Session =>
           try {
@@ -90,7 +88,7 @@ class AddressSpec extends FunSpec with ShouldMatchers {
         }
       }
     }
-    describe(s"should support ${dbmsName} persistance via MapperDao including") {
+    describe(s"should support ${jdbcDbManager} persistance via MapperDao including") {
       it("database persistence via mapperDao") {
         mapperDao.insert(addressEntity, address1)
       }
@@ -114,7 +112,7 @@ class AddressSpec extends FunSpec with ShouldMatchers {
         checkUpdated.toString should equal("Hancox Residence, 42 New Street, Longueville, NSW 2066, Australia")
       }
     }
-    describe(s"should support ${dbmsName} persistance via Hibernate including") {
+    describe(s"should support ${jdbcDbManager} persistance via Hibernate including") {
       it("should support database persistence") {
         entityManager.getTransaction().begin()
         entityManager.persist(address1)

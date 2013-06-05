@@ -23,10 +23,8 @@ class PersonSpec extends FunSpec with ShouldMatchers {
 
   class DAL(override val profile: ExtendedProfile) extends PersonProfile
     with AddressProfile with SuburbProfile with Profile {}
-  val dbmsName = "H2" // H2, PostgreSQL
-  val dbms = dbmsName toLowerCase ()
-  config.addConfiguration(new PropertiesConfiguration(s"jdbc_${dbms}.properties"), "jdbc", "jdbc")
-  implicit val dbConfig = DbConfig(dbms, 2)
+  val jdbcDbManager = com.dtc.deltasoft.entity.jdbcDbManager
+  implicit val dbConfig = DbConfig(2)
   val suburbEntity = new SuburbEntity
   val addressEntity = new AddressEntity
   val personEntity = new PersonEntity
@@ -40,7 +38,7 @@ class PersonSpec extends FunSpec with ShouldMatchers {
   val addressesDao = new AddressesDao(ormConnections)
   val personsDao = new PersonsDao(ormConnections)
 
-  lazy val emf = Persistence.createEntityManagerFactory(dbms)
+  lazy val emf = Persistence.createEntityManagerFactory(jdbcDbManager)
   lazy val entityManager = emf.createEntityManager()
 
   var person1: Person = _
@@ -84,7 +82,7 @@ class PersonSpec extends FunSpec with ShouldMatchers {
       person.setWorkAddress(Address("PO Box 1383", null, Suburb("Lane Cove", "1595", "NSW", "Australia")))
       person should equal(person1)
     }
-    describe(s"should support ${dbmsName} schema updates via Slick including") {
+    describe(s"should support ${jdbcDbManager} schema updates via Slick including") {
       it("table creation") {
         slickDb.withSession { implicit session: Session =>
           try {
@@ -100,7 +98,7 @@ class PersonSpec extends FunSpec with ShouldMatchers {
         }
       }
     }
-    describe(s"should support ${dbmsName} persistance via MapperDao including") {
+    describe(s"should support ${jdbcDbManager} persistance via MapperDao including") {
       it("database persistence via mapperDao") {
         mapperDao.insert(personEntity, person1)
       }
@@ -128,7 +126,7 @@ class PersonSpec extends FunSpec with ShouldMatchers {
         checkUpdated.toString should equal("Hancox, Pedro")
       }
     }
-    describe(s"should support ${dbmsName} persistance via Hibernate including") {
+    describe(s"should support ${jdbcDbManager} persistance via Hibernate including") {
       it("should support database persistence") {
         entityManager.getTransaction().begin()
         entityManager.persist(person1)

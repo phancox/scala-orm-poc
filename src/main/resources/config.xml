@@ -1,5 +1,6 @@
 <configuration>
-  <env/>
   <system/>
+  <env/>
+  <properties fileName="${DSTA_CONFIG}/jdbc.properties" config-at="jdbc" config-optional="true"/>
   <properties fileName="jdbc.properties" config-at="jdbc" config-optional="true"/>
 </configuration>

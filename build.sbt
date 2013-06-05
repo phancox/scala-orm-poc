@@ -26,6 +26,7 @@ libraryDependencies ++= Seq(
   "org.codehaus.janino" % "janino" % "2.6.1",
   "org.codehaus.groovy" % "groovy-all" % "2.1.1",
   "commons-configuration" % "commons-configuration" % "1.9",
+  "commons-collections" % "commons-collections" % "3.2.1",
   "commons-beanutils" % "commons-beanutils" % "1.8.3",
   "joda-time" % "joda-time" % "2.2",
   "org.joda" % "joda-convert" % "1.3.1",
@@ -36,8 +37,8 @@ libraryDependencies ++= Seq(
   "com.typesafe.slick" %% "slick" % "1.0.0",
   "com.googlecode.mapperdao" % "mapperdao" % "1.0.0.rc23-2.10.1-SNAPSHOT",
   "vaadin.scala" % "scaladin_2.10" % "3.0.0-SNAPSHOT",
-  "com.vaadin" % "vaadin-themes" % "7.0.5",
-  "com.vaadin" % "vaadin-client-compiled" % "7.0.5",
+  "com.vaadin" % "vaadin-themes" % "7.0.6",
+  "com.vaadin" % "vaadin-client-compiled" % "7.0.6",
   "org.hibernate.javax.persistence" % "hibernate-jpa-2.0-api" % "1.0.1.Final",
   "org.hibernate" % "hibernate-entitymanager" % "4.1.9.Final",
   "postgresql" % "postgresql" % "9.1-901.jdbc4"
