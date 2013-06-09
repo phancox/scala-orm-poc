@@ -8,6 +8,7 @@ import java.util.Properties
 
 import com.dtc.deltasoft.Config._
 import org.apache.commons.configuration.PropertiesConfiguration
+import org.joda.time._
 
 import org.junit.runner.RunWith
 import org.scalatest.FunSpec
@@ -49,11 +50,13 @@ class PersonSpec extends FunSpec with ShouldMatchers {
         val person = Person()
         person.setSurname("Hancox")
         person.setFirstName("Peter")
+        person.setDateOfBirth(new LocalDate(1965, 2, 12))
         person.setHomeAddress(Address("46 Dettmann Avenue", null, Suburb("Longueville", "2066", "NSW", "Australia")))
         person.setWorkAddress(Address("PO Box 1383", null, Suburb("Lane Cove", "1595", "NSW", "Australia")))
         person should have(
           'surname("Hancox"),
           'firstName("Peter"),
+          'dateOfBirth(new LocalDate(1965, 2, 12)),
           'homeAddress(Address("46 Dettmann Avenue", null, Suburb("Longueville", "2066", "NSW", "Australia"))),
           'workAddress(Address("PO Box 1383", null, Suburb("Lane Cove", "1595", "NSW", "Australia"))))
         person.toString should equal("Hancox, Peter")
@@ -63,12 +66,13 @@ class PersonSpec extends FunSpec with ShouldMatchers {
         val person = Person(
           surname = "Hancox",
           firstName = "Peter",
+          dateOfBirth = new LocalDate(1965, 2, 12),
           homeAddress = Address("46 Dettmann Avenue", null, Suburb("Longueville", "2066", "NSW", "Australia")),
           workAddress = Address("PO Box 1383", null, Suburb("Lane Cove", "1595", "NSW", "Australia")))
         person.toString should equal("Hancox, Peter")
       }
       it("using a constructor with positional parameters") {
-        val person = Person("Hancox", "Peter",
+        val person = Person("Hancox", "Peter", new LocalDate(1965, 2, 12),
           Address("46 Dettmann Avenue", null, Suburb("Longueville", "2066", "NSW", "Australia")),
           Address("PO Box 1383", null, Suburb("Lane Cove", "1595", "NSW", "Australia")))
         person.toString should equal("Hancox, Peter")
@@ -78,6 +82,7 @@ class PersonSpec extends FunSpec with ShouldMatchers {
       val person = Person()
       person.setSurname("Hancox")
       person.setFirstName("Peter")
+      person.setDateOfBirth(new LocalDate(1965, 2, 12))
       person.setHomeAddress(Address("46 Dettmann Avenue", null, Suburb("Longueville", "2066", "NSW", "Australia")))
       person.setWorkAddress(Address("PO Box 1383", null, Suburb("Lane Cove", "1595", "NSW", "Australia")))
       person should equal(person1)
