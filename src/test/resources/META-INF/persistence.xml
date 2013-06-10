@@ -22,6 +22,7 @@
 	<persistence-unit name="PostgreSQL">
 		<description>Persistence unit used by DeltaSoft applications.</description>
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<class>com.dtc.deltasoft.entity.NamedEntity</class>
 		<class>com.dtc.deltasoft.entity.Suburb</class>
 		<class>com.dtc.deltasoft.entity.Address</class>
 		<class>com.dtc.deltasoft.entity.Person</class>
