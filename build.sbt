@@ -38,8 +38,10 @@ libraryDependencies ++= Seq(
   "com.typesafe.slick" %% "slick" % "1.0.0",
   "com.googlecode.mapperdao" % "mapperdao" % "1.0.0.rc23-2.10.1-SNAPSHOT",
   "vaadin.scala" % "scaladin_2.10" % "3.0.0-SNAPSHOT",
-  "com.vaadin" % "vaadin-themes" % "7.0.6",
-  "com.vaadin" % "vaadin-client-compiled" % "7.0.6",
+  "com.vaadin" % "vaadin-server" % "7.0.7",
+  "com.vaadin" % "vaadin-shared" % "7.0.7",
+  "com.vaadin" % "vaadin-client-compiled" % "7.0.7",
+  "com.vaadin" % "vaadin-themes" % "7.0.7",
   "org.hibernate.javax.persistence" % "hibernate-jpa-2.0-api" % "1.0.1.Final",
   "org.hibernate" % "hibernate-entitymanager" % "4.1.9.Final",
   "postgresql" % "postgresql" % "9.1-901.jdbc4"
