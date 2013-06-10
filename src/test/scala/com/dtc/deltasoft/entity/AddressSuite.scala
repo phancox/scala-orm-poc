@@ -33,8 +33,8 @@ class AddressSpec extends FunSpec with ShouldMatchers {
   val dal = new DAL(ormConnections.slickDriver)
   import dal.profile.simple._
   val mapperDao = ormConnections.mapperDao
-  val suburbsDao = new SuburbsDao(ormConnections)
-  val addressesDao = new AddressesDao(ormConnections)
+  val suburbDao = new SuburbDao(ormConnections)
+  val addressDao = new AddressDao(ormConnections)
 
   lazy val emf = Persistence.createEntityManagerFactory(jdbcDbManager)
   lazy val entityManager = emf.createEntityManager()
@@ -98,16 +98,16 @@ class AddressSpec extends FunSpec with ShouldMatchers {
         address.toString should equal("Hancox Residence, 46 Dettmann Avenue, Longueville, NSW 2066, Australia")
       }
       it("database persistence via CRUD DAO layer") {
-        val inserted = addressesDao.create(address1)
-        val selected = addressesDao.retrieve(inserted.id).get
+        val inserted = addressDao.create(address1)
+        val selected = addressDao.retrieve(inserted.id).get
         selected should equal(inserted)
         selected.toString should equal("Hancox Residence, 46 Dettmann Avenue, Longueville, NSW 2066, Australia")
       }
       it("database updates via CRUD DAO layer") {
-        val selected = addressesDao.retrieve(1).get
+        val selected = addressDao.retrieve(1).get
         selected.street2 = "42 New Street"
-        val updated = addressesDao.update(selected)
-        val checkUpdated = addressesDao.retrieve(selected.id).get
+        val updated = addressDao.update(selected)
+        val checkUpdated = addressDao.retrieve(selected.id).get
         checkUpdated should equal(selected)
         checkUpdated.toString should equal("Hancox Residence, 42 New Street, Longueville, NSW 2066, Australia")
       }

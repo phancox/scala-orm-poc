@@ -36,7 +36,7 @@ trait SuburbProfile { self: Profile =>
 /**
  * MapperDao '''CRUD''' class for the [[Suburb]] entity.
  */
-class SuburbsDao(ormConnections: OrmConnections)(implicit dbConfig: DbConfig)
+class SuburbDao(ormConnections: OrmConnections)(implicit dbConfig: DbConfig)
     extends TransactionalSurrogateIntIdCRUD[Suburb]
     with SurrogateIntIdAll[Suburb] {
   val mapperDao = ormConnections.mapperDao

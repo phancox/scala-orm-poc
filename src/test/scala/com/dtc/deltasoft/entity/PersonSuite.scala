@@ -35,9 +35,9 @@ class PersonSpec extends FunSpec with ShouldMatchers {
   val dal = new DAL(ormConnections.slickDriver)
   import dal.profile.simple._
   val mapperDao = ormConnections.mapperDao
-  val suburbsDao = new SuburbsDao(ormConnections)
-  val addressesDao = new AddressesDao(ormConnections)
-  val personsDao = new PersonsDao(ormConnections)
+  val suburbDao = new SuburbDao(ormConnections)
+  val addressDao = new AddressDao(ormConnections)
+  val personDao = new PersonDao(ormConnections)
 
   lazy val emf = Persistence.createEntityManagerFactory(jdbcDbManager)
   lazy val entityManager = emf.createEntityManager()
@@ -115,18 +115,18 @@ class PersonSpec extends FunSpec with ShouldMatchers {
         person.workAddress.toString should equal("PO Box 1383, Lane Cove, NSW 1595, Australia")
       }
       it("database persistence via CRUD DAO layer") {
-        val inserted = personsDao.create(person1)
-        val selected = personsDao.retrieve(inserted.id).get
+        val inserted = personDao.create(person1)
+        val selected = personDao.retrieve(inserted.id).get
         selected should equal(inserted)
         selected.toString should equal("Hancox, Peter")
         selected.homeAddress.toString should equal("46 Dettmann Avenue, Longueville, NSW 2066, Australia")
         selected.workAddress.toString should equal("PO Box 1383, Lane Cove, NSW 1595, Australia")
       }
       it("database updates via CRUD DAO layer") {
-        val selected = personsDao.retrieve(1).get
+        val selected = personDao.retrieve(1).get
         selected.firstName = "Pedro"
-        val updated = personsDao.update(selected)
-        val checkUpdated = personsDao.retrieve(selected.id).get
+        val updated = personDao.update(selected)
+        val checkUpdated = personDao.retrieve(selected.id).get
         checkUpdated should equal(selected)
         checkUpdated.toString should equal("Hancox, Pedro")
       }

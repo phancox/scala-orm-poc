@@ -37,7 +37,7 @@ trait AddressProfile { self: SuburbProfile with Profile =>
 /**
  * MapperDao '''CRUD''' class for the [[Address]] entity.
  */
-class AddressesDao(ormConnections: OrmConnections)(implicit dbConfig: DbConfig)
+class AddressDao(ormConnections: OrmConnections)(implicit dbConfig: DbConfig)
     extends TransactionalSurrogateIntIdCRUD[Address]
     with SurrogateIntIdAll[Address] {
   val mapperDao = ormConnections.mapperDao

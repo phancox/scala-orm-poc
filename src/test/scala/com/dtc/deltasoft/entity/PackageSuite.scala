@@ -36,7 +36,7 @@ class PackageSpec extends FunSpec with ShouldMatchers {
   import dal.profile.simple._
   val mapperDao = ormConnections.mapperDao
   val queryDao = ormConnections.queryDao
-  val suburbsDao = new SuburbsDao(ormConnections)
+  val suburbDao = new SuburbDao(ormConnections)
 
   describe("The entity package") {
     describe("dbid string interpolation") {

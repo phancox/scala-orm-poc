@@ -43,7 +43,7 @@ trait PersonProfile { self: AddressProfile with Profile =>
 /**
  * MapperDao '''CRUD''' class for the [[Person]] entity.
  */
-class PersonsDao(ormConnections: OrmConnections)(implicit dbConfig: DbConfig)
+class PersonDao(ormConnections: OrmConnections)(implicit dbConfig: DbConfig)
     extends TransactionalSurrogateIntIdCRUD[Person]
     with SurrogateIntIdAll[Person] {
   val mapperDao = ormConnections.mapperDao
