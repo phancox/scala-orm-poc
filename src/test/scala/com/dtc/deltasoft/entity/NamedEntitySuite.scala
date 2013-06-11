@@ -36,12 +36,12 @@ class NamedEntitySpec extends FunSpec with ShouldMatchers {
   lazy val emf = Persistence.createEntityManagerFactory(jdbcDbManager)
   lazy val entityManager = emf.createEntityManager()
 
-  var namedEntity1: NamedEntity = _
+  var namedEntity1: NamedEntityImpl = _
 
   describe("A NamedEntity entity") {
     describe("should support being created") {
       it("using an empty constructor with properties set using JavaBean modifiers") {
-        val namedEntity = NamedEntity()
+        val namedEntity = NamedEntityImpl()
         namedEntity.setCode("ENTITYCODE")
         namedEntity.setName("Entity Name")
         namedEntity.setDescription("A brief description of the named entity.")
@@ -121,7 +121,7 @@ class NamedEntitySpec extends FunSpec with ShouldMatchers {
       }
       it("should support database retrieval") {
         entityManager.getTransaction().begin()
-        val namedEntity = entityManager.find(classOf[NamedEntity], 2)
+        val namedEntity = entityManager.find(classOf[NamedEntityImpl], 2)
         entityManager.getTransaction().commit()
         namedEntity should equal(namedEntity1)
         namedEntity.toString should equal("Entity Name (ENTITYCODE)")
