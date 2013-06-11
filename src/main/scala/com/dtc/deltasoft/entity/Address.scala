@@ -9,6 +9,8 @@ import com.dtc.deltasoft.Logging
 import com.googlecode.mapperdao._
 import com.googlecode.mapperdao.{ Entity }
 import com.googlecode.mapperdao.utils._
+import org.scalaequals.ScalaEquals._
+import org.scalaequals.ScalaEqualsExtend
 
 /**
  * Persistence profile for Slick. Used for generating DDL.
@@ -63,39 +65,51 @@ class AddressEntity(implicit dbConfig: DbConfig)
 }
 
 /**
+ *
+ */
+object Address {
+
+  def apply(street1: String = null, street2: String = null, suburb: Suburb = null) =
+    new Address(street1, street2, suburb)
+}
+
+/**
  * The Address entity ...
- *
- * @param id
- * The address' id (primary key).
- *
- * @param street1
- * Line 1 of the street portion of the address.
- *
- * @param street2
- * Line 2 of the street portion of the address.
- *
- * @param suburbId
- * The address' [[Suburb]].
- *
- * @param state
- * The suburb's state.
- *
- * @param country
- * The suburb's country (Defaults to "Australia"). To support DeltaSoft framework version 1, this
- * field is tagged as transient so it won't be persisted in the database.
  *
  */
 @javax.persistence.Entity
 @Table(name = "ADDRESS")
-case class Address(
-    @(Column @field)(name = "STREET_1")@BeanProperty var street1: String = null,
-    @(Column @field)(name = "STREET_2")@BeanProperty var street2: String = null,
-    @(OneToOne @field)(cascade = Array(CascadeType.ALL))@(JoinColumn @field)(name = "SUBURB__ID")@BeanProperty var suburb: Suburb = null) {
+class Address() {
 
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "ID") @BeanProperty
   var hibernateId: Int = _
 
-  def this() = this(street1 = null)
+  /**
+   * Line 1 of the street portion of the address.
+   */
+  @Column(name = "STREET_1") @BeanProperty var street1: String = _
+
+  /**
+   * Line 2 of the street portion of the address.
+   */
+  @Column(name = "STREET_2") @BeanProperty var street2: String = _
+
+  /**
+   * The address' [[Suburb]].
+   */
+  @OneToOne(cascade = Array(CascadeType.ALL)) @JoinColumn(name = "SUBURB__ID")
+  @BeanProperty var suburb: Suburb = _
+
+  override def equals(other: Any): Boolean = ScalaEqualsExtend.equal(street1, street2, suburb)
+  override def hashCode(): Int = hash
+  def canEqual(other: Any): Boolean = canEquals
+
+  def this(street1: String = null, street2: String = null, suburb: Suburb = null) = {
+    this()
+    setStreet1(street1)
+    setStreet2(street2)
+    setSuburb(suburb)
+  }
 
   override def toString() = {
     List(street1, street2, suburb) filter (_ != null) mkString (", ")

@@ -73,6 +73,8 @@ class AddressSpec extends FunSpec with ShouldMatchers {
       address.setSuburb(Suburb("Longueville", "2066", "NSW", "Australia"))
       address.setStreet2("46 Dettmann Avenue")
       address should equal(address1)
+      address.setStreet1("XHancox Residence")
+      address should not equal (address1)
     }
     describe(s"should support ${jdbcDbManager} schema updates via Slick including") {
       it("table creation") {

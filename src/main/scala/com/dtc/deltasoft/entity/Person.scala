@@ -9,6 +9,8 @@ import com.dtc.deltasoft.Logging
 import com.googlecode.mapperdao._
 import com.googlecode.mapperdao.{ Entity }
 import com.googlecode.mapperdao.utils._
+import org.scalaequals.ScalaEquals._
+import org.scalaequals.ScalaEqualsExtend
 
 import org.hibernate.annotations.Type
 import org.joda.time._
@@ -70,38 +72,68 @@ class PersonEntity(implicit dbConfig: DbConfig) extends Entity[Int, SurrogateInt
 }
 
 /**
+ *
+ */
+object Person {
+
+  def apply(surname: String = null, firstName: String = null, dateOfBirth: LocalDate = null,
+            homeAddress: Address = null, workAddress: Address = null) =
+    new Person(surname, firstName, dateOfBirth, homeAddress, workAddress)
+}
+
+/**
  * The Person entity ...
- *
- * @param id
- * The persons' id (primary key).
- *
- * @param surname
- * The person's surname.
- *
- * @param firstName
- * The person's first name.
- *
- * @param homeAddress
- * The person's home address.
- *
- * @param workAddress
- * The person's work address.
  *
  */
 @javax.persistence.Entity
 @Table(name = "PERSON")
-case class Person(
-    @(Column @field)(name = "SURNAME")@BeanProperty var surname: String = null,
-    @(Column @field)(name = "FIRST_NAME")@BeanProperty var firstName: String = null,
-    @(Type @field)(`type`="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
-    @(Column @field)(name = "DATE_OF_BIRTH")@BeanProperty var dateOfBirth: LocalDate = null,
-    @(OneToOne @field)(cascade = Array(CascadeType.ALL))@(JoinColumn @field)(name = "HOME_ADDRESS__ID")@BeanProperty var homeAddress: Address = null,
-    @(OneToOne @field)(cascade = Array(CascadeType.ALL))@(JoinColumn @field)(name = "WORK_ADDRESS__ID")@BeanProperty var workAddress: Address = null) {
+class Person() {
 
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "ID") @BeanProperty
   var hibernateId: Int = _
 
-  def this() = this(surname = null)
+  /**
+   * The person's surname.
+   */
+  @Column(name = "SURNAME") @BeanProperty var surname: String = _
+
+  /**
+   * The person's first name.
+   */
+  @Column(name = "FIRST_NAME") @BeanProperty var firstName: String = _
+
+  /**
+   * The person's date of birth.
+   */
+  @Type(`type` = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
+  @Column(name = "DATE_OF_BIRTH") @BeanProperty var dateOfBirth: LocalDate = _
+
+  /**
+   * The person's home address.
+   */
+  @OneToOne(cascade = Array(CascadeType.ALL)) @JoinColumn(name = "HOME_ADDRESS__ID")
+  @BeanProperty var homeAddress: Address = _
+
+  /**
+   * The person's work address.
+   */
+  @OneToOne(cascade = Array(CascadeType.ALL)) @JoinColumn(name = "WORK_ADDRESS__ID")
+  @BeanProperty var workAddress: Address = _
+
+  override def equals(other: Any): Boolean = ScalaEqualsExtend.equal(
+    surname, firstName, dateOfBirth, homeAddress, workAddress)
+  override def hashCode(): Int = hash
+  def canEqual(other: Any): Boolean = canEquals
+
+  def this(surname: String = null, firstName: String = null, dateOfBirth: LocalDate = null,
+           homeAddress: Address = null, workAddress: Address = null) = {
+    this()
+    setSurname(surname)
+    setFirstName(firstName)
+    setDateOfBirth(dateOfBirth)
+    setHomeAddress(homeAddress)
+    setWorkAddress(workAddress)
+  }
 
   override def toString() = {
     surname + ", " + firstName

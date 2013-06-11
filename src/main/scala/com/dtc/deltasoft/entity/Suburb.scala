@@ -9,6 +9,8 @@ import com.dtc.deltasoft.Logging
 import com.googlecode.mapperdao._
 import com.googlecode.mapperdao.{ Entity }
 import com.googlecode.mapperdao.utils._
+import org.scalaequals.ScalaEquals._
+import org.scalaequals.ScalaEqualsExtend
 
 /**
  * Persistence profile for Slick. Used for generating DDL.
@@ -71,41 +73,61 @@ class SuburbEntity(implicit dbConfig: DbConfig)
 }
 
 /**
+ *
+ */
+object Suburb {
+
+  def apply(name: String = null, postcode: String = null, state: String = null, country: String = "Australia") =
+    new Suburb(name, postcode, state, country)
+}
+
+/**
  * The Suburb entity represents a location forming part of an [[Address]]. The following fields are
  * transient for compatibility with version 1 databases:
  *  - Country
  *
- * @param id
- * The suburb's id (primary key).
- *
- * @param name
- * The suburb's name.
- *
- * @param postcode
- * The suburb's postcode.
- *
- * @param state
- * The suburb's state.
- *
- * @param country
- * The suburb's country (Defaults to "Australia").
- *
- * To support DeltaSoft framework version 1, this field would need to be tagged as transient so it
- * won't be persisted in the database.  e.g., @(Transient @field)
- *
  */
 @javax.persistence.Entity
 @Table(name = "SUBURB")
-case class Suburb(
-    @(Column @field)(name = "NAME")@BeanProperty var name: String = null,
-    @(Column @field)(name = "POSTCODE")@BeanProperty var postcode: String = null,
-    @(Column @field)(name = "STATE")@BeanProperty var state: String = null,
-    @(Column @field)(name = "COUNTRY")@BeanProperty var country: String = "Australia") {
+class Suburb() {
 
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "ID") @BeanProperty
   var hibernateId: Int = _
 
-  def this() = this(name = null)
+  /**
+   * The suburb's name.
+   */
+  @Column(name = "NAME") @BeanProperty var name: String = _
+
+  /**
+   * The suburb's postcode.
+   */
+  @Column(name = "POSTCODE") @BeanProperty var postcode: String = _
+
+  /**
+   * The suburb's state.
+   */
+  @Column(name = "STATE") @BeanProperty var state: String = _
+
+  /**
+   * The suburb's country (Defaults to "Australia").
+   *
+   * To support DeltaSoft framework version 1, this field would need to be tagged as transient so it
+   * won't be persisted in the database.  e.g., @(Transient @field)
+   */
+  @Column(name = "COUNTRY") @BeanProperty var country: String = "Australia"
+
+  override def equals(other: Any): Boolean = ScalaEqualsExtend.equal(name, postcode, state, country)
+  override def hashCode(): Int = hash
+  def canEqual(other: Any): Boolean = canEquals
+
+  def this(name: String = null, postcode: String = null, state: String = null, country: String = "Autralia") = {
+    this()
+    setName(name)
+    setPostcode(postcode)
+    setState(state)
+    setCountry(country)
+  }
 
   override def toString() = {
     val statePostcode = List(state, postcode) filter (_ != null) mkString (" ") trim ()

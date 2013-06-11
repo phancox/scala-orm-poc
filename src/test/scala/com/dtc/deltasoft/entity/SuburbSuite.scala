@@ -74,6 +74,8 @@ class SuburbSpec extends FunSpec with ShouldMatchers {
       suburb.setState("NSW")
       suburb.setCountry("Australia")
       suburb should equal(suburb1)
+      suburb.setName("XLongueville")
+      suburb should not equal (suburb1)
     }
     describe(s"should support ${jdbcDbManager} schema updates via Slick including") {
       it("table creation") {

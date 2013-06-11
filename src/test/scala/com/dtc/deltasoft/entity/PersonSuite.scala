@@ -86,6 +86,8 @@ class PersonSpec extends FunSpec with ShouldMatchers {
       person.setHomeAddress(Address("46 Dettmann Avenue", null, Suburb("Longueville", "2066", "NSW", "Australia")))
       person.setWorkAddress(Address("PO Box 1383", null, Suburb("Lane Cove", "1595", "NSW", "Australia")))
       person should equal(person1)
+      person.setSurname("XHancox")
+      person should not equal (person1)
     }
     describe(s"should support ${jdbcDbManager} schema updates via Slick including") {
       it("table creation") {
