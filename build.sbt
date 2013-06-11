@@ -1,5 +1,5 @@
 name := "deltasoft"
- 
+
 organization := "com.dtc"
 
 version := "1.0.0-SNAPSHOT"
@@ -7,7 +7,7 @@ version := "1.0.0-SNAPSHOT"
 homepage := Some(url("http://www.dtc.com.au"))
 
 description := "DeltaSoft Technical Architecture Framework (2.x)"
- 
+
 scalaVersion := "2.10.1"
 
 javacOptions ++= Seq("-source", "1.6", "-target", "1.6")
@@ -37,6 +37,7 @@ libraryDependencies ++= Seq(
   "org.apache.tomcat" % "tomcat-dbcp" % "7.0.39",
   "com.typesafe.slick" %% "slick" % "1.0.0",
   "com.googlecode.mapperdao" % "mapperdao" % "1.0.0.rc23-2.10.1-SNAPSHOT",
+  "org.scalaequals" %% "scalaequals-core" % "1.2.0",
   "vaadin.scala" % "scaladin_2.10" % "3.0.0-SNAPSHOT",
   "com.vaadin" % "vaadin-server" % "7.0.7",
   "com.vaadin" % "vaadin-shared" % "7.0.7",

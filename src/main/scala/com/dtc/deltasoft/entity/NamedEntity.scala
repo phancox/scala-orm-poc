@@ -9,6 +9,8 @@ import com.dtc.deltasoft.Logging
 import com.googlecode.mapperdao._
 import com.googlecode.mapperdao.{ Entity }
 import com.googlecode.mapperdao.utils._
+import org.scalaequals.ScalaEquals._
+import org.scalaequals.ScalaEqualsExtend
 
 /**
  * Persistence profile for Slick. Used for generating DDL.
@@ -101,30 +103,9 @@ class NamedEntity() {
    */
   @Column(name = "COMMENTS") @BeanProperty var comments: String = _
 
-  /*
-   * Implementation of equals and hashCode based on Chapter 30 of "Programming in Scala".
-   */
-
-  def canEqual(other: Any) = other.isInstanceOf[NamedEntity]
-  override def equals(other: Any) = other match {
-    case that: NamedEntity => that.canEqual(this) &&
-      this.code == that.code &&
-      this.name == that.name &&
-      this.description == that.description &&
-      this.comments == that.comments
-    case _ => false
-  }
-
-  override def hashCode() = {
-    val prime = 41
-    prime * (
-      prime * (
-        prime * (
-          prime + code.hashCode
-        ) + name.hashCode
-      ) + description.hashCode
-    ) + comments.hashCode
-  }
+  override def equals(other: Any): Boolean = ScalaEqualsExtend.equal(code, name, description, comments)
+  override def hashCode(): Int = hash
+  def canEqual(other: Any): Boolean = canEquals
 
   def this(code: String = null, name: String = null, description: String = null, comments: String = null) = {
     this()

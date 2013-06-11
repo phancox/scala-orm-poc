@@ -76,6 +76,8 @@ class NamedEntitySpec extends FunSpec with ShouldMatchers {
       namedEntity.setDescription("A brief description of the named entity.")
       namedEntity.setComments("Some comments associated with the named entity.")
       namedEntity should equal(namedEntity1)
+      namedEntity.setCode("XENTITYCODE")
+      namedEntity should not equal(namedEntity1)
     }
     describe(s"should support ${jdbcDbManager} schema updates via Slick including") {
       it("table creation") {
