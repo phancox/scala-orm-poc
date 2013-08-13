@@ -118,7 +118,7 @@ package object entity extends Logging {
   implicit def convertToOption[T](value: T): Option[T] = Some(value)
 
   type CriteriaListElement[T] = (ColumnInfo[T, String], String)
-  def getSearchQuery[ID, T](entity: Entity[ID, Persisted, T], criteriaList: List[CriteriaListElement[T]]) = {
+  def getSearchQuery[ID, T](entity: Entity[ID, SurrogateIntId, T], criteriaList: List[CriteriaListElement[T]]) = {
     val selectClause = select from entity
     val filteredCriteria = criteriaList filter (e => e._2 != null && e._2.length > 0)
     if (filteredCriteria.length > 0) {
