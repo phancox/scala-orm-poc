@@ -121,7 +121,7 @@ class Suburb() {
   override def hashCode(): Int = hash
   def canEqual(other: Any): Boolean = canEquals
 
-  def this(name: String = null, postcode: String = null, state: String = null, country: String = "Autralia") = {
+  def this(name: String = null, postcode: String = null, state: String = null, country: String = "Australia") = {
     this()
     setName(name)
     setPostcode(postcode)
