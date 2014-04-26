@@ -33,7 +33,7 @@
 			<property name="hibernate.format_sql" value="false" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
 			<property name="hibernate.connection.driver_class" value="org.postgresql.Driver" />
-			<property name="hibernate.connection.url" value="jdbc:postgresql://phancox1/DeltaSoft" />
+			<property name="hibernate.connection.url" value="jdbc:postgresql://localhost/DeltaSoft" />
 			<property name="hibernate.connection.username" value="buildmgr" />
 			<property name="hibernate.connection.password" value="buildmgr" />
 		</properties>

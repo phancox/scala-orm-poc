@@ -21,9 +21,9 @@ class ConfigSpec extends FunSpec with ShouldMatchers {
       config.getString("java.specification.name") should equal("Java Platform API Specification")
     }
     it("should read environment variables") {
-      val classPath = config.getString("CLASSPATH")
+      val classPath = config.getString("HOME")
       classPath should not be null
-      info("CLASSPATH=" + classPath)
+      info("HOME=" + classPath)
     }
     it("should load properties from test resources") {
       config.addConfiguration(new PropertiesConfiguration("jdbc_postgresql.properties"), "jdbc", "jdbc")

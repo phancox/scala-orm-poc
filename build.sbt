@@ -8,7 +8,7 @@ homepage := Some(url("http://www.dtc.com.au"))
 
 description := "DeltaSoft Technical Architecture Framework (2.x)"
 
-scalaVersion := "2.10.2"
+scalaVersion := "2.10.4"
 
 javacOptions ++= Seq("-source", "1.6", "-target", "1.6")
 
@@ -17,6 +17,8 @@ resolvers += "sonatype.releases" at "http://oss.sonatype.org/content/repositorie
 resolvers += "sonatype.snapshots" at "http://oss.sonatype.org/content/repositories/snapshots/"
 
 resolvers += "Vaadin add-ons repository" at "http://maven.vaadin.com/vaadin-addons"
+
+resolvers += "Scaladin Snapshots" at "http://henrikerola.github.io/repository/snapshots/"
 
 resolvers += "SpringSource repository" at "http://repo.springsource.org/libs-milestone"
 
@@ -38,15 +40,15 @@ libraryDependencies ++= Seq(
   "com.typesafe.slick" %% "slick" % "1.0.0",
   "com.googlecode.mapperdao" % "mapperdao" % "1.0.0.rc23-2.10.1",
   "org.scalaequals" %% "scalaequals-core" % "1.2.0",
-  "vaadin.scala" % "scaladin_2.10" % "3.0-SNAPSHOT",
+  "vaadin.scala" %% "scaladin" % "3.0-SNAPSHOT",
   "javax.servlet" % "javax.servlet-api" % "3.1.0",
-  "com.vaadin" % "vaadin-server" % "7.1.2",
-  "com.vaadin" % "vaadin-shared" % "7.1.2",
-  "com.vaadin" % "vaadin-client-compiled" % "7.1.2",
-  "com.vaadin" % "vaadin-themes" % "7.1.2",
+  "com.vaadin" % "vaadin-server" % "7.1.14",
+  "com.vaadin" % "vaadin-shared" % "7.1.14",
+  "com.vaadin" % "vaadin-client-compiled" % "7.1.14",
+  "com.vaadin" % "vaadin-themes" % "7.1.14",
   "org.hibernate.javax.persistence" % "hibernate-jpa-2.0-api" % "1.0.1.Final",
   "org.hibernate" % "hibernate-entitymanager" % "4.1.9.Final",
-  "postgresql" % "postgresql" % "9.1-901.jdbc4"
+  "org.postgresql" % "postgresql" % "9.3-1101-jdbc41"
 )
 
 libraryDependencies ++= Seq(
