@@ -1,18 +1,15 @@
 *.class
-*.log
 
 # sbt specific
 lib/*/
 dist/*
 target/
-lib_managed/
-src_managed/
 project/boot/
 project/plugins/project/
 
 # Eclipse specific
-*/bin
-*/.cache
+bin/
+.cache
 
 # Scala-IDE specific
 .scala_dependencies

@@ -11,6 +11,8 @@ object Common {
 	scalaVersion := "2.10.4",
     javacOptions ++= Seq("-source", "1.6", "-target", "1.6"),
     scalacOptions ++= Seq("-deprecation", "-feature", "-language:implicitConversions", "-language:postfixOps"),
+    libraryDependencies += "org.scalatest" % "scalatest_2.10" % "2.0.M5b" % "test",
+    libraryDependencies += "junit" % "junit" % "4.10" % "test",
     EclipseKeys.createSrc := EclipseCreateSrc.Default + EclipseCreateSrc.Resource,
     EclipseKeys.withSource := true
   )

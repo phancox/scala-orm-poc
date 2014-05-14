@@ -3,7 +3,6 @@
   <classpathentry output="target\scala-2.10\classes" kind="src" path="src\main\java"/>
   <classpathentry output="target\scala-2.10\test-classes" kind="src" path="src\test\scala"/>
   <classpathentry output="target\scala-2.10\test-classes" kind="src" path="src\test\java"/>
-  <classpathentry kind="lib" path=".\lib\log4jdbc4-1.2.jar"/>
   <classpathentry kind="con" path="org.scala-ide.sdt.launching.SCALA_CONTAINER"/>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
   <classpathentry kind="output" path="bin"/>
