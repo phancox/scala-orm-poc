@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="scala.scalatest">
+<stringAttribute key="SCALATEST_LAUNCH_INCLUDE_NESTED" value="false"/>
+<setAttribute key="SCALATEST_LAUNCH_TESTS_NAME"/>
+<stringAttribute key="SCALATEST_LAUNCH_TYPE" value="SUITE"/>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/deltasoft-core/src/test/scala/com/dtc/deltasoft/ConfigSuite.scala"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="1"/>
+</listAttribute>
+<mapAttribute key="org.eclipse.debug.core.environmentVariables">
+<mapEntry key="DSTA_CONFIG" value="${container_loc:/deltasoft/deltasoft-core/src/test/resources/config.xml}"/>
+</mapAttribute>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.dtc.deltasoft.ConfigSpec"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="deltasoft-core"/>
+</launchConfiguration>

@@ -26,11 +26,11 @@ class ConfigSpec extends FunSpec with ShouldMatchers {
       info("HOME=" + classPath)
     }
     it("should load properties from test resources") {
-      config.addConfiguration(new PropertiesConfiguration("jdbc_postgresql.properties"), "jdbc", "jdbc")
-      val jdbcProperties = ConfigurationConverter.getProperties(config.getConfiguration("jdbc"))
-      jdbcProperties should not be null
-      info(jdbcProperties.toString)
-      config.getString("jdbc.username") should equal("buildmgr")
+      config.addConfiguration(new PropertiesConfiguration("config.properties"), "config", "config")
+      val configProperties = ConfigurationConverter.getProperties(config.getConfiguration("config"))
+      configProperties should not be null
+      info(configProperties.toString)
+      config.getString("config.testkey") should equal("testvalue")
     }
   }
 }

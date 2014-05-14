@@ -10,9 +10,10 @@ src_managed/
 project/boot/
 project/plugins/project/
 
+# Eclipse specific
+*/bin
+*/.cache
+
 # Scala-IDE specific
 .scala_dependencies
 .worksheet/
-
-/bin
-/.cache

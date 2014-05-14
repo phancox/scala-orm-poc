@@ -1,5 +1,5 @@
 <projectDescription>
-  <name>deltasoft</name>
+  <name>deltasoft-database</name>
   <buildSpec>
     <buildCommand>
       <name>org.scala-ide.sdt.core.scalabuilder</name>
