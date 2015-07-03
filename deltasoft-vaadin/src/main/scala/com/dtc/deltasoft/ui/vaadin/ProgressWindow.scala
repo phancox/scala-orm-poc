@@ -11,7 +11,7 @@ import vaadin.scala._
 class ProgressWindow extends vaadin.scala.Window with Logging {
   trace("Primary Constructor Commence")
 
-  styleName = "dsta-progress-window"
+  styleName = "dstf-progress-window"
   info("Using style " + styleName)
 
   caption = "Please wait ..."

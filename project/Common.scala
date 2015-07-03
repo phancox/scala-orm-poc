@@ -7,8 +7,8 @@ object Common {
   val commonSettings = Seq(
     organization := "com.dtc",
     homepage := Some(url("http://www.dtc.com.au")),
-    description := "DeltaSoft Technical Architecture Framework (2.x)",
-	scalaVersion := "2.10.4",
+    description := "DeltaSoft Technology Framework",
+    scalaVersion := "2.10.4",
     javacOptions ++= Seq("-source", "1.6", "-target", "1.6"),
     scalacOptions ++= Seq("-deprecation", "-feature", "-language:implicitConversions", "-language:postfixOps"),
     libraryDependencies += "org.scalatest" % "scalatest_2.10" % "2.0.M5b" % "test",

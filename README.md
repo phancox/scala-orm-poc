@@ -1,4 +1,3 @@
-deltasoft
-=========
+# deltasoft-framework
 
-DeltaSoft framework version 2.
+DeltaSoft Technology Framework

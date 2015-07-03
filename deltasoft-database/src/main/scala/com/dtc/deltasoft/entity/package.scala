@@ -22,8 +22,8 @@ import com.googlecode.mapperdao.schema.ColumnInfo
 import com.googlecode.mapperdao.Entity
 
 /**
- * DeltaSoft technical architecture framework support for JPA and a collection of core standard
- * entities such as [[Person]], [[Address]], ...
+ * DeltaSoft technology framework support for JPA and a collection of core standard entities such as 
+ * [[Person]], [[Address]], ...
  */
 package object entity extends Logging {
   trace("Creating package object.")

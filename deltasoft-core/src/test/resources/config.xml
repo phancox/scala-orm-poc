@@ -1,6 +1,6 @@
 <configuration>
   <system/>
   <env/>
-  <properties fileName="${DSTA_CONFIG}/config.properties" config-at="config" config-optional="true"/>
+  <properties fileName="${DSTF_CONFIG}/config.properties" config-at="config" config-optional="true"/>
   <properties fileName="config.properties" config-at="config" config-optional="true"/>
 </configuration>

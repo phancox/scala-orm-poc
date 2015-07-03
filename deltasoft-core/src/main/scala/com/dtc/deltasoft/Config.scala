@@ -57,7 +57,7 @@ object Config extends Logging {
     config.addErrorListener(ConfigurationListener)
     def logConfig(key: String) = { info(key + "=" + config.getString(key)) }
     info("*" * 80)
-    logConfig("DSTA_CONFIG")
+    logConfig("DSTF_CONFIG")
     info("*" * 80)
     for {
       key <- config.getKeys()
