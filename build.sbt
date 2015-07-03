@@ -9,6 +9,8 @@ gitHeadCommitSha in ThisBuild := Process("git rev-parse HEAD").lines.head
 
 version in ThisBuild := s"1.0-${gitHeadCommitSha.value}"
 
+isSnapshot in ThisBuild := true
+
 scalaVersion := "2.10.4"
 
 EclipseKeys.skipParents in ThisBuild := false
