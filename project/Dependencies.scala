@@ -6,7 +6,7 @@ object Dependencies {
   // ***********************************************************************************************
   // EXTERNAL SUPPORTING LIBRARIES
   // ***********************************************************************************************
-  val vaadinVersion = "7.1.14"
+  val vaadinVersion = "7.3.5"
   
   val grizzledSlf4j = "org.clapper" %% "grizzled-slf4j" % "1.0.2"
   val logbackClassic = "ch.qos.logback" % "logback-classic" % "1.1.2"
@@ -39,7 +39,7 @@ object Dependencies {
   val vaadinShared = "com.vaadin" % "vaadin-shared" % vaadinVersion
   val vaadinClientCompiled = "com.vaadin" % "vaadin-client-compiled" % vaadinVersion
   val vaadinThemes = "com.vaadin" % "vaadin-themes" % vaadinVersion
-  val scaladin = "vaadin.scala" %% "scaladin" % "3.0-SNAPSHOT"
+  val scaladin = "vaadin.scala" %% "scaladin" % "3.1-SNAPSHOT"
   
   val vaadinResolvers = Seq(
     "Vaadin add-ons repository" at "http://maven.vaadin.com/vaadin-addons",
