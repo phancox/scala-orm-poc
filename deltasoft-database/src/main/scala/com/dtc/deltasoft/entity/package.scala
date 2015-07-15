@@ -1,8 +1,8 @@
 package com.dtc.deltasoft
 
-import scala.annotation.target.field
+import scala.annotation.meta.field
 import scala.beans.BeanProperty
-import scala.slick.driver._
+import slick.driver._
 import javax.persistence._
 import java.util.Properties
 
@@ -52,7 +52,7 @@ package object entity extends Logging {
   }
 
   trait Profile {
-    val profile: ExtendedProfile
+    val profile: JdbcProfile
 
     implicit val dbConfig = DbConfig(2)
   }
@@ -62,12 +62,12 @@ package object entity extends Logging {
    * ''quoteIdentifier'' function.
    *
    */
-  object PostgresDriver extends scala.slick.driver.PostgresDriver {
+  object PostgresDriver extends slick.driver.PostgresDriver {
     override def quoteIdentifier(identifier: String) = super.quoteIdentifier(identifier.toLowerCase)
   }
 
   case class OrmConnections(
-    slickDriver: scala.slick.driver.ExtendedDriver, slickDb: scala.slick.session.Database,
+    slickDriver: slick.driver.JdbcDriver, slickDb: slick.jdbc.JdbcBackend.Database,
     jdbc: Jdbc, mapperDao: MapperDao, queryDao: QueryDao, txManager: PlatformTransactionManager)
 
   /**
@@ -97,7 +97,7 @@ package object entity extends Logging {
     info("jdbcProperties=" + jdbcPropCopy)
 
     lazy val dataSource = BasicDataSourceFactory.createDataSource(jdbcProperties)
-    lazy val slickDb = scala.slick.session.Database.forDataSource(dataSource)
+    lazy val slickDb = slick.jdbc.JdbcBackend.Database.forDataSource(dataSource)
 
     lazy val (jdbc, mapperDao, queryDao, txManager) =
       Setup(com.googlecode.mapperdao.utils.Database.byName(jdbcDbManager toLowerCase), dataSource, entities)

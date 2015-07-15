@@ -1,8 +1,8 @@
 package com.dtc.deltasoft.entity
 
-import scala.annotation.target.field
+import scala.annotation.meta.field
 import scala.beans.BeanProperty
-import scala.slick.driver._
+import slick.driver._
 import javax.persistence._
 
 import com.dtc.deltasoft.Logging
@@ -18,20 +18,22 @@ import org.scalaequals.ScalaEqualsExtend
 trait NamedEntityProfile { self: Profile =>
   import profile.simple._
 
-  object NamedEntities extends Table[NamedEntity]("NAMED_ENTITY".asDbId) {
+  class NamedEntities(tag: Tag) extends Table[NamedEntity](tag, "NAMED_ENTITY".asDbId) {
 
     def id = column[Int]("ID".asDbId, O.PrimaryKey, O.AutoInc)
 
-    def code = column[String]("CODE".asDbId, O.NotNull)
-    def name = column[String]("NAME".asDbId, O.NotNull)
-    def description = column[String]("DESCRIPTION".asDbId, O.Nullable)
-    def comments = column[String]("COMMENTS".asDbId, O.Nullable)
+    def code = column[String]("CODE".asDbId)
+    def name = column[String]("NAME".asDbId)
+    def description = column[Option[String]]("DESCRIPTION".asDbId)
+    def comments = column[Option[String]]("COMMENTS".asDbId) 
 
     def * = id ~ code ~ name ~ description ~ comments <> (
       { rs => new NamedEntity(rs._2, rs._3, rs._4, rs._5) with SurrogateIntId { val id: Int = rs._1 } },
       { namedEntity: NamedEntity => Some((0, "", "", "", "")) })
-
-    def byId = createFinderBy(_.id)
+  }
+  object namedEntities extends TableQuery(new NamedEntities(_)) {
+    
+    val byId = this.findBy(_.id)
   }
 }
 

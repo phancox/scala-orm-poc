@@ -1,8 +1,8 @@
 package com.dtc.deltasoft.entity
 
-import scala.annotation.target.field
+import scala.annotation.meta.field
 import scala.beans.BeanProperty
-import scala.slick.driver._
+import slick.driver._
 import javax.persistence._
 
 import com.dtc.deltasoft.Logging
@@ -18,7 +18,7 @@ import org.scalaequals.ScalaEqualsExtend
 trait AddressProfile { self: SuburbProfile with Profile =>
   import profile.simple._
 
-  object Addresses extends Table[Address]("ADDRESS".asDbId) {
+  class Addresses(tag: Tag) extends Table[Address](tag, "ADDRESS".asDbId) {
 
     def id = column[Int]("ID".asDbId, O.PrimaryKey, O.AutoInc)
 
@@ -26,13 +26,17 @@ trait AddressProfile { self: SuburbProfile with Profile =>
     def street2 = column[String]("STREET_2".asDbId, O.Nullable)
     def suburbId = column[Int]("SUBURB__ID".asDbId, O.NotNull)
 
-    def suburb = foreignKey("SUBURB_FK", suburbId, Suburbs)(_.id)
+    def suburb = foreignKey("SUBURB_FK", suburbId, suburbs)(_.id)
 
-    def * = id ~ street1 ~ street2 ~ suburbId <> (
-      { rs => new Address(rs._2, rs._3, null) with SurrogateIntId { val id: Int = rs._1 } },
-      { address: Address => Some((0, "", "", 0)) })
+//    def * = id ~ street1 ~ street2 ~ suburbId <> (
+//      { rs => new Address(rs._2, rs._3, null) with SurrogateIntId { val id: Int = rs._1 } },
+//      { address: Address => Some((0, "", "", 0)) })
 
-    def byId = createFinderBy(_.id)
+    def * = (id, street1, street2, suburbId)
+  }
+  object addresses extends TableQuery(new Addresses(_)) {    
+      
+    val byId = this.findBy(_.id)
   }
 }
 

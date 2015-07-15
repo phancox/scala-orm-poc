@@ -1,8 +1,8 @@
 package com.dtc.deltasoft.entity
 
-import scala.slick.driver.ExtendedProfile
-import scala.slick.driver.{ PostgresDriver => _, _ }
-import scala.slick.session.{ Database, Session }
+import slick.driver.ExtendedProfile
+import slick.driver.{ PostgresDriver => _, _ }
+import slick.session.{ Database, Session }
 import javax.persistence._
 import java.util.Properties
 

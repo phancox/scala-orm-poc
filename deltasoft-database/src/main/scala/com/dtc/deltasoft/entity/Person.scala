@@ -1,8 +1,8 @@
 package com.dtc.deltasoft.entity
 
-import scala.annotation.target.field
+import scala.annotation.meta.field
 import scala.beans.BeanProperty
-import scala.slick.driver._
+import slick.driver._
 import javax.persistence._
 
 import com.dtc.deltasoft.Logging
@@ -21,7 +21,7 @@ import org.joda.time._
 trait PersonProfile { self: AddressProfile with Profile =>
   import profile.simple._
 
-  object Persons extends Table[Person]("PERSON".asDbId) {
+  class Persons(tag: Tag) extends Table[Person](tag, "PERSON".asDbId) {
 
     def id = column[Int]("ID".asDbId, O.PrimaryKey, O.AutoInc)
 
@@ -31,14 +31,20 @@ trait PersonProfile { self: AddressProfile with Profile =>
     def homeAddressId = column[Int]("HOME_ADDRESS__ID".asDbId)
     def workAddressId = column[Int]("WORK_ADDRESS__ID".asDbId)
 
-    def homeAddress = foreignKey("HOME_ADDRESS_FK", homeAddressId, Addresses)(_.id)
-    def workAddress = foreignKey("WORK_ADDRESS_FK", workAddressId, Addresses)(_.id)
+    def homeAddress = foreignKey("HOME_ADDRESS_FK", homeAddressId, addresses)(_.id)
+    def workAddress = foreignKey("WORK_ADDRESS_FK", workAddressId, addresses)(_.id)
 
-    def * = id ~ surname ~ firstName ~ dateOfBirth ~ homeAddressId ~ workAddressId <> (
+//    def * = id ~ surname ~ firstName ~ dateOfBirth ~ homeAddressId ~ workAddressId <> (
+//      { rs => new Person(rs._2, rs._3, new LocalDate(rs._4), null, null) with SurrogateIntId { val id: Int = rs._1 } },
+//      { person: Person => Some((0, "", "", new java.sql.Date(0), 0, 0)) })
+
+    def * = (id, surname, firstName, dateOfBirth, homeAddressId, workAddressId) <> (
       { rs => new Person(rs._2, rs._3, new LocalDate(rs._4), null, null) with SurrogateIntId { val id: Int = rs._1 } },
       { person: Person => Some((0, "", "", new java.sql.Date(0), 0, 0)) })
-
-    def byId = createFinderBy(_.id)
+  }
+  object persons extends TableQuery(new Persons(_)) {
+      
+    val byId = this.findBy(_.id)
   }
 }
 
